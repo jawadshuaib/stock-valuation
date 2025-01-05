@@ -24,7 +24,7 @@ interface FormData {
  */
 const DEFAULT_VALUES: FormData = {
   eps: 0, // Starting EPS value
-  growthRate: 0, // 18% annual growth
+  growthRate: 8, // 18% annual growth
   terminalGrowthRate: 4, // 4% terminal growth
   discountRate: 15, // 15% discount rate
   marginOfSafety: 50, // 50% margin of safety
