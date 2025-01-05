@@ -1,4 +1,4 @@
-# Stock Valuation Tool
+# Stock Valuation Calculator
 
 This repository provides a comprehensive stock valuation tool built using React, TypeScript, and Tailwind CSS, with ESLint and Prettier for code quality and formatting. The tool implements core financial models such as Discounted Cash Flow (DCF) to calculate the intrinsic value of a stock based on inputs like Earnings Per Share (EPS), growth rates, discount rates, and terminal growth assumptions.
 
