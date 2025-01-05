@@ -8,9 +8,7 @@ class ValidationError extends Error {
 
   constructor(errors: ValidationErrorDetail[]) {
     super('Validation Error');
-
     this.name = 'ValidationError';
-
     this.errors = errors;
   }
 }
