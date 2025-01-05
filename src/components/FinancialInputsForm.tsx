@@ -23,8 +23,8 @@ interface FormData {
  * for users to adjust according to their needs.
  */
 const DEFAULT_VALUES: FormData = {
-  eps: 5, // Starting EPS value
-  growthRate: 18, // 18% annual growth
+  eps: 0, // Starting EPS value
+  growthRate: 0, // 18% annual growth
   terminalGrowthRate: 4, // 4% terminal growth
   discountRate: 15, // 15% discount rate
   marginOfSafety: 50, // 50% margin of safety
@@ -78,6 +78,12 @@ function FinancialInputsForm({
   const calculateValuation = useCallback(
     (data: FormData) => {
       try {
+        if (data.eps <= 0) {
+          throw new ValidationError([
+            { code: 'eps', message: 'EPS must be greater than zero' },
+          ]);
+        }
+
         // Convert percentage values to decimals for calculation
         const calculator = new IntrinsicValueCalculator({
           eps: data.eps,
@@ -93,7 +99,7 @@ function FinancialInputsForm({
         // Handle both validation errors and general calculation errors
         const errorMessage =
           error instanceof ValidationError
-            ? `Validation failed: ${error.message}`
+            ? `Validation failed: ${error.errors[0].message}`
             : `Calculation error: ${error}`;
 
         valuationErrorFn(errorMessage);

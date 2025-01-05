@@ -1,6 +1,5 @@
 interface ValidationErrorDetail {
   code: string;
-
   message: string;
 }
 

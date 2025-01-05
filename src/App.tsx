@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import FinancialInputsForm from './components/FinancialInputsForm';
 import ValuationResults from './components/ValuationResults';
+import ErrorMessage from './components/ErrorMessage';
 
 export interface ValuationData {
   intrinsicValue: number;
@@ -10,11 +11,17 @@ export interface ValuationData {
 
 function App() {
   const [valuation, setValuation] = useState<ValuationData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
   const valuateFn = (valuationData: ValuationData | null) => {
+    setError(null);
     setValuation(valuationData);
   };
   const valuationErrorFn = (err: string) => {
-    console.error(err);
+    if (err) {
+      setValuation(null);
+    }
+    setError(err);
   };
 
   return (
@@ -33,6 +40,7 @@ function App() {
         valuationErrorFn={valuationErrorFn}
       />
       {valuation && <ValuationResults valuation={valuation} />}
+      {error && <ErrorMessage message={error} />}
     </div>
   );
 }
