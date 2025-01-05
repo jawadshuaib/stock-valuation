@@ -17,7 +17,7 @@ class ValuationConfig {
   static LIMITS = {
     MAX_TERMINAL_GROWTH: 0.04, // 4%
     MIN_DISCOUNT_RATE: 0.08, // 8%
-    MAX_INITIAL_GROWTH: 0.25, // 25%
+    MAX_INITIAL_GROWTH: 1, // 100%
   };
 
   static GROWTH_THRESHOLDS = {

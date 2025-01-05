@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import InputField from './InputField';
 import { IntrinsicValueCalculator, ValidationError } from './utils/valuations';
+import { ValuationData } from './App';
 
 // Define types for the form data state
 interface FormData {
@@ -11,15 +12,21 @@ interface FormData {
   marginOfSafety: number;
 }
 
-const FinancialInputsForm: React.FC = () => {
+const DEFAULT_VALUES: FormData = {
+  eps: 0,
+  growthRate: 18,
+  terminalGrowthRate: 4,
+  discountRate: 15,
+  marginOfSafety: 50,
+};
+
+interface FinancialInputsFormProps {
+  setValuation: (valuation: ValuationData) => void;
+}
+
+function FinancialInputsForm({ setValuation }: FinancialInputsFormProps) {
   // Initialize state for the form inputs
-  const [formData, setFormData] = useState<FormData>({
-    eps: 0,
-    growthRate: 0,
-    terminalGrowthRate: 4,
-    discountRate: 15,
-    marginOfSafety: 50,
-  });
+  const [formData, setFormData] = useState<FormData>(DEFAULT_VALUES);
 
   // Handle input changes
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,21 +38,22 @@ const FinancialInputsForm: React.FC = () => {
         ...prevData,
         [name]: parseFloat(value),
       };
-      console.log(updatedData); // Output updated state to console
 
       try {
         const calculator = new IntrinsicValueCalculator({
-          eps: 14.65,
-          growthRate: 0.18,
-          terminalGrowthRate: 0.04,
-          discountRate: 0.15,
-          marginOfSafety: 0.5,
+          eps: updatedData.eps,
+          growthRate: updatedData.growthRate / 100,
+          terminalGrowthRate: updatedData.terminalGrowthRate / 100,
+          discountRate: updatedData.discountRate / 100,
+          marginOfSafety: updatedData.marginOfSafety / 100,
         });
 
         const result = calculator.calculate();
 
-        console.log('Intrinsic Value', result.valuation.intrinsicValue);
-        console.log('Margin of Safety', result.valuation.marginOfSafetyPrice);
+        // console.log('Intrinsic Value', result.valuation.intrinsicValue);
+        // console.log('Margin of Safety', result.valuation.marginOfSafetyPrice);
+
+        setValuation(result.valuation);
       } catch (error) {
         if (error instanceof ValidationError) {
           console.error('Validation failed:', error.errors);
@@ -100,6 +108,6 @@ const FinancialInputsForm: React.FC = () => {
       />
     </form>
   );
-};
+}
 
 export default FinancialInputsForm;
