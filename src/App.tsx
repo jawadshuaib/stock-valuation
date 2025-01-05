@@ -1,11 +1,10 @@
 import './App.css';
+import FinancialInputsForm from './FinancialInputsForm';
 
 function App() {
   return (
     <div className="App">
-      <h1 className="text-3xl font-bold underline grid h-screen place-items-center">
-        Hello world!
-      </h1>
+      <FinancialInputsForm />
     </div>
   );
 }
