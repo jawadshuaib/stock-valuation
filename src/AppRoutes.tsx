@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
-import EPSCalculator from './components/EPSCalculator'; // Ensure this is the correct path
-import FCFCalculator from './components/FCFCalculator';
+import EPSCalculator from './components/calculators/eps/EPSCalculator'; // Ensure this is the correct path
+import FCFCalculator from './components/calculators/fcf/FCFCalculator';
 
 const AppRoutes: React.FC = () => {
   return (

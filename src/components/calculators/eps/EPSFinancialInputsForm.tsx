@@ -1,11 +1,11 @@
 import React, { useState, ChangeEvent, useCallback } from 'react';
-import InputField from './InputField';
+import InputField from '../../InputField';
 import {
   IntrinsicValueCalculator,
   ValidationError,
-} from '../utils/valuations/eps';
+} from '../../../utils/valuations/eps';
 import { debounce } from 'lodash';
-import { ValuationData } from './EPSCalculator';
+import { ValuationData } from '../types';
 
 /**
  * Represents the structure of the financial calculation form data.

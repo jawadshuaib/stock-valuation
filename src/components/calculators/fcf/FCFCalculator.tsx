@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import FCFFinancialInputsForm from './FCFFinancialInputsForm';
-import ValuationResults from './ValuationResults';
-import ErrorMessage from './ErrorMessage';
-
-export interface ValuationData {
-  intrinsicValue: number;
-  marginOfSafetyPrice: number;
-}
+import ValuationResults from '../ValuationResults';
+import ErrorMessage from '../../ErrorMessage';
+import { ValuationData } from '../types';
 
 export default function FCFCalculator() {
   const [valuation, setValuation] = useState<ValuationData | null>(null);

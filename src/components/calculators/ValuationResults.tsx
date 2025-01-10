@@ -1,5 +1,5 @@
 import React from 'react';
-import { ValuationData } from './EPSCalculator';
+import { ValuationData } from './types';
 
 interface ValuationResultsProps {
   valuation: ValuationData;

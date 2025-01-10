@@ -1,9 +1,9 @@
 import React, { useState, ChangeEvent, useCallback } from 'react';
-import InputField from './InputField';
+import InputField from '../../InputField';
 import { debounce } from 'lodash';
-import { ValuationData } from './EPSCalculator'; // Import the corresponding ValuationData
-import { ValidationError } from '../utils/valuations/eps';
-import { FCFIntrinsicValueCalculator } from '../utils/valuations/fcf';
+import { ValidationError } from '../../../utils/valuations/eps';
+import { FCFIntrinsicValueCalculator } from '../../../utils/valuations/fcf';
+import { ValuationData } from '../types';
 
 interface FormData {
   fcf: number; // Initial Free Cash Flow in dollars
