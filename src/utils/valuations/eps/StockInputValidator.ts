@@ -13,7 +13,8 @@ import ValuationConfig from './ValuationConfig';
  * - `discountRate`: Rate used to discount future cash flows to present value.
  */
 interface ValidationParams {
-  eps: number;
+  eps?: number;
+  fcf?: number;
   growthRate: number;
   terminalGrowthRate: number;
   discountRate: number;
@@ -58,6 +59,7 @@ class StockInputValidator {
    * Throws a `ValidationError` if any issues are detected, ensuring the user corrects them before proceeding.
    */
   validate(): void {
+    this.requireEPSOrFCF(); // Ensures either EPS or FCF is provided.
     this.validateRequiredFields(); // Ensures all mandatory fields are present.
     this.validateRates(); // Checks the relationships and constraints of rates.
     this.validatePositiveValues(); // Ensures EPS and other values are positive.
@@ -68,18 +70,29 @@ class StockInputValidator {
   }
 
   /**
+   * Validates that either EPS or FCF is provided
+   *
+   * Financial Context:
+   * EPS and FCF are fundamental metrics for stock valuation models.
+   * A missing EPS or FCF value would render the valuation model invalid.
+   */
+  requireEPSOrFCF(): void {
+    if (this.params.eps === undefined && this.params.fcf === undefined) {
+      this.errors.push({
+        code: 'MISSING_FIELD',
+        message: 'Either EPS or FCF must be provided',
+      });
+    }
+  }
+
+  /**
    * Validates that all required fields are present
    *
    * Financial Context:
    * Missing critical fields such as `eps` or `discountRate` undermines the integrity of the valuation model.
    */
   validateRequiredFields(): void {
-    const required = [
-      'eps',
-      'growthRate',
-      'terminalGrowthRate',
-      'discountRate',
-    ];
+    const required = ['growthRate', 'terminalGrowthRate', 'discountRate'];
 
     required.forEach((field) => {
       if (this.params[field] === undefined) {
@@ -144,10 +157,17 @@ class StockInputValidator {
    * Negative or zero EPS renders valuation models invalid or meaningless.
    */
   validatePositiveValues(): void {
-    if (this.params.eps <= 0) {
+    if (this.params.eps && this.params.eps <= 0) {
       this.errors.push({
         code: 'INVALID_EPS',
         message: 'EPS must be positive',
+      });
+    }
+
+    if (this.params.fcf && this.params.fcf <= 0) {
+      this.errors.push({
+        code: 'INVALID_FCF',
+        message: 'FCF must be positive',
       });
     }
   }
