@@ -92,8 +92,8 @@ class FCFIntrinsicValueCalculator {
       },
       terminalValueAnalysis,
       valuation,
-      intrinsicSharePrice: valuation.intrinsicSharePrice, // Intrinsic share price.
-      marginOfSafetySharePrice: valuation.marginOfSafetySharePrice, // Margin of safety share price.
+      // intrinsicSharePrice: valuation.intrinsicSharePrice, // Intrinsic share price.
+      // marginOfSafetySharePrice: valuation.marginOfSafetySharePrice, // Margin of safety share price.
       metadata: {
         calculatedAt: new Date().toISOString(), // Timestamp of the calculation.
       },
@@ -176,9 +176,11 @@ class FCFIntrinsicValueCalculator {
     return {
       presentValueOfCashFlows: Number(presentValueOfCashFlows.toFixed(2)),
       presentValueOfTerminal: terminalValueAnalysis.presentValueOfTerminal,
-      intrinsicValue: Number(intrinsicValue.toFixed(2)),
-      intrinsicSharePrice: Number(intrinsicSharePrice.toFixed(2)),
-      marginOfSafetySharePrice: Number(marginOfSafetySharePrice.toFixed(2)),
+      // intrinsicValue: Number(intrinsicValue.toFixed(2)),
+      // intrinsicSharePrice: Number(intrinsicSharePrice.toFixed(2)),
+      // marginOfSafetySharePrice: Number(marginOfSafetySharePrice.toFixed(2)),
+      intrinsicValue: Number(intrinsicSharePrice.toFixed(2)),
+      marginOfSafetyPrice: Number(marginOfSafetySharePrice.toFixed(2)),
     };
   }
 
