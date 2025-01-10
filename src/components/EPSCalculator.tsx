@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import FinancialInputsForm from './FinancialInputsForm';
+import FinancialInputsForm from './EPSFinancialInputsForm';
 import ValuationResults from './ValuationResults';
 import ErrorMessage from './ErrorMessage';
 

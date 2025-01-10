@@ -64,7 +64,7 @@ const FORM_FIELDS = [
  *
  * @param props FinancialInputsFormProps
  */
-function FinancialInputsForm({
+function EPSFinancialInputsForm({
   valuateFn,
   valuationErrorFn,
 }: FinancialInputsFormProps) {
@@ -153,4 +153,4 @@ function FinancialInputsForm({
   );
 }
 
-export default FinancialInputsForm;
+export default EPSFinancialInputsForm;
