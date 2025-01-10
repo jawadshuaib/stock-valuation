@@ -57,7 +57,7 @@ const FORM_FIELDS = [
 ] as const;
 
 /**
- * FinancialInputsForm Component
+ * EPSFinancialInputsForm Component
  *
  * A form component that collects financial metrics and calculates intrinsic value.
  * Uses debounced calculations to prevent excessive recalculations during user input.

@@ -14,6 +14,7 @@ import ValuationConfig from '../eps/ValuationConfig';
  * - `discountRate`: The required rate of return (used for discounting future cash flows).
  * - `projectionYears`: Number of years to project future FCF.
  * - `marginOfSafety`: A buffer to account for uncertainties in assumptions.
+ * - `outstandingShares`: Number of shares outstanding.
  */
 interface CalculatorParams {
   fcf: number;
@@ -22,6 +23,7 @@ interface CalculatorParams {
   discountRate: number;
   projectionYears?: number; // Optional, defaults to a preconfigured value.
   marginOfSafety?: number; // Optional, defaults to a preconfigured value.
+  outstandingShares: number; // Number of shares outstanding.
 }
 
 /**
@@ -90,6 +92,8 @@ class FCFIntrinsicValueCalculator {
       },
       terminalValueAnalysis,
       valuation,
+      intrinsicSharePrice: valuation.intrinsicSharePrice, // Intrinsic share price.
+      marginOfSafetySharePrice: valuation.marginOfSafetySharePrice, // Margin of safety share price.
       metadata: {
         calculatedAt: new Date().toISOString(), // Timestamp of the calculation.
       },
@@ -165,13 +169,16 @@ class FCFIntrinsicValueCalculator {
     const intrinsicValue =
       presentValueOfCashFlows + terminalValueAnalysis.presentValueOfTerminal; // Total intrinsic value.
 
+    const intrinsicSharePrice = intrinsicValue / this.params.outstandingShares; // Intrinsic share price.
+    const marginOfSafetySharePrice =
+      intrinsicSharePrice * (1 - this.params.marginOfSafety); // Margin of safety share price.
+
     return {
       presentValueOfCashFlows: Number(presentValueOfCashFlows.toFixed(2)),
       presentValueOfTerminal: terminalValueAnalysis.presentValueOfTerminal,
       intrinsicValue: Number(intrinsicValue.toFixed(2)),
-      marginOfSafetyPrice: Number(
-        (intrinsicValue * (1 - this.params.marginOfSafety)).toFixed(2), // Adjusts intrinsic value for margin of safety.
-      ),
+      intrinsicSharePrice: Number(intrinsicSharePrice.toFixed(2)),
+      marginOfSafetySharePrice: Number(marginOfSafetySharePrice.toFixed(2)),
     };
   }
 
@@ -201,6 +208,7 @@ class FCFIntrinsicValueCalculator {
       )}%`,
       discountRate: `${(this.params.discountRate * 100).toFixed(1)}%`,
       projectionYears: this.params.projectionYears,
+      outstandingShares: this.params.outstandingShares, // Include outstanding shares in the formatted inputs.
     };
   }
 }
