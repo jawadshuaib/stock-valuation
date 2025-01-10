@@ -1,6 +1,9 @@
 import React, { useState, ChangeEvent, useCallback } from 'react';
 import InputField from './InputField';
-import { IntrinsicValueCalculator, ValidationError } from '../utils/valuations';
+import {
+  IntrinsicValueCalculator,
+  ValidationError,
+} from '../utils/valuations/eps';
 import { ValuationData } from '../App';
 import { debounce } from 'lodash';
 
