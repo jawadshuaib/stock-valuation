@@ -4,8 +4,8 @@ import {
   IntrinsicValueCalculator,
   ValidationError,
 } from '../utils/valuations/eps';
-import { ValuationData } from '../App';
 import { debounce } from 'lodash';
+import { ValuationData } from './EPSCalculator';
 
 /**
  * Represents the structure of the financial calculation form data.

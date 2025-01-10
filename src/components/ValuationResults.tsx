@@ -1,6 +1,5 @@
 import React from 'react';
-import { ValuationData } from '../App';
-import KeyValuationConcepts from './KeyValuationConcepts';
+import { ValuationData } from './EPSCalculator';
 
 interface ValuationResultsProps {
   valuation: ValuationData;
@@ -32,7 +31,6 @@ export default function ValuationResults({ valuation }: ValuationResultsProps) {
           </div>
         </div>
       </div>
-      <KeyValuationConcepts />
     </section>
   );
 }

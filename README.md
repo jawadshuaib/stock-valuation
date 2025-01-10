@@ -2,6 +2,8 @@
 
 This repository provides a comprehensive stock valuation tool built using React, TypeScript, and Tailwind CSS, with ESLint and Prettier for code quality and formatting. The tool implements core financial models such as Discounted Cash Flow (DCF) to calculate the intrinsic value of a stock based on inputs like Earnings Per Share (EPS), growth rates, discount rates, and terminal growth assumptions.
 
+Live example: https://stock-valuation.netlify.app/
+
 ## Key Features
 
 - **Growth Rate Modeling**: Simulates growth rate decay over time, transitioning from high initial growth to a sustainable terminal growth rate.

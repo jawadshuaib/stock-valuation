@@ -3,13 +3,6 @@ import React from 'react';
 export default function KeyValuationConcepts() {
   return (
     <section>
-      <article className="mt-4 text-xs text-gray-500">
-        The Intrinsic Value represents what we think the stock is worth today,
-        considering all future cash flows brought back to present value. The
-        Margin of Safety Price provides a lower target price that includes a
-        buffer against potential estimation errors.
-      </article>
-
       <article className="mt-2 p-8 bg-gray-50 rounded-xl border border-gray-200">
         <div className="max-w-3xl mx-auto">
           <div className="mb-8">
