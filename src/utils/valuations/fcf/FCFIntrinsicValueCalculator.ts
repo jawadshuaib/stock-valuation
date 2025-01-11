@@ -1,7 +1,7 @@
-import StockInputValidator from '../eps/StockInputValidator';
-import GrowthCalculator from '../eps/GrowthCalculator';
-import PresentValueCalculator from '../eps/PresentValueCalculator';
-import ValuationConfig from '../eps/ValuationConfig';
+import StockInputValidator from '../StockInputValidator';
+import GrowthCalculator from '../GrowthCalculator';
+import PresentValueCalculator from '../PresentValueCalculator';
+import ValuationConfig from '../ValuationConfig';
 
 /**
  * Parameters required for intrinsic value calculation using FCF

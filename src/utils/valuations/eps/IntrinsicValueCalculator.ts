@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/lines-between-class-members */
-import StockInputValidator from './StockInputValidator';
-import GrowthCalculator from './GrowthCalculator';
-import PresentValueCalculator from './PresentValueCalculator';
-import ValuationConfig from './ValuationConfig';
+import StockInputValidator from '../StockInputValidator';
+import GrowthCalculator from '../GrowthCalculator';
+import PresentValueCalculator from '../PresentValueCalculator';
+import ValuationConfig from '../ValuationConfig';
 
 /**
  * Parameters required for intrinsic value calculation

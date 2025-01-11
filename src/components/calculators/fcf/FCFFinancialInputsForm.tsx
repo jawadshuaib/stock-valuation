@@ -37,7 +37,7 @@ const FORM_FIELDS = [
   { label: 'Discount Rate (%)', id: 'discountRate' },
   { label: 'Projection Years', id: 'projectionYears' },
   { label: 'Margin of Safety (%)', id: 'marginOfSafety' },
-  { label: 'Outstanding Shares', id: 'outstandingShares' },
+  { label: 'Issued Shares', id: 'outstandingShares' },
 ] as const;
 
 function FCFFinancialInputsForm({

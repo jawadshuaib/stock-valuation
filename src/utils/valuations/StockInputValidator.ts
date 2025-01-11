@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/lines-between-class-members */
-import ValidationError from './ValidationError';
+import ValidationError from './eps/ValidationError';
 import ValuationConfig from './ValuationConfig';
 
 /**
