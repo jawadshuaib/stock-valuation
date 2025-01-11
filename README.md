@@ -1,16 +1,16 @@
 # Stock Valuation Calculator
 
-This repository provides a comprehensive stock valuation tool built using React, TypeScript, and Tailwind CSS, with ESLint and Prettier for code quality and formatting. The tool implements core financial models such as Discounted Cash Flow (DCF) to calculate the intrinsic value of a stock based on inputs like Earnings Per Share (EPS), growth rates, discount rates, and terminal growth assumptions.
+This repository provides a comprehensive stock valuation tool built using React, TypeScript, and Tailwind CSS, with ESLint and Prettier for code quality and formatting. The tool implements core financial concepts to calculate the intrinsic value of a stock using both Earnings Per Share (EPS) and Free Cash Flow (FCF) methodologies.
 
 Live example: https://stock-valuation.netlify.app/
 
 ## Key Features
 
 - **Growth Rate Modeling**: Simulates growth rate decay over time, transitioning from high initial growth to a sustainable terminal growth rate.
-- **Discounted Cash Flow Analysis**: Computes the intrinsic value of a stock by discounting projected earnings to their present value.
+- **Discounted Cash Flow Analysis**: Computes the intrinsic value of a stock by discounting projected earnings or free cash flows to their present value.
 - **Validation Layer**: Ensures input parameters are realistic and consistent with economic principles.
 - **Configurable Parameters**: Allows users to adjust settings like projection years, margin of safety, and growth thresholds.
-- **Detailed Growth Analysis**: Provides year-by-year projections of EPS, growth rates, and present values.
+- **Detailed Growth Analysis**: Provides year-by-year projections of EPS, FCF, growth rates, and present values.
 
 ## Financial Concepts Behind the Tool
 
@@ -18,19 +18,23 @@ Live example: https://stock-valuation.netlify.app/
 
 EPS is a key metric in valuing a company's profitability. It represents the portion of a company's profit allocated to each outstanding share of common stock. This tool uses EPS as the baseline for projecting future earnings.
 
-### 2. **Growth Rate Decay**
+### 2. **Free Cash Flow (FCF)**
+
+FCF is a measure of a company's financial performance, calculated as operating cash flow minus capital expenditures. It represents the cash a company generates after accounting for cash outflows to support operations and maintain its capital assets. This tool uses FCF as an alternative baseline for intrinsic value calculation.
+
+### 3. **Growth Rate Decay**
 
 High-growth companies typically experience a decline in growth over time due to market saturation, competitive pressures, and scalability limits. This tool models this decay using exponential functions to transition from an initial growth rate to a terminal growth rate.
 
-### 3. **Discount Rate**
+### 4. **Discount Rate**
 
 The discount rate reflects the required rate of return for an investor, accounting for risk and the time value of money. It is used to calculate the present value of future cash flows.
 
-### 4. **Terminal Growth Rate**
+### 5. **Terminal Growth Rate**
 
 This rate represents the sustainable long-term growth a company can achieve. It is usually aligned with GDP growth or inflation, ensuring the valuation remains grounded in economic reality.
 
-### 5. **Margin of Safety**
+### 6. **Margin of Safety**
 
 A margin of safety reduces the intrinsic value estimate to account for uncertainties in assumptions, ensuring a conservative investment decision.
 
@@ -90,13 +94,13 @@ The `GrowthCalculator` class models how a company's growth transitions from an i
 
 ### 3. **Present Value Calculation**
 
-The `PresentValueCalculator` class computes the present value of future earnings using the discount rate, enabling precise valuation.
+The `PresentValueCalculator` class computes the present value of future earnings or free cash flows using the discount rate, enabling precise valuation.
 
 ### 4. **Intrinsic Value Calculation**
 
 The `IntrinsicValueCalculator` class combines:
 
-- Year-by-year projections of EPS and growth.
+- Year-by-year projections of EPS, FCF, and growth.
 - The terminal value of the company after the projection period.
 - A margin of safety to account for uncertainties.
 
@@ -112,10 +116,10 @@ The `ValuationConfig` class defines:
 
 ## Example Workflow
 
-1. Input your stock's EPS, growth rate, terminal growth rate, and discount rate.
+1. Input your stock's EPS, FCF, growth rate, terminal growth rate, and discount rate.
 2. The tool:
    - Validates the inputs.
-   - Projects EPS growth for the next 10 years.
+   - Projects EPS or FCF growth for the next 10 years.
    - Calculates the terminal value and discounts all cash flows to their present value.
    - Provides an intrinsic value and a margin of safety price.
 3. Analyze the results, including detailed growth profiles and year-by-year projections.
