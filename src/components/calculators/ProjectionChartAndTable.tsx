@@ -46,7 +46,7 @@ interface ProjectionChartAndTableProps {
 }
 
 const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
-  const { yearByYearProjections } = data;
+  const { yearByYearProjections, terminalValueAnalysis, valuation } = data;
   const label =
     data.method === METHODS.FCF.abv ? METHODS.FCF.label : METHODS.EPS.label;
 
@@ -63,13 +63,6 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
         ),
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
-      {
-        label: 'Present Value',
-        data: yearByYearProjections.map(
-          (projection) => projection.presentValue,
-        ),
-        backgroundColor: 'rgba(153, 102, 255, 0.6)',
-      },
     ],
   };
 
@@ -85,7 +78,13 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
 
   return (
     <div>
-      <h2>Year by Year Projected {label}</h2>
+      {/* <h2>Year by Year Projected {label}</h2> */}
+      <p className="mt-3">
+        The following illustrates the projected {label} over a period of{' '}
+        {yearByYearProjections.length} years. We discount the projected and
+        terminal value for each year back to the present and arrive at the
+        intrinsic value.
+      </p>
       <Bar data={chartData} options={options} />
       <TableContainer component={Paper}>
         <Table>
@@ -118,6 +117,30 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
                 </TableCell>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell component="th" scope="row" colSpan={3}>
+                Present Value of Terminal Value
+              </TableCell>
+              <TableCell align="right">
+                {terminalValueAnalysis.presentValueOfTerminal.toFixed(2)}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell component="th" scope="row" colSpan={3}>
+                Total Accumulated Value
+              </TableCell>
+              <TableCell align="right">
+                {valuation.presentValueOfCashFlows.toFixed(2)}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell component="th" scope="row" colSpan={3}>
+                Intrinsic Value per Share
+              </TableCell>
+              <TableCell align="right">
+                {valuation.intrinsicValue.toFixed(2)}
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
