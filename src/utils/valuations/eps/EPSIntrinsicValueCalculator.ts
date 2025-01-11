@@ -18,6 +18,7 @@ import ValuationConfig from '../ValuationConfig';
  */
 interface CalculatorParams {
   method: 'fcf' | 'eps'; // Method used for valuation (EPS or FCF).
+  sharePrice: number; // Current share price.
   eps: number;
   growthRate: number;
   terminalGrowthRate: number;
@@ -92,7 +93,6 @@ class EPSIntrinsicValueCalculator {
       valuation,
       metadata: {
         calculatedAt: new Date().toISOString(), // Timestamp of the calculation.
-        calculatedBy: 'jawadshuaib', // Replace with dynamic user or session identifier.
       },
     };
   }
@@ -195,6 +195,7 @@ class EPSIntrinsicValueCalculator {
    */
   formatInputs() {
     return {
+      sharePrice: this.params.sharePrice,
       initialEPS: this.params.eps,
       initialGrowthRate: `${(this.params.growthRate * 100).toFixed(1)}%`,
       terminalGrowthRate: `${(this.params.terminalGrowthRate * 100).toFixed(

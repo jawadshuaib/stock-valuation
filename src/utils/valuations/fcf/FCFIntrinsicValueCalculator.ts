@@ -18,7 +18,8 @@ import ValuationConfig from '../ValuationConfig';
  */
 interface CalculatorParams {
   method: 'fcf' | 'eps'; // Method used for valuation (EPS or FCF).
-  fcf: number;
+  sharePrice: number; // Current share price.
+  fcf: number; // Current Free Cash Flow.
   growthRate: number;
   terminalGrowthRate: number;
   discountRate: number;
@@ -205,6 +206,7 @@ class FCFIntrinsicValueCalculator {
    */
   formatInputs() {
     return {
+      sharePrice: this.params.sharePrice,
       initialFCF: this.params.fcf,
       initialGrowthRate: `${(this.params.growthRate * 100).toFixed(1)}%`,
       terminalGrowthRate: `${(this.params.terminalGrowthRate * 100).toFixed(

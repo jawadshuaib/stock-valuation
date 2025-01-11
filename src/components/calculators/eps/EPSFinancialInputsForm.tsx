@@ -7,6 +7,7 @@ import { ProjectionData } from '../types';
 
 // Define the form data structure
 interface FormData {
+  sharePrice: number; // Share Price
   eps: number; // Earnings Per Share
   growthRate: number; // Initial growth rate as a percentage
   terminalGrowthRate: number; // Terminal growth rate as a percentage
@@ -16,6 +17,7 @@ interface FormData {
 
 // Default values for the form fields
 const DEFAULT_VALUES: FormData = {
+  sharePrice: 0,
   eps: 0,
   growthRate: 0,
   terminalGrowthRate: 0,
@@ -25,6 +27,7 @@ const DEFAULT_VALUES: FormData = {
 
 // Form field configuration
 const FORM_FIELDS = [
+  { label: 'Share Price', id: 'sharePrice' },
   { label: 'Earnings Per Share (EPS)', id: 'eps' },
   { label: 'Growth Rate (%)', id: 'growthRate' },
   { label: 'Terminal Growth Rate (%)', id: 'terminalGrowthRate' },
@@ -73,6 +76,7 @@ function EPSFinancialInputsForm({
         // Convert percentage values to decimals for calculation
         const calculator = new EPSIntrinsicValueCalculator({
           method: 'eps',
+          sharePrice: data.sharePrice,
           eps: data.eps,
           growthRate: data.growthRate / 100,
           terminalGrowthRate: data.terminalGrowthRate / 100,

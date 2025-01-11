@@ -1,6 +1,7 @@
 export interface ProjectionData {
   method: 'fcf' | 'eps';
   inputs: {
+    sharePrice: number;
     initialFCF?: number;
     initialEPS?: number;
     initialGrowthRate: string;

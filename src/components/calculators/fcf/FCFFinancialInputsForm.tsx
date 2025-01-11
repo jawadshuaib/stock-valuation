@@ -7,6 +7,7 @@ import { ValidationError } from '../../../utils/valuations';
 
 // Define the form data structure
 interface FormData {
+  sharePrice: number; // Share Price
   fcf: number; // Initial Free Cash Flow in dollars
   growthRate: number; // Initial growth rate as a percentage
   terminalGrowthRate: number; // Terminal growth rate as a percentage
@@ -18,6 +19,7 @@ interface FormData {
 
 // Default values for the form fields
 const DEFAULT_VALUES: FormData = {
+  sharePrice: 0, // Share Price
   fcf: 0, // Initial Free Cash Flow
   growthRate: 0, // Initial growth rate
   terminalGrowthRate: 4, // Terminal growth rate
@@ -29,6 +31,7 @@ const DEFAULT_VALUES: FormData = {
 
 // Form field configuration
 const FORM_FIELDS = [
+  { label: 'Share Price', id: 'sharePrice' },
   { label: 'Free Cash Flow (FCF)', id: 'fcf' },
   { label: 'Issued Shares', id: 'outstandingShares' },
   { label: 'Growth Rate (%)', id: 'growthRate' },
@@ -79,6 +82,7 @@ function FCFFinancialInputsForm({
         // Convert percentage values to decimals for calculation
         const calculator = new FCFIntrinsicValueCalculator({
           method: 'fcf',
+          sharePrice: data.sharePrice,
           fcf: data.fcf,
           growthRate: data.growthRate / 100,
           terminalGrowthRate: data.terminalGrowthRate / 100,
