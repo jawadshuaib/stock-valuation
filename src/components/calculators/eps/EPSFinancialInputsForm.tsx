@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, useCallback } from 'react';
-import InputField from '../../InputField';
+import InputField from '../../ui/InputField';
 import {
   EPSIntrinsicValueCalculator,
   ValidationError,

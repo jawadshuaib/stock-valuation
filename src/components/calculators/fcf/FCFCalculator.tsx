@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import FCFFinancialInputsForm from './FCFFinancialInputsForm';
 import ValuationResults from '../ValuationResults';
-import ErrorMessage from '../../ErrorMessage';
+import ErrorMessage from '../../ui/ErrorMessage';
 import { ProjectionData } from '../types';
 import ProjectionChartAndTable from '../ProjectionChartAndTable';
+import BackButton from '../../ui/BackButton';
 
 export default function FCFCalculator() {
   const [result, setResult] = useState<ProjectionData | null>(null);
@@ -23,6 +24,7 @@ export default function FCFCalculator() {
 
   return (
     <section>
+      <BackButton />
       <h2 className="text-3xl font-bold text-gray-900 mb-6">
         Stock Valuation using Discounted Cash Flow based on FCF
       </h2>

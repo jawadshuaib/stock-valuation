@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import KeyValuationConcepts from './KeyValuationConcepts';
 
-const Home: React.FC = () => {
+const Homepage: React.FC = () => {
   return (
     <section>
       <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -35,4 +35,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Homepage;
