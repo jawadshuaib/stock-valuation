@@ -1,6 +1,7 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 import AppRoutes from './AppRoutes'; // Import the Routes component
+import Footer from './components/footer/Footer';
 
 function App() {
   return (
@@ -9,6 +10,8 @@ function App() {
         {/* Render the Routes component */}
         <AppRoutes />
       </div>
+      {/* Render the Footer component */}
+      <Footer />
     </Router>
   );
 }

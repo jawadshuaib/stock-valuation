@@ -5,14 +5,17 @@ import KeyValuationConcepts from './KeyValuationConcepts';
 const Homepage: React.FC = () => {
   return (
     <section>
-      <h2 className="text-3xl font-bold text-gray-900 mb-6">
-        Stock Valuation Calculator
+      <h2 className="text-3xl font-bold text-gray-900 mb-2">
+        Comprehensive Stock Valuation Tool
       </h2>
+      <h3 className="text-xl font-bold text-gray-900 mb-6">
+        Analyze and Calculate Intrinsic Value with DCF Methodology
+      </h3>
       <article className="">
-        The Intrinsic Value represents what we think the stock is worth today,
-        considering all future cash flows brought back to present value. The
-        Margin of Safety Price provides a lower target price that includes a
-        buffer against potential estimation errors.
+        This tool helps you determine the intrinsic value of stocks by
+        discounting future cash flows to their present value. By analyzing both
+        Earnings Per Share (EPS) and Free Cash Flow (FCF), you can get a
+        comprehensive view of a stock&apos;s worth.
       </article>
       <div className="flex justify-center space-x-4">
         <Link
