@@ -41,7 +41,7 @@ const PaybackTime: React.FC<PaybackTimeProps> = ({ data }) => {
       return { label: 'Great', style: 'text-blue-600 font-bold', emoji: '👍' };
     } else if (pbTime < 8) {
       return { label: 'Good', style: 'text-yellow-600 font-bold', emoji: '😊' };
-    } else if (pbTime < 10) {
+    } else if (pbTime < 9) {
       return { label: 'Okay', style: 'text-orange-600 font-bold', emoji: '😐' };
     } else {
       return { label: 'Bad', style: 'text-red-600 font-bold', emoji: '🚫' };
@@ -74,7 +74,8 @@ const PaybackTime: React.FC<PaybackTimeProps> = ({ data }) => {
         </p>
       ) : (
         <p className="text-lg text-red-600">
-          The payback time is not achievable with the provided cash flows.
+          The company is not generating enough cash flow to recover the initial
+          investment within the time period analyzed.
         </p>
       )}
     </section>
