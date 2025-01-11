@@ -105,7 +105,9 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
                 <TableCell align="right">
                   {data.method === METHODS.FCF.abv
                     ? projection.fcf
-                      ? projection.fcf.toFixed(2)
+                      ? projection.fcf.toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                        })
                       : 'N/A'
                     : projection.eps
                     ? projection.eps.toFixed(2)
@@ -113,26 +115,48 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
                 </TableCell>
                 <TableCell align="right">{projection.growthRate}</TableCell>
                 <TableCell align="right">
-                  {projection.presentValue.toFixed(2)}
+                  {projection.presentValue.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
                 </TableCell>
               </TableRow>
             ))}
             <TableRow>
               <TableCell component="th" scope="row" colSpan={3}>
-                Present Value of Terminal Value
+                Total Present Value
               </TableCell>
               <TableCell align="right">
-                {terminalValueAnalysis.presentValueOfTerminal.toFixed(2)}
+                {valuation.presentValueOfCashFlows.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                })}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row" colSpan={3}>
-                Total Accumulated Value
+                Present Value of Terminal Value
               </TableCell>
               <TableCell align="right">
-                {valuation.presentValueOfCashFlows.toFixed(2)}
+                {terminalValueAnalysis.presentValueOfTerminal.toLocaleString(
+                  undefined,
+                  { minimumFractionDigits: 2 },
+                )}
               </TableCell>
             </TableRow>
+            {/* We don't need to display the following for EPS since we
+             * calculate it on a per share basis */}
+            {data.method === METHODS.FCF.abv && (
+              <TableRow>
+                <TableCell component="th" scope="row" colSpan={3}>
+                  Total Intrinsic Value (Present + Terminal Value)
+                </TableCell>
+                <TableCell align="right">
+                  {(
+                    valuation.presentValueOfCashFlows +
+                    terminalValueAnalysis.presentValueOfTerminal
+                  ).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                </TableCell>
+              </TableRow>
+            )}
             <TableRow>
               <TableCell component="th" scope="row" colSpan={3}>
                 Intrinsic Value per Share

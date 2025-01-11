@@ -1,10 +1,8 @@
 import React, { useState, ChangeEvent, useCallback } from 'react';
 import InputField from '../../ui/InputField';
 import { debounce } from 'lodash';
-import {
-  EPSIntrinsicValueCalculator,
-  ValidationError,
-} from '../../../utils/valuations/eps';
+import { EPSIntrinsicValueCalculator } from '../../../utils/valuations/eps';
+import { ValidationError } from '../../../utils/valuations';
 import { ProjectionData } from '../types';
 
 // Define the form data structure
