@@ -1,2 +1,2 @@
 export { default as ValidationError } from './ValidationError';
-export { default as IntrinsicValueCalculator } from './IntrinsicValueCalculator';
+export { default as EPSIntrinsicValueCalculator } from './EPSIntrinsicValueCalculator';

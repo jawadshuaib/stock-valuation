@@ -1,11 +1,11 @@
 import React, { useState, ChangeEvent, useCallback } from 'react';
 import InputField from '../../InputField';
 import {
-  IntrinsicValueCalculator,
+  EPSIntrinsicValueCalculator,
   ValidationError,
 } from '../../../utils/valuations/eps';
 import { debounce } from 'lodash';
-import { ValuationData } from '../types';
+import { ProjectionData } from '../types';
 
 /**
  * Represents the structure of the financial calculation form data.
@@ -39,7 +39,7 @@ const DEFAULT_VALUES: FormData = {
  * @property valuationErrorFn - Callback function to handle calculation or validation errors
  */
 interface FinancialInputsFormProps {
-  valuateFn: (valuationData: ValuationData) => void;
+  valuateFn: (resultData: ProjectionData) => void;
   valuationErrorFn: (err: string) => void;
 }
 
@@ -88,7 +88,8 @@ function EPSFinancialInputsForm({
         }
 
         // Convert percentage values to decimals for calculation
-        const calculator = new IntrinsicValueCalculator({
+        const calculator = new EPSIntrinsicValueCalculator({
+          method: 'eps',
           eps: data.eps,
           growthRate: data.growthRate / 100,
           terminalGrowthRate: data.terminalGrowthRate / 100,
@@ -97,7 +98,7 @@ function EPSFinancialInputsForm({
         });
 
         const result = calculator.calculate();
-        valuateFn(result.valuation);
+        valuateFn(result);
       } catch (error) {
         // Handle both validation errors and general calculation errors
         const errorMessage =

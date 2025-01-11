@@ -17,6 +17,7 @@ import ValuationConfig from '../ValuationConfig';
  * - `outstandingShares`: Number of shares outstanding.
  */
 interface CalculatorParams {
+  method: 'fcf' | 'eps'; // Method used for valuation (EPS or FCF).
   fcf: number;
   growthRate: number;
   terminalGrowthRate: number;
@@ -82,6 +83,7 @@ class FCFIntrinsicValueCalculator {
     const growthProfile = this.growthCalculator.getGrowthProfile(); // Provides detailed growth analysis.
 
     return {
+      method: this.params.method, // Valuation method used.
       inputs: this.formatInputs(), // Summarizes user inputs.
       yearByYearProjections: projections, // Detailed FCF and present value projections.
       growthAnalysis: {

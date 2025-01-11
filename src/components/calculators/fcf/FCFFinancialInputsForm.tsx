@@ -3,7 +3,7 @@ import InputField from '../../InputField';
 import { debounce } from 'lodash';
 import { ValidationError } from '../../../utils/valuations/eps';
 import { FCFIntrinsicValueCalculator } from '../../../utils/valuations/fcf';
-import { ValuationData } from '../types';
+import { ProjectionData } from '../types';
 
 interface FormData {
   fcf: number; // Initial Free Cash Flow in dollars
@@ -26,7 +26,7 @@ const DEFAULT_VALUES: FormData = {
 };
 
 interface FinancialInputsFormProps {
-  valuateFn: (valuationData: ValuationData) => void;
+  valuateFn: (resultData: ProjectionData) => void;
   valuationErrorFn: (err: string) => void;
 }
 
@@ -56,6 +56,7 @@ function FCFFinancialInputsForm({
         }
 
         const calculator = new FCFIntrinsicValueCalculator({
+          method: 'fcf',
           fcf: data.fcf,
           growthRate: data.growthRate / 100,
           terminalGrowthRate: data.terminalGrowthRate / 100,
@@ -66,7 +67,7 @@ function FCFFinancialInputsForm({
         });
 
         const result = calculator.calculate();
-        valuateFn(result.valuation);
+        valuateFn(result);
       } catch (error) {
         const errorMessage =
           error instanceof ValidationError

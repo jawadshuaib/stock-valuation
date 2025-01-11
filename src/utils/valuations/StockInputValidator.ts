@@ -13,6 +13,7 @@ import ValuationConfig from './ValuationConfig';
  * - `discountRate`: Rate used to discount future cash flows to present value.
  */
 interface ValidationParams {
+  method: 'eps' | 'fcf'; // Method used for valuation (EPS or FCF).
   eps?: number;
   fcf?: number;
   growthRate: number;

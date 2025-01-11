@@ -17,6 +17,7 @@ import ValuationConfig from '../ValuationConfig';
  * - `marginOfSafety`: A buffer to account for uncertainties in assumptions.
  */
 interface CalculatorParams {
+  method: 'fcf' | 'eps'; // Method used for valuation (EPS or FCF).
   eps: number;
   growthRate: number;
   terminalGrowthRate: number;
@@ -32,7 +33,7 @@ interface CalculatorParams {
  * This class implements the Discounted Cash Flow (DCF) method to calculate the intrinsic value of a stock.
  * DCF evaluates the present value of expected future cash flows, adjusting for the time value of money and risk.
  */
-class IntrinsicValueCalculator {
+class EPSIntrinsicValueCalculator {
   private params: Required<CalculatorParams>; // Ensures all parameters are set with defaults applied.
   private validator: StockInputValidator; // Validates user-provided inputs for consistency and logic.
   private growthCalculator: GrowthCalculator; // Handles EPS growth rate projections.
@@ -78,6 +79,7 @@ class IntrinsicValueCalculator {
     const growthProfile = this.growthCalculator.getGrowthProfile(); // Provides detailed growth analysis.
 
     return {
+      method: this.params.method,
       inputs: this.formatInputs(), // Summarizes user inputs.
       yearByYearProjections: projections, // Detailed EPS and present value projections.
       growthAnalysis: {
@@ -204,4 +206,4 @@ class IntrinsicValueCalculator {
   }
 }
 
-export default IntrinsicValueCalculator;
+export default EPSIntrinsicValueCalculator;

@@ -2,19 +2,20 @@ import { useState } from 'react';
 import FinancialInputsForm from './EPSFinancialInputsForm';
 import ValuationResults from '../ValuationResults';
 import ErrorMessage from '../../ErrorMessage';
-import { ValuationData } from '../types';
+import { ProjectionData } from '../types';
+import ProjectionChartAndTable from '../ProjectionChartAndTable';
 
 export default function EPSCalculator() {
-  const [valuation, setValuation] = useState<ValuationData | null>(null);
+  const [result, setResult] = useState<ProjectionData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const valuateFn = (valuationData: ValuationData | null) => {
+  const valuateFn = (resultData: ProjectionData | null) => {
     setError(null);
-    setValuation(valuationData);
+    setResult(resultData);
   };
   const valuationErrorFn = (err: string) => {
     if (err) {
-      setValuation(null);
+      setResult(null);
     }
     setError(err);
   };
@@ -34,7 +35,8 @@ export default function EPSCalculator() {
         valuateFn={valuateFn}
         valuationErrorFn={valuationErrorFn}
       />
-      {valuation && <ValuationResults valuation={valuation} />}
+      {result?.valuation && <ValuationResults valuation={result.valuation} />}
+      {result && <ProjectionChartAndTable data={result} />}
       {error && <ErrorMessage message={error} />}
     </section>
   );
