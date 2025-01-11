@@ -17,12 +17,12 @@ interface FormData {
 
 const DEFAULT_VALUES: FormData = {
   fcf: 0, // Initial Free Cash Flow
-  growthRate: 15, // 15% annual growth
+  growthRate: 0, // 15% annual growth
   terminalGrowthRate: 4, // 4% terminal growth
   discountRate: 15, // 10% discount rate
   projectionYears: 10, // 10 years projection
   marginOfSafety: 50, // 20% margin of safety
-  outstandingShares: 1, // 100,000 shares outstanding
+  outstandingShares: 0, // 100,000 shares outstanding
 };
 
 interface FinancialInputsFormProps {
@@ -32,12 +32,12 @@ interface FinancialInputsFormProps {
 
 const FORM_FIELDS = [
   { label: 'Free Cash Flow (FCF)', id: 'fcf' },
+  { label: 'Issued Shares', id: 'outstandingShares' },
   { label: 'Growth Rate (%)', id: 'growthRate' },
   { label: 'Terminal Growth Rate (%)', id: 'terminalGrowthRate' },
   { label: 'Discount Rate (%)', id: 'discountRate' },
   { label: 'Projection Years', id: 'projectionYears' },
   { label: 'Margin of Safety (%)', id: 'marginOfSafety' },
-  { label: 'Issued Shares', id: 'outstandingShares' },
 ] as const;
 
 function FCFFinancialInputsForm({
