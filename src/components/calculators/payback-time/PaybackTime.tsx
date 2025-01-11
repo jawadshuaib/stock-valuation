@@ -1,7 +1,7 @@
 // components/PaybackTime.tsx
 
 import React from 'react';
-import PaybackTimeCalculator from '../../../utils/valuations/payback-time/paybacktime';
+import PaybackTimeCalculator from '../../../utils/valuations/payback-time/payback-time';
 import { ProjectionData } from '../types';
 
 interface PaybackTimeProps {
