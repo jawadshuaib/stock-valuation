@@ -51,7 +51,7 @@ const PaybackTime: React.FC<PaybackTimeProps> = ({ data }) => {
   const criteria = getCriteria(paybackTime);
 
   return (
-    <section className="mt-8 p-6 bg-white shadow-lg rounded-lg">
+    <section className="mt-8 p-6 bg-white rounded-lg border border-blue-100 shadow-sm">
       <h2 className="text-2xl font-semibold mb-4">Payback Time Calculation</h2>
       <p className="text-lg mb-4">
         Payback time is the period it takes for an investment to generate an
