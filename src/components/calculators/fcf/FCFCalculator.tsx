@@ -25,7 +25,7 @@ export default function FCFCalculator() {
   return (
     <section>
       <BackButton />
-      <h2 className="text-3xl font-bold text-gray-900 mb-6">
+      <h2 className="text-2xl font-bold text-gray-900 mb-2">
         Stock Valuation using Discounted Cash Flow based on FCF
       </h2>
       <p className="space-y-2 text-gray-600 mb-6">
