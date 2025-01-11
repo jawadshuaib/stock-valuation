@@ -48,7 +48,7 @@ interface ProjectionChartAndTableProps {
 const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
   const { yearByYearProjections } = data;
   const label =
-    data.method == METHODS.FCF.abv ? METHODS.FCF.label : METHODS.EPS.label;
+    data.method === METHODS.FCF.abv ? METHODS.FCF.label : METHODS.EPS.label;
 
   // Prepare data for bar chart
   const chartData = {
@@ -58,7 +58,9 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
     datasets: [
       {
         label,
-        data: yearByYearProjections.map((projection) => projection.fcf),
+        data: yearByYearProjections.map((projection) =>
+          data.method === METHODS.FCF.abv ? projection.fcf : projection.eps,
+        ),
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
       {
@@ -102,8 +104,13 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
                   {projection.year}
                 </TableCell>
                 <TableCell align="right">
-                  {projection.fcf && projection.fcf.toFixed(2)}
-                  {projection.eps && projection.eps.toFixed(2)}
+                  {data.method === METHODS.FCF.abv
+                    ? projection.fcf
+                      ? projection.fcf.toFixed(2)
+                      : 'N/A'
+                    : projection.eps
+                    ? projection.eps.toFixed(2)
+                    : 'N/A'}
                 </TableCell>
                 <TableCell align="right">{projection.growthRate}</TableCell>
                 <TableCell align="right">
