@@ -1,5 +1,19 @@
 import React from 'react';
 
+const Chicklet = function ({
+  title,
+  explanation,
+}: {
+  title: string;
+  explanation: string;
+}) {
+  return (
+    <div className="p-4 bg-white rounded-lg border border-gray-100">
+      <h4 className="font-medium text-slate-600 mb-2">{title}</h4>
+      <p className="text-gray-600">{explanation}</p>
+    </div>
+  );
+};
 export default function KeyValuationConcepts() {
   return (
     <section>
@@ -10,36 +24,23 @@ export default function KeyValuationConcepts() {
               Key Valuation Concepts
             </h3>
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="p-4 bg-white rounded-lg border border-gray-100">
-                <h4 className="font-medium text-blue-600 mb-2">
-                  Present Value
-                </h4>
-                <p className="text-gray-600">
-                  Future cash flows discounted to today&apos;s value
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg border border-gray-100">
-                <h4 className="font-medium text-blue-600 mb-2">Growth Decay</h4>
-                <p className="text-gray-600">
-                  Recognition that high growth rates naturally decline over time
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg border border-gray-100">
-                <h4 className="font-medium text-blue-600 mb-2">
-                  Terminal Value
-                </h4>
-                <p className="text-gray-600">
-                  Company&apos;s value beyond the projection period
-                </p>
-              </div>
-              <div className="p-4 bg-white rounded-lg border border-gray-100">
-                <h4 className="font-medium text-blue-600 mb-2">
-                  Margin of Safety
-                </h4>
-                <p className="text-gray-600">
-                  Buffer against estimation errors
-                </p>
-              </div>
+              {Chicklet({
+                title: 'Present Value',
+                explanation: "Future cash flows discounted to today's value",
+              })}
+              {Chicklet({
+                title: 'Growth Decay',
+                explanation:
+                  'Recognition that high growth rates naturally decline over time',
+              })}
+              {Chicklet({
+                title: 'Terminal Value',
+                explanation: "Company's value beyond the projection period",
+              })}
+              {Chicklet({
+                title: 'Margin of Safety',
+                explanation: 'Buffer against estimation errors',
+              })}
             </div>
           </div>
 
@@ -56,7 +57,7 @@ export default function KeyValuationConcepts() {
                     Growth Decay = TerminalGrowth + (InitialGrowth -
                     TerminalGrowth) * e^(-kt)
                   </p>
-                  <p>Terminal Value = FinalEPS * (1 + g) / (r - g)</p>
+                  <p>Terminal Value = Final Value * (1 + g) / (r - g)</p>
                 </div>
               </div>
 

@@ -44,3 +44,8 @@ export interface ProjectionData {
     calculatedAt: string;
   };
 }
+
+export interface ValuationData {
+  intrinsicValue: number;
+  marginOfSafetyPrice: number;
+}
