@@ -1,10 +1,11 @@
 import React, { useState, ChangeEvent, useCallback } from 'react';
 import InputField from '../../ui/InputField';
 import { debounce } from 'lodash';
-import { ValidationError } from '../../../utils/valuations/eps';
 import { FCFIntrinsicValueCalculator } from '../../../utils/valuations/fcf';
 import { ProjectionData } from '../types';
+import { ValidationError } from '../../../utils/valuations';
 
+// Define the form data structure
 interface FormData {
   fcf: number; // Initial Free Cash Flow in dollars
   growthRate: number; // Initial growth rate as a percentage
@@ -15,21 +16,18 @@ interface FormData {
   outstandingShares: number; // Number of shares outstanding
 }
 
+// Default values for the form fields
 const DEFAULT_VALUES: FormData = {
   fcf: 0, // Initial Free Cash Flow
-  growthRate: 0, // 15% annual growth
-  terminalGrowthRate: 4, // 4% terminal growth
-  discountRate: 15, // 10% discount rate
-  projectionYears: 10, // 10 years projection
-  marginOfSafety: 50, // 20% margin of safety
-  outstandingShares: 0, // 100,000 shares outstanding
+  growthRate: 0, // Initial growth rate
+  terminalGrowthRate: 4, // Terminal growth rate
+  discountRate: 15, // Discount rate
+  projectionYears: 10, // Projection period
+  marginOfSafety: 50, // Margin of safety
+  outstandingShares: 0, // Number of shares outstanding
 };
 
-interface FinancialInputsFormProps {
-  valuateFn: (resultData: ProjectionData) => void;
-  valuationErrorFn: (err: string) => void;
-}
-
+// Form field configuration
 const FORM_FIELDS = [
   { label: 'Free Cash Flow (FCF)', id: 'fcf' },
   { label: 'Issued Shares', id: 'outstandingShares' },
@@ -40,21 +38,45 @@ const FORM_FIELDS = [
   { label: 'Margin of Safety (%)', id: 'marginOfSafety' },
 ] as const;
 
+// Component props
+interface FinancialInputsFormProps {
+  valuateFn: (resultData: ProjectionData) => void;
+  valuationErrorFn: (err: string) => void;
+}
+
+/**
+ * FCFFinancialInputsForm Component
+ * A form component that collects financial metrics and calculates intrinsic value.
+ * Uses debounced calculations to prevent excessive recalculations during user input.
+ *
+ * @param props FinancialInputsFormProps
+ */
 function FCFFinancialInputsForm({
   valuateFn,
   valuationErrorFn,
 }: FinancialInputsFormProps) {
+  // State to track form input values
   const [formData, setFormData] = useState<FormData>(DEFAULT_VALUES);
 
+  /**
+   * Calculates the intrinsic value based on current form data.
+   * Converts percentage values to decimals before calculation.
+   * Handles both validation and calculation errors.
+   *
+   * @param data Current form data to use for calculation
+   */
   const calculateValuation = useCallback(
     (data: FormData) => {
-      try {
-        if (data.fcf <= 0) {
-          throw new ValidationError([
-            { code: 'fcf', message: 'FCF must be greater than zero' },
-          ]);
+      // Check if any form value is zero or less
+      const keys = Object.keys(data) as Array<keyof FormData>;
+      for (const key of keys) {
+        if (data[key] <= 0) {
+          return; // Early return if any field is zero or less
         }
+      }
 
+      try {
+        // Convert percentage values to decimals for calculation
         const calculator = new FCFIntrinsicValueCalculator({
           method: 'fcf',
           fcf: data.fcf,
@@ -69,21 +91,35 @@ function FCFFinancialInputsForm({
         const result = calculator.calculate();
         valuateFn(result);
       } catch (error) {
-        const errorMessage =
-          error instanceof ValidationError
-            ? `Validation failed: ${error.errors[0].message}`
-            : `Calculation error: ${error}`;
-
+        // Handle both validation errors and general calculation errors
+        let errorMessage = 'Calculation error';
+        if (error instanceof ValidationError) {
+          errorMessage = `Validation failed: ${error.errors
+            .map((e) => e.message)
+            .join(', ')}`;
+        } else if (error instanceof Error) {
+          errorMessage = `Calculation error: ${error.message}`;
+        }
         valuationErrorFn(errorMessage);
       }
     },
     [valuateFn, valuationErrorFn],
   );
 
+  /**
+   * Debounced version of calculateValuation to prevent excessive calculations
+   * during rapid user input. Waits 300ms after the last input before calculating.
+   */
   const debouncedValuation = useCallback(debounce(calculateValuation, 300), [
     calculateValuation,
   ]);
 
+  /**
+   * Handles changes to form inputs.
+   * Updates form state and triggers a debounced calculation.
+   *
+   * @param event Change event from form input
+   */
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevData) => {
@@ -96,6 +132,7 @@ function FCFFinancialInputsForm({
   return (
     <form className="space-y-4">
       <div className="grid gap-6">
+        {/* Dynamically render form fields based on FORM_FIELDS configuration */}
         {FORM_FIELDS.map(({ label, id }) => (
           <InputField
             key={id}

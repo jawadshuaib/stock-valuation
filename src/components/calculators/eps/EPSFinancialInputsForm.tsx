@@ -1,53 +1,31 @@
 import React, { useState, ChangeEvent, useCallback } from 'react';
 import InputField from '../../ui/InputField';
+import { debounce } from 'lodash';
 import {
   EPSIntrinsicValueCalculator,
   ValidationError,
 } from '../../../utils/valuations/eps';
-import { debounce } from 'lodash';
 import { ProjectionData } from '../types';
 
-/**
- * Represents the structure of the financial calculation form data.
- * All values are stored as numbers, with percentage values stored in their natural form
- * (e.g., 18 for 18% rather than 0.18)
- */
+// Define the form data structure
 interface FormData {
   eps: number; // Earnings Per Share
-  growthRate: number; // Annual growth rate as a percentage
-  terminalGrowthRate: number; // Long-term growth rate as a percentage
-  discountRate: number; // Required rate of return as a percentage
+  growthRate: number; // Initial growth rate as a percentage
+  terminalGrowthRate: number; // Terminal growth rate as a percentage
+  discountRate: number; // Discount rate as a percentage
   marginOfSafety: number; // Margin of safety as a percentage
 }
 
-/**
- * Default values for the financial calculation form.
- * These values are used to initialize the form and provide a starting point
- * for users to adjust according to their needs.
- */
+// Default values for the form fields
 const DEFAULT_VALUES: FormData = {
-  eps: 0, // Starting EPS value
-  growthRate: 0, // Annual growth
-  terminalGrowthRate: 4, // Terminal growth
-  discountRate: 15, // 15% discount rate
-  marginOfSafety: 50, // 50% margin of safety
+  eps: 0,
+  growthRate: 0,
+  terminalGrowthRate: 0,
+  discountRate: 0,
+  marginOfSafety: 0,
 };
 
-/**
- * Props interface for the FinancialInputsForm component.
- * @property valuateFn - Callback function to handle successful valuation calculations
- * @property valuationErrorFn - Callback function to handle calculation or validation errors
- */
-interface FinancialInputsFormProps {
-  valuateFn: (resultData: ProjectionData) => void;
-  valuationErrorFn: (err: string) => void;
-}
-
-/**
- * Configuration for form field rendering.
- * Using 'as const' assertion to ensure type safety when accessing field IDs
- * that correspond to FormData keys.
- */
+// Form field configuration
 const FORM_FIELDS = [
   { label: 'Earnings Per Share (EPS)', id: 'eps' },
   { label: 'Growth Rate (%)', id: 'growthRate' },
@@ -56,9 +34,14 @@ const FORM_FIELDS = [
   { label: 'Margin of Safety (%)', id: 'marginOfSafety' },
 ] as const;
 
+// Component props
+interface FinancialInputsFormProps {
+  valuateFn: (resultData: ProjectionData) => void;
+  valuationErrorFn: (err: string) => void;
+}
+
 /**
  * EPSFinancialInputsForm Component
- *
  * A form component that collects financial metrics and calculates intrinsic value.
  * Uses debounced calculations to prevent excessive recalculations during user input.
  *
@@ -80,13 +63,15 @@ function EPSFinancialInputsForm({
    */
   const calculateValuation = useCallback(
     (data: FormData) => {
-      try {
-        if (data.eps <= 0) {
-          throw new ValidationError([
-            { code: 'eps', message: 'EPS must be greater than zero' },
-          ]);
+      // Check if any form value is zero or less
+      const keys = Object.keys(data) as Array<keyof FormData>;
+      for (const key of keys) {
+        if (data[key] <= 0) {
+          return; // Early return if any field is zero or less
         }
+      }
 
+      try {
         // Convert percentage values to decimals for calculation
         const calculator = new EPSIntrinsicValueCalculator({
           method: 'eps',
@@ -101,11 +86,14 @@ function EPSFinancialInputsForm({
         valuateFn(result);
       } catch (error) {
         // Handle both validation errors and general calculation errors
-        const errorMessage =
-          error instanceof ValidationError
-            ? `Validation failed: ${error.errors[0].message}`
-            : `Calculation error: ${error}`;
-
+        let errorMessage = 'Calculation error';
+        if (error instanceof ValidationError) {
+          errorMessage = `Validation failed: ${error.errors
+            .map((e) => e.message)
+            .join(', ')}`;
+        } else if (error instanceof Error) {
+          errorMessage = `Calculation error: ${error.message}`;
+        }
         valuationErrorFn(errorMessage);
       }
     },

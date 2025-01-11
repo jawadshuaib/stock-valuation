@@ -27,3 +27,4 @@ export { default as GrowthCalculator } from './GrowthCalculator';
 export { default as PresentValueCalculator } from './PresentValueCalculator';
 export { default as StockInputValidator } from './StockInputValidator';
 export { default as ValuationConfig } from './ValuationConfig';
+export { default as ValidationError } from './ValidationError';
