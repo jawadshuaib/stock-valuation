@@ -39,8 +39,8 @@ export default function EPSCalculator() {
         valuationErrorFn={valuationErrorFn}
       />
       {result?.valuation && <ValuationResults valuation={result.valuation} />}
-      {result && <PaybackTime data={result} />}
       {result && <ProjectionChartAndTable data={result} />}
+      {result && <PaybackTime data={result} />}
       {error && <ErrorMessage message={error} />}
     </section>
   );

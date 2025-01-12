@@ -41,9 +41,9 @@ export default function FCFCalculator() {
         valuationErrorFn={valuationErrorFn}
       />
       {result?.valuation && <ValuationResults valuation={result.valuation} />}
+      {result && <ProjectionChartAndTable data={result} />}
       {result && <PaybackTime data={result} />}
       {result && <OwnerEarningsYieldComponent data={result} />}
-      {result && <ProjectionChartAndTable data={result} />}
       {error && <ErrorMessage message={error} />}
     </section>
   );

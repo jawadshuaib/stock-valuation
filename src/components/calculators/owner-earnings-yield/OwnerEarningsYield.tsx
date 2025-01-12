@@ -7,6 +7,10 @@ const OwnerEarningsYield: React.FC<{ data: ProjectionData }> = ({ data }) => {
   const yieldResult = ownerEarningsYield.calculateYield();
   const discountRate = parseFloat(data.inputs.discountRate);
 
+  if (!yieldResult) {
+    return null;
+  }
+
   const isGoodYield = yieldResult > discountRate;
   const messageClass = isGoodYield ? '' : '';
   const messageText = isGoodYield
@@ -38,17 +42,13 @@ const OwnerEarningsYield: React.FC<{ data: ProjectionData }> = ({ data }) => {
         earnings are retained, they increase shareholder equity, enhancing the
         value of their ownership in the business.
       </p>
-      {yieldResult !== null && (
-        <div>
-          <p className="text-lg">
-            The owner earnings yield for this business is{' '}
-            <span className="font-bold p-1 rounded bg-yellow-200">
-              {yieldResult.toFixed(2)}%
-            </span>{' '}
-            <span className={`${messageClass}`}>{messageText}</span>
-          </p>
-        </div>
-      )}
+      <p className="text-lg">
+        The owner earnings yield for this business is{' '}
+        <span className="font-bold p-1 rounded bg-yellow-200">
+          {yieldResult.toFixed(2)}%
+        </span>{' '}
+        <span className={`${messageClass}`}>{messageText}</span>
+      </p>
     </section>
   );
 };
