@@ -11,6 +11,8 @@ Live example: https://stock-valuation.netlify.app/
 - **Validation Layer**: Ensures input parameters are realistic and consistent with economic principles.
 - **Configurable Parameters**: Allows users to adjust settings like projection years, margin of safety, and growth thresholds.
 - **Detailed Growth Analysis**: Provides year-by-year projections of EPS, FCF, growth rates, and present values.
+- **Payback Time Calculator**: Computes the payback time to generate an amount of cash flow sufficient to recover the initial investment.
+- **Owner Earnings Yield Calculator**: Computes the true free cash flows available to the business owners or shareholders.
 
 ## Financial Concepts Behind the Tool
 
@@ -37,6 +39,14 @@ This rate represents the sustainable long-term growth a company can achieve. It 
 ### 6. **Margin of Safety**
 
 A margin of safety reduces the intrinsic value estimate to account for uncertainties in assumptions, ensuring a conservative investment decision.
+
+### 7. **Payback Time**
+
+Payback time is the period it takes for an investment to generate an amount of cash flow or profits equivalent to the initial investment amount.
+
+### 8. **Owner Earnings**
+
+Owner earnings are the true cash earnings of the business, calculated by adjusting net income for non-cash charges and capital expenditures required to maintain the business.
 
 ---
 
