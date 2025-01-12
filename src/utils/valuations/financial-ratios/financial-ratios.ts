@@ -1,6 +1,6 @@
 import { ProjectionData } from '../../../components/calculators/types';
 
-export class FinancialRatios {
+export class FinancialRatiosCalculator {
   private data: ProjectionData;
 
   constructor(data: ProjectionData) {

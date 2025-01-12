@@ -1,15 +1,13 @@
-// src/components/calculators/ratios/Ratios.tsx
-
 import React from 'react';
 import { ProjectionData } from '../types';
-import { FinancialRatios } from '../../../utils/valuations/financial-ratios/financial-ratios';
+import { FinancialRatiosCalculator } from '../../../utils/valuations/financial-ratios/financial-ratios';
 
-interface RatiosProps {
+interface FinancialRatiosProps {
   data: ProjectionData;
 }
 
-const Ratios: React.FC<RatiosProps> = ({ data }) => {
-  const ratios = new FinancialRatios(data);
+const FinancialRatios: React.FC<FinancialRatiosProps> = ({ data }) => {
+  const ratios = new FinancialRatiosCalculator(data);
 
   const priceToFCF = ratios.getPriceToFCFRatio();
   const priceToEPS = ratios.getPriceToEPSRatio();
@@ -53,7 +51,7 @@ const Ratios: React.FC<RatiosProps> = ({ data }) => {
             </td>
           </tr>
           <tr>
-            <td className="py-2 px-4 border-b">Price of Margin of Safety</td>
+            <td className="py-2 px-4 border-b">Price to Margin of Safety</td>
             <td className="py-2 px-4 border-b">
               {priceToMarginOfSafety.toFixed(2)}
             </td>
@@ -64,4 +62,4 @@ const Ratios: React.FC<RatiosProps> = ({ data }) => {
   );
 };
 
-export default Ratios;
+export default FinancialRatios;

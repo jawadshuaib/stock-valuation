@@ -7,7 +7,7 @@ import ProjectionChartAndTable from '../ProjectionChartAndTable';
 import BackButton from '../../ui/BackButton';
 import PaybackTime from '../payback-time/PaybackTime';
 import OwnerEarningsYieldComponent from '../owner-earnings-yield/OwnerEarningsYield';
-import Ratios from '../ratios/Ratios';
+import FinancialRatios from '../financial-ratios/FinancialRatios';
 
 export default function FCFCalculator() {
   const [result, setResult] = useState<ProjectionData | null>(null);
@@ -41,11 +41,15 @@ export default function FCFCalculator() {
         valuateFn={valuateFn}
         valuationErrorFn={valuationErrorFn}
       />
-      {result?.valuation && <ValuationResults valuation={result.valuation} />}
-      {result && <ProjectionChartAndTable data={result} />}
-      {result && <PaybackTime data={result} />}
-      {result && <OwnerEarningsYieldComponent data={result} />}
-      {result && <Ratios data={result} />}
+      {result && (
+        <>
+          <ValuationResults valuation={result.valuation} />
+          <FinancialRatios data={result} />
+          <ProjectionChartAndTable data={result} />
+          <PaybackTime data={result} />
+          <OwnerEarningsYieldComponent data={result} />
+        </>
+      )}
       {error && <ErrorMessage message={error} />}
     </section>
   );

@@ -5,7 +5,7 @@ import ErrorMessage from '../../ui/ErrorMessage';
 import { ProjectionData } from '../types';
 import ProjectionChartAndTable from '../ProjectionChartAndTable';
 import BackButton from '../../ui/BackButton';
-import PaybackTime from '../payback-time/PaybackTime';
+import FinancialRatios from '../financial-ratios/FinancialRatios';
 
 export default function EPSCalculator() {
   const [result, setResult] = useState<ProjectionData | null>(null);
@@ -38,9 +38,13 @@ export default function EPSCalculator() {
         valuateFn={valuateFn}
         valuationErrorFn={valuationErrorFn}
       />
-      {result?.valuation && <ValuationResults valuation={result.valuation} />}
-      {result && <ProjectionChartAndTable data={result} />}
-      {result && <PaybackTime data={result} />}
+      {result && (
+        <>
+          <ValuationResults valuation={result.valuation} />
+          <FinancialRatios data={result} />
+          <ProjectionChartAndTable data={result} />
+        </>
+      )}
       {error && <ErrorMessage message={error} />}
     </section>
   );
