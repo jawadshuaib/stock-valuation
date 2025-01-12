@@ -65,8 +65,10 @@ const PaybackTime: React.FC<PaybackTimeProps> = ({ data }) => {
       {paybackTime !== -1 ? (
         <p className="text-lg">
           The payback time for this investment is{' '}
-          <span className={criteria.style}>{paybackTime} years</span>. This is
-          considered{' '}
+          <span className={`p-1 rounded bg-yellow-200 font-bold`}>
+            {paybackTime} years
+          </span>
+          . This is considered{' '}
           <span className={criteria.style}>
             {criteria.label} {criteria.emoji}
           </span>
