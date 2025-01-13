@@ -10,7 +10,9 @@ export class FinancialRatiosCalculator {
   getPriceToFCFRatio(): number | null {
     if (this.data.method !== 'fcf') return null;
     const fcf = this.data.inputs.initialFCF || 0;
-    return this.data.inputs.sharePrice / fcf;
+    if (!this.data.inputs.outstandingShares) return null;
+    const fcfPerShare = fcf / this.data.inputs.outstandingShares;
+    return this.data.inputs.sharePrice / fcfPerShare;
   }
 
   getPriceToEPSRatio(): number | null {

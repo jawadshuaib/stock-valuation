@@ -14,7 +14,7 @@ const OwnerEarningsYield: React.FC<{ data: ProjectionData }> = ({ data }) => {
   const isGoodYield = yieldResult > discountRate;
   const messageClass = isGoodYield ? '' : '';
   const messageText = isGoodYield
-    ? 'which is good since it is higher than the discount rate.'
+    ? 'which is great since it is higher than the discount rate.'
     : 'which is below the discount rate so not ideal.';
 
   return (
