@@ -7,6 +7,11 @@
  * - **Economic Growth Rates:** Long-term GDP growth rates often anchor sustainable growth assumptions.
  * - **Inflation Expectations:** Terminal growth rates generally approximate inflation or slightly exceed it.
  * - **Risk Considerations:** Discount rates and margin of safety account for investment risk and uncertainty.
+ * -
+ * - **In a standard Discounted Cash Flow (DCF) model, the growth rate of a company’s cash flows is rarely sustainable
+ * - **at a high level indefinitely (e.g., 20–30%+). Eventually, competition, market saturation, or macroeconomic
+ * - **realities pull growth back closer to GDP or inflation levels (often 2–4%). Hence, applying a declining (decaying)
+ * - **growth rate over your projection horizon helps avoid over-optimistic valuations.
  */
 class ValuationConfig {
   // Default settings for intrinsic value calculations
@@ -30,6 +35,8 @@ class ValuationConfig {
   };
 
   // Decay factors define the rate at which growth slows over time
+  // If you pick a higher decay factor, the growth rate will rapidly approach the terminal growth.
+  // Conversely, a lower decay factor means growth stays elevated for a longer period.
   static DECAY_FACTORS = {
     HIGH_GROWTH: 0.35, // High-growth companies experience faster growth decay.
     MODERATE_GROWTH: 0.25, // Moderate-growth companies decay at a medium rate.

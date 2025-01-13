@@ -6,7 +6,7 @@ Live example: https://stock-valuation.netlify.app/
 
 ## Key Features
 
-- **Growth Rate Modeling**: Simulates growth rate decay over time, transitioning from high initial growth to a sustainable terminal growth rate.
+- **Growth Rate Modeling**: Simulates growth rate decay over time, transitioning from high initial growth to a sustainable terminal growth rate. This is quite sophisticated so I have provided more explanation in the [Growth Rate Decay Explanation](./GrowthRateDecayExplanation.md) section.
 - **Discounted Cash Flow Analysis**: Computes the intrinsic value of a stock by discounting projected earnings or free cash flows to their present value.
 - **Validation Layer**: Ensures input parameters are realistic and consistent with economic principles.
 - **Configurable Parameters**: Allows users to adjust settings like projection years, margin of safety, and growth thresholds.
