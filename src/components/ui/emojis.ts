@@ -1,0 +1,15 @@
+export const EMOJIS = {
+  tick: '✅',
+  warning: '🟡',
+  star: '🌟',
+  smiling: '😊',
+  unsure: '😐',
+  rocket: '🚀',
+  thumbsdown: '👎',
+  // growth: '🌱',
+  // loot: '💰',
+  // market: '📊',
+  // stocks: '📈',
+  // decay: '🍂',
+  // dollars: '💵',
+};

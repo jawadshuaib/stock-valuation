@@ -6,6 +6,14 @@ interface FinancialRatiosProps {
   data: ProjectionData;
 }
 
+const Emoji: React.FC<{ value: number }> = ({ value }) => {
+  if (value < 1) {
+    return <span className="pl-2">✅</span>;
+  }
+
+  return <span className="pl-2">🟡</span>;
+};
+
 const FinancialRatios: React.FC<FinancialRatiosProps> = ({ data }) => {
   const ratios = new FinancialRatiosCalculator(data);
 
@@ -24,8 +32,8 @@ const FinancialRatios: React.FC<FinancialRatiosProps> = ({ data }) => {
       <table className="min-w-full bg-white">
         <thead>
           <tr>
-            <th className="py-2 px-4 border-b">Ratio</th>
-            <th className="py-2 px-4 border-b">Value</th>
+            <th className="text-left py-2 px-4 border-b">Ratio</th>
+            <th className="text-left py-2 px-4 border-b">Value</th>
           </tr>
         </thead>
         <tbody>
@@ -52,6 +60,7 @@ const FinancialRatios: React.FC<FinancialRatiosProps> = ({ data }) => {
               </td>
               <td className="py-2 px-4 border-b">
                 {priceToEarningsGrowth.toFixed(2)}
+                {Emoji({ value: priceToEarningsGrowth })}
               </td>
             </tr>
           )}
@@ -59,12 +68,14 @@ const FinancialRatios: React.FC<FinancialRatiosProps> = ({ data }) => {
             <td className="py-2 px-4 border-b">Price to Intrinsic Value</td>
             <td className="py-2 px-4 border-b">
               {priceToIntrinsicValue.toFixed(2)}
+              {Emoji({ value: priceToIntrinsicValue })}
             </td>
           </tr>
           <tr>
             <td className="py-2 px-4 border-b">Price to Margin of Safety</td>
             <td className="py-2 px-4 border-b">
               {priceToMarginOfSafety.toFixed(2)}
+              {Emoji({ value: priceToMarginOfSafety })}
             </td>
           </tr>
         </tbody>

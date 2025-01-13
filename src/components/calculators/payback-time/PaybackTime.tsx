@@ -3,6 +3,7 @@
 import React from 'react';
 import PaybackTimeCalculator from '../../../utils/valuations/payback-time/payback-time';
 import { ProjectionData } from '../types';
+import { EMOJIS } from '../../ui/emojis';
 
 interface PaybackTimeProps {
   data: ProjectionData;
@@ -35,16 +36,32 @@ const PaybackTime: React.FC<PaybackTimeProps> = ({ data }) => {
       return {
         label: 'Amazing',
         style: 'text-green-600 font-bold',
-        emoji: '🌟',
+        emoji: EMOJIS.rocket,
       };
     } else if (pbTime < 6) {
-      return { label: 'Great', style: 'text-blue-600 font-bold', emoji: '👍' };
+      return {
+        label: 'Great',
+        style: 'text-blue-600 font-bold',
+        emoji: EMOJIS.star,
+      };
     } else if (pbTime < 8) {
-      return { label: 'Good', style: 'text-yellow-600 font-bold', emoji: '😊' };
+      return {
+        label: 'Good',
+        style: 'text-yellow-600 font-bold',
+        emoji: EMOJIS.smiling,
+      };
     } else if (pbTime < 9) {
-      return { label: 'Okay', style: 'text-orange-600 font-bold', emoji: '😐' };
+      return {
+        label: 'Okay',
+        style: 'text-orange-600 font-bold',
+        emoji: EMOJIS.unsure,
+      };
     } else {
-      return { label: 'Bad', style: 'text-red-600 font-bold', emoji: '🚫' };
+      return {
+        label: 'Bad',
+        style: 'text-red-600 font-bold',
+        emoji: EMOJIS.thumbsdown,
+      };
     }
   };
 
