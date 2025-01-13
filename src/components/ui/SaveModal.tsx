@@ -5,9 +5,10 @@ import { EPSFormData } from '../calculators/eps/EPSFinancialInputsForm';
 interface SaveModalProps {
   show: boolean;
   formData: EPSFormData;
+  onSave: () => void;
 }
 
-export function SaveModal({ show, formData }: SaveModalProps) {
+export function SaveModal({ show, formData, onSave }: SaveModalProps) {
   // State to manage the modal's open/close status
   const [openModal, setOpenModal] = useState(show);
   // State to store the name input value
@@ -63,6 +64,7 @@ export function SaveModal({ show, formData }: SaveModalProps) {
     // Clear the error message and close the modal
     setError('');
     setOpenModal(false);
+    onSave();
   };
 
   return (

@@ -6,6 +6,7 @@ import { EPSIntrinsicValueCalculator } from '../../../utils/valuations/eps';
 import { ValidationError } from '../../../utils/valuations';
 import { ProjectionData } from '../types';
 import { SaveModal } from '../../ui/SaveModal';
+import { Link } from 'react-router-dom';
 
 // Define the form data structure
 export interface EPSFormData {
@@ -60,6 +61,8 @@ function EPSFinancialInputsForm({
   const [showSaveBtn, setShowSaveBtn] = useState(false);
   // Modal state
   const [openModal, setOpenModal] = useState(false);
+  // State to track if the valuation has been saved
+  const [isSaved, setIsSaved] = useState(false);
 
   /**
    * Calculates the intrinsic value based on current form data.
@@ -137,6 +140,14 @@ function EPSFinancialInputsForm({
     });
   };
 
+  /**
+   * Handles the save action from the SaveModal.
+   */
+  const handleSave = () => {
+    setIsSaved(true);
+    setShowSaveBtn(false);
+  };
+
   return (
     <section>
       <form className="space-y-4">
@@ -152,18 +163,29 @@ function EPSFinancialInputsForm({
               onChange={handleChange}
             />
           ))}
-          {/* Show save button */}
-          {showSaveBtn && (
+          {/* Show save button or saved message */}
+          {showSaveBtn && !isSaved && (
             <>
               <Button onClick={() => setOpenModal(true)} className="text-white">
                 Save Valuation
               </Button>
             </>
           )}
+          {isSaved && (
+            <p className="text-green-500">
+              Valuation has been{' '}
+              <Link to="/" className="underline hover:text-green-800">
+                saved
+              </Link>
+              .
+            </p>
+          )}
         </div>
       </form>
       {/* Modal for saving valuation */}
-      {openModal && <SaveModal show={openModal} formData={formData} />}
+      {openModal && (
+        <SaveModal show={openModal} formData={formData} onSave={handleSave} />
+      )}
     </section>
   );
 }
