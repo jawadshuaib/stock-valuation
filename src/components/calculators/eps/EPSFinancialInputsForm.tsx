@@ -1,12 +1,14 @@
 import React, { useState, ChangeEvent, useCallback } from 'react';
+import { Button } from 'flowbite-react';
 import InputField from '../../ui/InputField';
 import { debounce } from 'lodash';
 import { EPSIntrinsicValueCalculator } from '../../../utils/valuations/eps';
 import { ValidationError } from '../../../utils/valuations';
 import { ProjectionData } from '../types';
+import { SaveModal } from '../../ui/SaveModal';
 
 // Define the form data structure
-interface FormData {
+export interface EPSFormData {
   sharePrice: number; // Share Price
   eps: number; // Earnings Per Share
   growthRate: number; // Initial growth rate as a percentage
@@ -16,13 +18,13 @@ interface FormData {
 }
 
 // Default values for the form fields
-const DEFAULT_VALUES: FormData = {
-  sharePrice: 0,
-  eps: 0,
-  growthRate: 0,
-  terminalGrowthRate: 0,
-  discountRate: 0,
-  marginOfSafety: 0,
+const DEFAULT_VALUES: EPSFormData = {
+  sharePrice: 1,
+  eps: 0.5,
+  growthRate: 10,
+  terminalGrowthRate: 2,
+  discountRate: 15,
+  marginOfSafety: 50,
 };
 
 // Form field configuration
@@ -53,7 +55,11 @@ function EPSFinancialInputsForm({
   valuationErrorFn,
 }: FinancialInputsFormProps) {
   // State to track form input values
-  const [formData, setFormData] = useState<FormData>(DEFAULT_VALUES);
+  const [formData, setFormData] = useState<EPSFormData>(DEFAULT_VALUES);
+  // Show save button
+  const [showSaveBtn, setShowSaveBtn] = useState(false);
+  // Modal state
+  const [openModal, setOpenModal] = useState(false);
 
   /**
    * Calculates the intrinsic value based on current form data.
@@ -63,9 +69,9 @@ function EPSFinancialInputsForm({
    * @param data Current form data to use for calculation
    */
   const calculateValuation = useCallback(
-    (data: FormData) => {
+    (data: EPSFormData) => {
       // Check if any form value is zero or less
-      const keys = Object.keys(data) as Array<keyof FormData>;
+      const keys = Object.keys(data) as Array<keyof EPSFormData>;
       for (const key of keys) {
         if (data[key] <= 0) {
           return; // Early return if any field is zero or less
@@ -86,6 +92,9 @@ function EPSFinancialInputsForm({
 
         const result = calculator.calculate();
         valuateFn(result);
+
+        // Show save button
+        setShowSaveBtn(true);
       } catch (error) {
         // Handle both validation errors and general calculation errors
         let errorMessage = 'Calculation error';
@@ -97,6 +106,9 @@ function EPSFinancialInputsForm({
           errorMessage = `Calculation error: ${error.message}`;
         }
         valuationErrorFn(errorMessage);
+
+        // Hide save button
+        setShowSaveBtn(false);
       }
     },
     [valuateFn, valuationErrorFn],
@@ -126,21 +138,33 @@ function EPSFinancialInputsForm({
   };
 
   return (
-    <form className="space-y-4">
-      <div className="grid gap-6">
-        {/* Dynamically render form fields based on FORM_FIELDS configuration */}
-        {FORM_FIELDS.map(({ label, id }) => (
-          <InputField
-            key={id}
-            label={label}
-            id={id}
-            name={id}
-            value={formData[id as keyof FormData]}
-            onChange={handleChange}
-          />
-        ))}
-      </div>
-    </form>
+    <section>
+      <form className="space-y-4">
+        <div className="grid gap-6">
+          {/* Dynamically render form fields based on FORM_FIELDS configuration */}
+          {FORM_FIELDS.map(({ label, id }) => (
+            <InputField
+              key={id}
+              label={label}
+              id={id}
+              name={id}
+              value={formData[id as keyof EPSFormData]}
+              onChange={handleChange}
+            />
+          ))}
+          {/* Show save button */}
+          {showSaveBtn && (
+            <>
+              <Button onClick={() => setOpenModal(true)} className="text-white">
+                Save Valuation
+              </Button>
+            </>
+          )}
+        </div>
+      </form>
+      {/* Modal for saving valuation */}
+      {openModal && <SaveModal show={openModal} formData={formData} />}
+    </section>
   );
 }
 

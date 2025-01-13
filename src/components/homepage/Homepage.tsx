@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import KeyValuationConcepts from './KeyValuationConcepts';
+import SavedValuations from './SavedValuations';
 
 const Homepage: React.FC = () => {
   return (
@@ -35,6 +36,7 @@ const Homepage: React.FC = () => {
           <span className="bg-green-100 p-2 text-black rounded">FCF</span>
         </Link>
       </div>
+      <SavedValuations />
       <KeyValuationConcepts />
     </section>
   );
