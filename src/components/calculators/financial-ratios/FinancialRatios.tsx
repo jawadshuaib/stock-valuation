@@ -11,6 +11,7 @@ const FinancialRatios: React.FC<FinancialRatiosProps> = ({ data }) => {
 
   const priceToFCF = ratios.getPriceToFCFRatio();
   const priceToEPS = ratios.getPriceToEPSRatio();
+  const priceToGrowth = ratios.getPriceToGrowth();
   const priceToIntrinsicValue = ratios.getPriceToIntrinsicValueRatio();
   const priceToMarginOfSafety = ratios.getPriceToMarginOfSafetyRatio();
 
@@ -42,6 +43,12 @@ const FinancialRatios: React.FC<FinancialRatiosProps> = ({ data }) => {
                 Price to Earnings per Share (P/E)
               </td>
               <td className="py-2 px-4 border-b">{priceToEPS.toFixed(2)}</td>
+            </tr>
+          )}
+          {priceToGrowth !== null && (
+            <tr>
+              <td className="py-2 px-4 border-b">Price to Growth</td>
+              <td className="py-2 px-4 border-b">{priceToGrowth.toFixed(2)}</td>
             </tr>
           )}
           <tr>

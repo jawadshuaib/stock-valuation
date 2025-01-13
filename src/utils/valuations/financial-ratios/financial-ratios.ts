@@ -21,6 +21,12 @@ export class FinancialRatiosCalculator {
     return this.data.inputs.sharePrice / eps;
   }
 
+  getPriceToGrowth(): number | null {
+    const growth = parseFloat(this.data.inputs.initialGrowthRate) || 0;
+    if (growth === 0) return null;
+    return this.data.inputs.sharePrice / growth;
+  }
+
   getPriceToIntrinsicValueRatio(): number {
     return this.data.inputs.sharePrice / this.data.valuation.intrinsicValue;
   }
