@@ -20,7 +20,7 @@ const OwnerEarningsYield: React.FC<{ data: ProjectionData }> = ({ data }) => {
   return (
     <section className="mt-4 p-6 bg-white rounded-lg border border-blue-100 shadow-sm">
       <h2 className="text-2xl font-semibold mb-4">
-        Owner Earnings Yield Calculation
+        Estimated Owner Earnings Yield
       </h2>
       <p className="text-lg mb-4">
         Owner Earnings represent the cash flow a business generates after
@@ -42,12 +42,18 @@ const OwnerEarningsYield: React.FC<{ data: ProjectionData }> = ({ data }) => {
         earnings are retained, they increase shareholder equity, enhancing the
         value of their ownership in the business.
       </p>
-      <p className="text-lg">
+      <p className="text-lg mb-4">
         The owner earnings yield for this business is{' '}
         <span className="font-bold p-1 rounded bg-yellow-200">
           {yieldResult.toFixed(2)}%
         </span>{' '}
         <span className={`${messageClass}`}>{messageText}</span>
+      </p>
+      <p className="text-lg">
+        Note that the yield calculated here uses Free Cash Flow (FCF) as a proxy
+        for the actual Owner Earnings. This approach provides an estimate since
+        it does not capture all non-cash expenses and working capital
+        adjustments that Owner Earnings would typically include.
       </p>
     </section>
   );

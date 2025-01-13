@@ -59,9 +59,9 @@ export default function KeyValuationConcepts() {
               <div className="space-y-2">
                 <div className="font-medium text-gray-700">Core Formulas:</div>
                 <div className="pl-4 space-y-2 font-mono text-sm">
-                  <BlockMath math="Present Value = \dfrac{FV}{(1 + r)^n}" />
+                  <BlockMath math="Present\ Value = \dfrac{Future\ Value}{(1 + r)^n}" />
                   <BlockMath math="Growth\ Decay = g_T + (g_0 - g_T) \cdot e^{-kt}" />
-                  <BlockMath math="Terminal Value = Future Value \cdot \dfrac{1 + g}{r - g}" />
+                  <BlockMath math="Terminal\ Value = Future\ Value \cdot \dfrac{1 + g}{r - g}" />
                 </div>
               </div>
 
