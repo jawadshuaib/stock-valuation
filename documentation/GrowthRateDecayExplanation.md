@@ -88,7 +88,7 @@ Overall, these decay factors and the exponential model align well with **conserv
 
 ## Related Code Snippets
 
-Below is a snippet illustrating where these decay factors are defined and calculated. For a full reference, see [`ValuationConfig.ts`](./ValuationConfig.ts) and [`GrowthCalculator.ts`](./GrowthCalculator.ts).
+Below is a snippet illustrating where these decay factors are defined and calculated. For a full reference, see [`ValuationConfig.ts`](../src/utils/valuations/ValuationConfig.ts) and [`GrowthCalculator.ts`](../src/utils/valuations/GrowthCalculator.ts).
 
     // In ValuationConfig.ts
     static DECAY_FACTORS = {
