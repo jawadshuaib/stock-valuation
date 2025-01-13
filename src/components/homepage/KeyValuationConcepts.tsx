@@ -1,19 +1,22 @@
 import React from 'react';
+import 'katex/dist/katex.min.css';
+import { BlockMath } from 'react-katex';
 
 const Chicklet = function ({
   title,
-  explanation,
+  children,
 }: {
   title: string;
-  explanation: string;
+  children: React.ReactNode;
 }) {
   return (
     <div className="p-4 bg-white rounded-lg border border-gray-100">
       <h4 className="font-medium text-slate-600 mb-2">{title}</h4>
-      <p className="text-gray-600">{explanation}</p>
+      <p className="text-gray-600">{children}</p>
     </div>
   );
 };
+
 export default function KeyValuationConcepts() {
   return (
     <section>
@@ -24,23 +27,27 @@ export default function KeyValuationConcepts() {
               Key Valuation Concepts
             </h3>
             <div className="grid gap-4 md:grid-cols-2">
-              {Chicklet({
-                title: 'Present Value',
-                explanation: "Future cash flows discounted to today's value",
-              })}
-              {Chicklet({
-                title: 'Growth Decay',
-                explanation:
-                  'Recognition that high growth rates naturally decline over time',
-              })}
-              {Chicklet({
-                title: 'Terminal Value',
-                explanation: "Company's value beyond the projection period",
-              })}
-              {Chicklet({
-                title: 'Margin of Safety',
-                explanation: 'Buffer against estimation errors',
-              })}
+              <Chicklet title="Present Value">
+                Future cash flows discounted to today&apos;s value
+              </Chicklet>
+              <Chicklet title="Growth Decay">
+                Recognition that{' '}
+                <a
+                  href="https://github.com/jawadshuaib/stock-valuation/blob/main/documentation/GrowthRateDecayExplanation.md"
+                  className="hover:text-blue-500 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  high growth rates naturally decline
+                </a>{' '}
+                over time
+              </Chicklet>
+              <Chicklet title="Terminal Value">
+                Company&apos;s value beyond the projection period
+              </Chicklet>
+              <Chicklet title="Margin of Safety">
+                Buffer against estimation errors
+              </Chicklet>
             </div>
           </div>
 
@@ -52,12 +59,9 @@ export default function KeyValuationConcepts() {
               <div className="space-y-2">
                 <div className="font-medium text-gray-700">Core Formulas:</div>
                 <div className="pl-4 space-y-2 font-mono text-sm">
-                  <p>Present Value = FutureValue / (1 + r)^n</p>
-                  <p>
-                    Growth Decay = TerminalGrowth + (InitialGrowth -
-                    TerminalGrowth) * e^(-kt)
-                  </p>
-                  <p>Terminal Value = Final Value * (1 + g) / (r - g)</p>
+                  <BlockMath math="Present Value = \dfrac{FV}{(1 + r)^n}" />
+                  <BlockMath math="Growth\ Decay = g_T + (g_0 - g_T) \cdot e^{-kt}" />
+                  <BlockMath math="Terminal Value = Future Value \cdot \dfrac{1 + g}{r - g}" />
                 </div>
               </div>
 
