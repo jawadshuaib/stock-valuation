@@ -3,10 +3,10 @@ import { Button } from 'flowbite-react';
 import InputField from '../../ui/InputField';
 import { debounce } from 'lodash';
 import { EPSIntrinsicValueCalculator } from '../../../utils/valuations/eps';
-import { ValidationError } from '../../../utils/valuations';
 import { ProjectionData } from '../types';
-import { SaveModal } from '../../ui/SaveModal';
+import { ValidationError } from '../../../utils/valuations';
 import { Link } from 'react-router-dom';
+import SaveModal from '../../ui/SaveModal';
 
 // Define the form data structure
 export interface EPSFormData {
@@ -143,9 +143,35 @@ function EPSFinancialInputsForm({
   /**
    * Handles the save action from the SaveModal.
    */
-  const handleSave = () => {
+  const handleSave = (name: string) => {
+    const savedValuations = JSON.parse(
+      localStorage.getItem('savedValuations') || '[]',
+    );
+
+    // Check if an item with the same name already exists
+    if (savedValuations.some((item: { name: string }) => item.name === name)) {
+      setIsSaved(true);
+      setShowSaveBtn(false);
+      setOpenModal(false);
+      return;
+    }
+
+    // Add the new item to the array
+    savedValuations.push({ name, data: formData });
+
+    // Save the updated array back to localStorage
+    localStorage.setItem('savedValuations', JSON.stringify(savedValuations));
+
     setIsSaved(true);
     setShowSaveBtn(false);
+    setOpenModal(false);
+  };
+
+  /**
+   * Handles the close action from the SaveModal.
+   */
+  const handleClose = () => {
+    setOpenModal(false);
   };
 
   return (
@@ -184,7 +210,12 @@ function EPSFinancialInputsForm({
       </form>
       {/* Modal for saving valuation */}
       {openModal && (
-        <SaveModal show={openModal} formData={formData} onSave={handleSave} />
+        <SaveModal
+          show={openModal}
+          formData={formData}
+          onSave={handleSave}
+          onClose={handleClose}
+        />
       )}
     </section>
   );

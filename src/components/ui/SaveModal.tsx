@@ -6,12 +6,11 @@ import { FCFFormData } from '../calculators/fcf/FCFFinancialInputsForm';
 interface SaveModalProps {
   show: boolean;
   formData: EPSFormData | FCFFormData;
-  onSave: () => void;
+  onSave: (name: string) => void;
+  onClose: () => void;
 }
 
-export function SaveModal({ show, formData, onSave }: SaveModalProps) {
-  // State to manage the modal's open/close status
-  const [openModal, setOpenModal] = useState(show);
+function SaveModal({ show, formData, onSave, onClose }: SaveModalProps) {
   // State to store the name input value
   const [name, setName] = useState('');
   // State to store any error messages
@@ -64,13 +63,12 @@ export function SaveModal({ show, formData, onSave }: SaveModalProps) {
 
     // Clear the error message and close the modal
     setError('');
-    setOpenModal(false);
-    onSave();
+    onSave(name);
   };
 
   return (
     <div>
-      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+      <Modal show={show} onClose={onClose}>
         <Modal.Header>Save Valuation</Modal.Header>
         <Modal.Body>
           <div className="space-y-4">
@@ -88,7 +86,7 @@ export function SaveModal({ show, formData, onSave }: SaveModalProps) {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleSave}>Save</Button>
-          <Button color="gray" onClick={() => setOpenModal(false)}>
+          <Button color="gray" onClick={onClose}>
             Cancel
           </Button>
         </Modal.Footer>
@@ -96,3 +94,5 @@ export function SaveModal({ show, formData, onSave }: SaveModalProps) {
     </div>
   );
 }
+
+export default SaveModal;
