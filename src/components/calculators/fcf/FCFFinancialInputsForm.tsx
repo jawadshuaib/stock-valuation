@@ -3,34 +3,26 @@ import { Button } from 'flowbite-react';
 import InputField from '../../ui/InputField';
 import { debounce } from 'lodash';
 import { FCFIntrinsicValueCalculator } from '../../../utils/valuations/fcf';
-import { ProjectionData } from '../types';
+import { FCFFormData, ProjectionData } from '../types';
 import { ValidationError } from '../../../utils/valuations';
 import { Link } from 'react-router-dom';
 import SaveModal from '../../ui/SaveModal';
-
-// Define the form data structure
-export interface FCFFormData {
-  sharePrice: number; // Share Price
-  fcf: number; // Initial Free Cash Flow in dollars
-  growthRate: number; // Initial growth rate as a percentage
-  terminalGrowthRate: number; // Terminal growth rate as a percentage
-  discountRate: number; // Discount rate as a percentage
-  projectionYears: number; // Projection period in years
-  marginOfSafety: number; // Margin of safety as a percentage
-  outstandingShares: number; // Number of shares outstanding
-}
+import { getPrefilledValues } from '../../../utils/urlParams';
 
 // Default values for the form fields
 const DEFAULT_VALUES: FCFFormData = {
   sharePrice: 0, // Share Price
   fcf: 0, // Initial Free Cash Flow
   growthRate: 0, // Initial growth rate
-  terminalGrowthRate: 4, // Terminal growth rate
-  discountRate: 15, // Discount rate
+  terminalGrowthRate: 0, // Terminal growth rate
+  discountRate: 0, // Discount rate
   projectionYears: 10, // Projection period
   marginOfSafety: 50, // Margin of safety
   outstandingShares: 0, // Number of shares outstanding
 };
+
+// Get prefilled values from URL parameters if available
+const prefilledValues = getPrefilledValues(DEFAULT_VALUES);
 
 // Form field configuration
 const FORM_FIELDS = [
@@ -62,7 +54,7 @@ function FCFFinancialInputsForm({
   valuationErrorFn,
 }: FinancialInputsFormProps) {
   // State to track form input values
-  const [formData, setFormData] = useState<FCFFormData>(DEFAULT_VALUES);
+  const [formData, setFormData] = useState<FCFFormData>(prefilledValues);
   // Show save button
   const [showSaveBtn, setShowSaveBtn] = useState(false);
   // Modal state

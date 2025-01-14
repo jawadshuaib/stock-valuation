@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Modal } from 'flowbite-react';
-import { EPSFormData } from '../calculators/eps/EPSFinancialInputsForm';
-import { FCFFormData } from '../calculators/fcf/FCFFinancialInputsForm';
+import { EPSFormData, FCFFormData } from '../calculators/types';
 
 interface SavedValuation {
   name: string;
@@ -98,21 +96,14 @@ const SavedValuations: React.FC = () => {
                   Remove
                 </button>
               </div>
-              {'eps' in valuation.data ? (
-                <Link
-                  to={constructUrlWithParams(valuation.data)}
-                  className="text-blue-500 hover:underline"
-                >
-                  Go to EPS Calculator
-                </Link>
-              ) : (
-                <Link
-                  to={constructUrlWithParams(valuation.data)}
-                  className="text-blue-500 hover:underline"
-                >
-                  Go to FCF Calculator
-                </Link>
-              )}
+              <a
+                href={constructUrlWithParams(valuation.data)}
+                className="text-blue-500 hover:underline"
+              >
+                {'eps' in valuation.data
+                  ? 'Go to EPS Calculator'
+                  : 'Go to FCF Calculator'}
+              </a>
             </div>
           ))}
       </div>

@@ -3,30 +3,24 @@ import { Button } from 'flowbite-react';
 import InputField from '../../ui/InputField';
 import { debounce } from 'lodash';
 import { EPSIntrinsicValueCalculator } from '../../../utils/valuations/eps';
-import { ProjectionData } from '../types';
+import { EPSFormData, ProjectionData } from '../types';
 import { ValidationError } from '../../../utils/valuations';
 import { Link } from 'react-router-dom';
 import SaveModal from '../../ui/SaveModal';
-
-// Define the form data structure
-export interface EPSFormData {
-  sharePrice: number; // Share Price
-  eps: number; // Earnings Per Share
-  growthRate: number; // Initial growth rate as a percentage
-  terminalGrowthRate: number; // Terminal growth rate as a percentage
-  discountRate: number; // Discount rate as a percentage
-  marginOfSafety: number; // Margin of safety as a percentage
-}
+import { getPrefilledValues } from '../../../utils/urlParams';
 
 // Default values for the form fields
 const DEFAULT_VALUES: EPSFormData = {
-  sharePrice: 1,
-  eps: 0.5,
-  growthRate: 10,
-  terminalGrowthRate: 2,
-  discountRate: 15,
+  sharePrice: 0,
+  eps: 0,
+  growthRate: 0,
+  terminalGrowthRate: 0,
+  discountRate: 0,
   marginOfSafety: 50,
 };
+
+// Get prefilled values from URL parameters if available
+const prefilledValues = getPrefilledValues(DEFAULT_VALUES);
 
 // Form field configuration
 const FORM_FIELDS = [
@@ -56,7 +50,7 @@ function EPSFinancialInputsForm({
   valuationErrorFn,
 }: FinancialInputsFormProps) {
   // State to track form input values
-  const [formData, setFormData] = useState<EPSFormData>(DEFAULT_VALUES);
+  const [formData, setFormData] = useState<EPSFormData>(prefilledValues);
   // Show save button
   const [showSaveBtn, setShowSaveBtn] = useState(false);
   // Modal state

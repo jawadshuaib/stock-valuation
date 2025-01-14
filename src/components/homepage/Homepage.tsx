@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import KeyValuationConcepts from './KeyValuationConcepts';
 import SavedValuations from './SavedValuations';
 
@@ -21,20 +20,20 @@ const Homepage: React.FC = () => {
         intrinsic value of a stock.
       </article>
       <div className="flex justify-center space-x-4">
-        <Link
-          to="/eps"
+        <a
+          href="/eps"
           className="inline-block my-4 p-6 font-medium border-2 border-green-500 text-white bg-green-500 rounded-lg hover:bg-green-600 hover:text-white hover:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
         >
           Find Intrinsic Value using{' '}
           <span className="bg-green-100 p-2 text-black rounded">EPS</span>
-        </Link>
-        <Link
-          to="/fcf"
+        </a>
+        <a
+          href="/fcf"
           className="inline-block my-4 p-6 font-medium border-2 border-green-500 text-white bg-green-500 rounded-lg hover:bg-green-600 hover:text-white hover:border-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75"
         >
           Find Intrinsic Value using{' '}
           <span className="bg-green-100 p-2 text-black rounded">FCF</span>
-        </Link>
+        </a>
       </div>
       <SavedValuations />
       <KeyValuationConcepts />
