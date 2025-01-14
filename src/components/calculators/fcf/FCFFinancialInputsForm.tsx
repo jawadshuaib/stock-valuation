@@ -1,12 +1,15 @@
 import React, { useState, ChangeEvent, useCallback } from 'react';
+import { Button } from 'flowbite-react';
 import InputField from '../../ui/InputField';
 import { debounce } from 'lodash';
 import { FCFIntrinsicValueCalculator } from '../../../utils/valuations/fcf';
 import { ProjectionData } from '../types';
 import { ValidationError } from '../../../utils/valuations';
+import { SaveModal } from '../../ui/SaveModal';
+import { Link } from 'react-router-dom';
 
 // Define the form data structure
-interface FormData {
+export interface FCFFormData {
   sharePrice: number; // Share Price
   fcf: number; // Initial Free Cash Flow in dollars
   growthRate: number; // Initial growth rate as a percentage
@@ -18,7 +21,7 @@ interface FormData {
 }
 
 // Default values for the form fields
-const DEFAULT_VALUES: FormData = {
+const DEFAULT_VALUES: FCFFormData = {
   sharePrice: 0, // Share Price
   fcf: 0, // Initial Free Cash Flow
   growthRate: 0, // Initial growth rate
@@ -59,7 +62,13 @@ function FCFFinancialInputsForm({
   valuationErrorFn,
 }: FinancialInputsFormProps) {
   // State to track form input values
-  const [formData, setFormData] = useState<FormData>(DEFAULT_VALUES);
+  const [formData, setFormData] = useState<FCFFormData>(DEFAULT_VALUES);
+  // Show save button
+  const [showSaveBtn, setShowSaveBtn] = useState(false);
+  // Modal state
+  const [openModal, setOpenModal] = useState(false);
+  // State to track if the valuation has been saved
+  const [isSaved, setIsSaved] = useState(false);
 
   /**
    * Calculates the intrinsic value based on current form data.
@@ -69,9 +78,9 @@ function FCFFinancialInputsForm({
    * @param data Current form data to use for calculation
    */
   const calculateValuation = useCallback(
-    (data: FormData) => {
+    (data: FCFFormData) => {
       // Check if any form value is zero or less
-      const keys = Object.keys(data) as Array<keyof FormData>;
+      const keys = Object.keys(data) as Array<keyof FCFFormData>;
       for (const key of keys) {
         if (data[key] <= 0) {
           return; // Early return if any field is zero or less
@@ -94,6 +103,9 @@ function FCFFinancialInputsForm({
 
         const result = calculator.calculate();
         valuateFn(result);
+
+        // Show save button
+        setShowSaveBtn(true);
       } catch (error) {
         // Handle both validation errors and general calculation errors
         let errorMessage = 'Calculation error';
@@ -105,6 +117,9 @@ function FCFFinancialInputsForm({
           errorMessage = `Calculation error: ${error.message}`;
         }
         valuationErrorFn(errorMessage);
+
+        // Hide save button
+        setShowSaveBtn(false);
       }
     },
     [valuateFn, valuationErrorFn],
@@ -133,22 +148,61 @@ function FCFFinancialInputsForm({
     });
   };
 
+  /**
+   * Handles the save action from the SaveModal.
+   */
+  const handleSave = () => {
+    const savedValuations = JSON.parse(
+      localStorage.getItem('savedValuations') || '[]',
+    );
+    savedValuations.push({
+      name: `FCF Valuation ${savedValuations.length + 1}`,
+      data: formData,
+    });
+    localStorage.setItem('savedValuations', JSON.stringify(savedValuations));
+    setIsSaved(true);
+    setShowSaveBtn(false);
+  };
+
   return (
-    <form className="space-y-4">
-      <div className="grid gap-6">
-        {/* Dynamically render form fields based on FORM_FIELDS configuration */}
-        {FORM_FIELDS.map(({ label, id }) => (
-          <InputField
-            key={id}
-            label={label}
-            id={id}
-            name={id}
-            value={formData[id as keyof FormData]}
-            onChange={handleChange}
-          />
-        ))}
-      </div>
-    </form>
+    <section>
+      <form className="space-y-4">
+        <div className="grid gap-6">
+          {/* Dynamically render form fields based on FORM_FIELDS configuration */}
+          {FORM_FIELDS.map(({ label, id }) => (
+            <InputField
+              key={id}
+              label={label}
+              id={id}
+              name={id}
+              value={formData[id as keyof FCFFormData]}
+              onChange={handleChange}
+            />
+          ))}
+          {/* Show save button or saved message */}
+          {showSaveBtn && !isSaved && (
+            <>
+              <Button onClick={() => setOpenModal(true)} className="text-white">
+                Save Valuation
+              </Button>
+            </>
+          )}
+          {isSaved && (
+            <p className="text-green-500">
+              Valuation has been{' '}
+              <Link to="/" className="underline hover:text-green-800">
+                saved
+              </Link>
+              .
+            </p>
+          )}
+        </div>
+      </form>
+      {/* Modal for saving valuation */}
+      {openModal && (
+        <SaveModal show={openModal} formData={formData} onSave={handleSave} />
+      )}
+    </section>
   );
 }
 

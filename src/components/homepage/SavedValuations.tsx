@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'flowbite-react';
 import { EPSFormData } from '../calculators/eps/EPSFinancialInputsForm';
+import { FCFFormData } from '../calculators/fcf/FCFFinancialInputsForm';
 
 interface SavedValuation {
   name: string;
-  data: EPSFormData;
+  data: EPSFormData | FCFFormData;
 }
 
 const SavedValuations: React.FC = () => {
@@ -23,17 +24,31 @@ const SavedValuations: React.FC = () => {
     setSavedValuations(savedItems);
   }, []);
 
-  // Construct URL with parameters from EPSFormData
-  const constructUrlWithParams = (data: EPSFormData) => {
-    const params = new URLSearchParams({
-      sharePrice: data.sharePrice.toString(),
-      eps: data.eps.toString(),
-      growthRate: data.growthRate.toString(),
-      terminalGrowthRate: data.terminalGrowthRate.toString(),
-      discountRate: data.discountRate.toString(),
-      marginOfSafety: data.marginOfSafety.toString(),
-    }).toString();
-    return `/eps?${params}`;
+  // Construct URL with parameters from EPSFormData or FCFFormData
+  const constructUrlWithParams = (data: EPSFormData | FCFFormData) => {
+    if ('eps' in data) {
+      const params = new URLSearchParams({
+        sharePrice: data.sharePrice.toString(),
+        eps: data.eps.toString(),
+        growthRate: data.growthRate.toString(),
+        terminalGrowthRate: data.terminalGrowthRate.toString(),
+        discountRate: data.discountRate.toString(),
+        marginOfSafety: data.marginOfSafety.toString(),
+      }).toString();
+      return `/eps?${params}`;
+    } else {
+      const params = new URLSearchParams({
+        sharePrice: data.sharePrice.toString(),
+        fcf: data.fcf.toString(),
+        growthRate: data.growthRate.toString(),
+        terminalGrowthRate: data.terminalGrowthRate.toString(),
+        discountRate: data.discountRate.toString(),
+        projectionYears: data.projectionYears.toString(),
+        marginOfSafety: data.marginOfSafety.toString(),
+        outstandingShares: data.outstandingShares.toString(),
+      }).toString();
+      return `/fcf?${params}`;
+    }
   };
 
   // Show confirmation modal before removing a saved valuation
@@ -83,12 +98,19 @@ const SavedValuations: React.FC = () => {
                   Remove
                 </button>
               </div>
-              {valuation.data.eps && (
+              {'eps' in valuation.data ? (
                 <Link
                   to={constructUrlWithParams(valuation.data)}
                   className="text-blue-500 hover:underline"
                 >
                   Go to EPS Calculator
+                </Link>
+              ) : (
+                <Link
+                  to={constructUrlWithParams(valuation.data)}
+                  className="text-blue-500 hover:underline"
+                >
+                  Go to FCF Calculator
                 </Link>
               )}
             </div>
