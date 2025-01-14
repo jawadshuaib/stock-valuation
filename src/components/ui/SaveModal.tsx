@@ -1,7 +1,6 @@
 import { Button, Modal, Label, TextInput } from 'flowbite-react';
 import { useState, useEffect, ChangeEvent, FocusEvent } from 'react';
-import { EPSFormData } from '../calculators/eps/EPSFinancialInputsForm';
-import { FCFFormData } from '../calculators/fcf/FCFFinancialInputsForm';
+import { EPSFormData, FCFFormData } from '../calculators/types';
 
 interface SaveModalProps {
   show: boolean;
