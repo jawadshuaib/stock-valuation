@@ -4,7 +4,6 @@ import ValuationResults from '../ValuationResults';
 import ErrorMessage from '../../ui/ErrorMessage';
 import { ProjectionData } from '../types';
 import ProjectionChartAndTable from '../ProjectionChartAndTable';
-import BackButton from '../../ui/BackButton';
 import PaybackTime from '../payback-time/PaybackTime';
 import OwnerEarningsYieldComponent from '../owner-earnings-yield/OwnerEarningsYield';
 import FinancialRatios from '../financial-ratios/FinancialRatios';
@@ -28,7 +27,6 @@ export default function FCFCalculator() {
 
   return (
     <section>
-      <BackButton />
       <h2 className="text-2xl font-bold text-gray-900 mb-2">
         Stock Valuation using Discounted Cash Flow based on FCF
       </h2>

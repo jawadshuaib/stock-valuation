@@ -1,14 +1,18 @@
-// src/components/BackButton.tsx
-
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const BackButton: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleBackClick = () => {
     navigate('/');
   };
+
+  // Return null if the user is on the homepage
+  if (location.pathname === '/') {
+    return null;
+  }
 
   return (
     <div className="mb-5">
