@@ -16,20 +16,33 @@ function SaveModal({ show, formData, onSave, onClose }: SaveModalProps) {
   // State to store any error messages
   const [error, setError] = useState('');
 
-  // Effect to set the default name to the current date and time when the modal opens
+  // Effect to set the default name to an incremented value when the modal opens
   useEffect(() => {
     if (show) {
-      const currentDate = new Date();
-      const formattedDate = currentDate.toLocaleString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true,
-      });
-      setName(formattedDate);
+      // Retrieve saved items from localStorage
+      const savedItems = JSON.parse(
+        localStorage.getItem('savedValuations') || '[]',
+      );
+      // Determine the base name based on the formData type
+      const baseName = 'eps' in formData ? 'EPS Valuation' : 'FCF Valuation';
+      let newName = `${baseName} 1`;
+      let counter = 1;
+
+      // Function to check if the name already exists
+      const nameExists = (nm: string) => {
+        return savedItems.some((item: { name: string }) => item.name === nm);
+      };
+
+      // Increment the name until a unique one is found
+      while (nameExists(newName)) {
+        counter += 1;
+        newName = `${baseName} ${counter}`;
+      }
+
+      // Set the unique name
+      setName(newName);
     }
-  }, [show]);
+  }, [show, formData]);
 
   // Handle changes to the name input field
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
