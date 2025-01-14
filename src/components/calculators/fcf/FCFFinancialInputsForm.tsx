@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useCallback } from 'react';
+import React, { useState, ChangeEvent, useCallback, useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import InputField from '../../ui/InputField';
 import { debounce } from 'lodash';
@@ -116,6 +116,17 @@ function FCFFinancialInputsForm({
     },
     [valuateFn, valuationErrorFn],
   );
+
+  useEffect(() => {
+    // Check if all form fields are prefilled
+    const allPrefilled = Object.values(prefilledValues).every(
+      (value) => value > 0, // Ensure each value is greater than 0
+    );
+    if (allPrefilled) {
+      // Calculate valuation if all fields are prefilled
+      calculateValuation(prefilledValues);
+    }
+  }, [calculateValuation, prefilledValues]);
 
   /**
    * Debounced version of calculateValuation to prevent excessive calculations

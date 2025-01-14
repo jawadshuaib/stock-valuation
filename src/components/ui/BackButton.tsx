@@ -6,7 +6,11 @@ const BackButton: React.FC = () => {
   const location = useLocation();
 
   const handleBackClick = () => {
-    navigate('/');
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
   };
 
   // Return null if the user is on the homepage
