@@ -5,7 +5,6 @@ import ErrorMessage from '../../ui/ErrorMessage';
 import { ProjectionData } from '../types';
 import ProjectionChartAndTable from '../ProjectionChartAndTable';
 import PaybackTime from '../payback-time/PaybackTime';
-import OwnerEarningsYieldComponent from '../owner-earnings-yield/OwnerEarningsYield';
 import FinancialRatios from '../financial-ratios/FinancialRatios';
 import GPT from './GPT';
 
@@ -47,7 +46,7 @@ export default function FCFCalculator() {
           <FinancialRatios data={result} />
           <ProjectionChartAndTable data={result} />
           <PaybackTime data={result} />
-          <OwnerEarningsYieldComponent data={result} />
+          {/* <OwnerEarningsYieldComponent data={result} /> */}
         </>
       )}
       {error && <ErrorMessage message={error} />}
