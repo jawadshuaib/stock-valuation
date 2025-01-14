@@ -3,12 +3,14 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  LineElement,
+  PointElement,
   BarElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import {
   Table,
   TableBody,
@@ -24,6 +26,8 @@ import { ProjectionData } from './types';
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  LineElement,
+  PointElement,
   BarElement,
   Title,
   Tooltip,
@@ -51,7 +55,7 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
     data.method === METHODS.FCF.abv ? METHODS.FCF.label : METHODS.EPS.label;
 
   // Prepare data for bar chart
-  const chartData = {
+  const barChartData = {
     labels: yearByYearProjections.map(
       (projection) => `Year ${projection.year}`,
     ),
@@ -62,6 +66,22 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
           data.method === METHODS.FCF.abv ? projection.fcf : projection.eps,
         ),
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      },
+    ],
+  };
+
+  // Prepare data for line chart
+  const lineChartData = {
+    labels: yearByYearProjections.map(
+      (projection) => `Year ${projection.year}`,
+    ),
+    datasets: [
+      {
+        label: 'Growth Rate (%)',
+        data: yearByYearProjections.map((projection) => projection.growthRate),
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        fill: true,
       },
     ],
   };
@@ -78,14 +98,18 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
 
   return (
     <div>
-      {/* <h2>Year by Year Projected {label}</h2> */}
       <p className="mt-3">
         The following illustrates the projected {label} over a period of{' '}
         {yearByYearProjections.length} years. We discount the projected and
         terminal value for each year back to the present and arrive at the
         intrinsic value.
       </p>
-      <Bar data={chartData} options={options} />
+      <Bar data={barChartData} options={options} />
+      <p className="mt-3">
+        The following chart shows the decay in the projected growth rate over
+        the same period.
+      </p>
+      <Line data={lineChartData} options={options} />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -142,8 +166,6 @@ const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
                 )}
               </TableCell>
             </TableRow>
-            {/* We don't need to display the following for EPS since we
-             * calculate it on a per share basis */}
             {data.method === METHODS.FCF.abv && (
               <TableRow>
                 <TableCell component="th" scope="row" colSpan={3}>
