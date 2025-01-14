@@ -86,8 +86,13 @@ const SavedValuations: React.FC = () => {
               className="p-4 bg-white rounded-lg border border-gray-100"
             >
               <div className="flex justify-between items-center">
-                <h4 className="font-medium text-slate-600 mb-2">
-                  {valuation.name}
+                <h4 className="font-medium text-slate-600">
+                  <a
+                    href={constructUrlWithParams(valuation.data)}
+                    className="text-blue-500 hover:underline"
+                  >
+                    {valuation.name}
+                  </a>
                 </h4>
                 <button
                   onClick={() => handleRemoveClick(valuation.name)}
@@ -96,14 +101,6 @@ const SavedValuations: React.FC = () => {
                   Remove
                 </button>
               </div>
-              <a
-                href={constructUrlWithParams(valuation.data)}
-                className="text-blue-500 hover:underline"
-              >
-                {'eps' in valuation.data
-                  ? 'Go to EPS Calculator'
-                  : 'Go to FCF Calculator'}
-              </a>
             </div>
           ))}
       </div>
