@@ -35,7 +35,6 @@ const FORM_FIELDS = [
   { label: 'Growth Rate (%)', id: 'growthRate' },
   { label: 'Terminal Growth Rate (%)', id: 'terminalGrowthRate' },
   { label: 'Discount Rate (%)', id: 'discountRate' },
-  { label: 'Projection Years', id: 'projectionYears' },
   { label: 'Margin of Safety (%)', id: 'marginOfSafety' },
 ] as const;
 
@@ -57,7 +56,10 @@ function FCFFinancialInputsForm({
   valuationErrorFn,
 }: FinancialInputsFormProps) {
   // State to track form input values
-  const [formData, setFormData] = useState<FCFFormData>(prefilledValues);
+  const [formData, setFormData] = useState<FCFFormData>({
+    ...prefilledValues,
+    projectionYears: DEFAULT_VALUES.projectionYears,
+  });
   // Show save button
   const [showSaveBtn, setShowSaveBtn] = useState(false);
   // Modal state
