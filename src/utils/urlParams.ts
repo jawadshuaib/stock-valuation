@@ -34,3 +34,9 @@ export const getPrefilledValues = <T extends FormData>(defaultValues: T): T => {
   // Return the updated form values
   return prefilledValues;
 };
+
+export const areAllValuesGreaterThanZero = (
+  values: EPSFormData | FCFFormData,
+): boolean => {
+  return Object.values(values).every((value) => value > 0);
+};

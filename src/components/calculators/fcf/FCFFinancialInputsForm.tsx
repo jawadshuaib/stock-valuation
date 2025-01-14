@@ -7,7 +7,10 @@ import { FCFFormData, ProjectionData } from '../types';
 import { ValidationError } from '../../../utils/valuations';
 import { Link } from 'react-router-dom';
 import SaveModal from '../../ui/SaveModal';
-import { getPrefilledValues } from '../../../utils/urlParams';
+import {
+  areAllValuesGreaterThanZero,
+  getPrefilledValues,
+} from '../../../utils/urlParams';
 
 // Default values for the form fields
 const DEFAULT_VALUES: FCFFormData = {
@@ -119,14 +122,14 @@ function FCFFinancialInputsForm({
 
   useEffect(() => {
     // Check if all form fields are prefilled
-    const allPrefilled = Object.values(prefilledValues).every(
-      (value) => value > 0, // Ensure each value is greater than 0
-    );
+    const allPrefilled = areAllValuesGreaterThanZero(prefilledValues);
     if (allPrefilled) {
       // Calculate valuation if all fields are prefilled
       calculateValuation(prefilledValues);
+      // Since this is already saved data, hide the save button
+      setShowSaveBtn(false);
     }
-  }, [calculateValuation, prefilledValues]);
+  }, []);
 
   /**
    * Debounced version of calculateValuation to prevent excessive calculations
