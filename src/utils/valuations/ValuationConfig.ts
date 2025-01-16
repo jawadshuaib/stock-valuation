@@ -22,9 +22,9 @@ class ValuationConfig {
 
   // Constraints and limits for valuation parameters
   static LIMITS = {
-    MAX_TERMINAL_GROWTH: 0.04, // 4% terminal growth cap to reflect realistic long-term economic trends.
-    MIN_DISCOUNT_RATE: 0.08, // Minimum 8% discount rate to reflect risk-adjusted required returns.
-    MAX_INITIAL_GROWTH: 1, // 100% cap on initial growth rates to prevent over-optimistic scenarios.
+    MAX_TERMINAL_GROWTH: 0.07, // 7% terminal growth cap to reflect realistic long-term economic trends.
+    MIN_DISCOUNT_RATE: 0.05, // Minimum 5% discount rate to reflect risk-adjusted required returns.
+    MAX_INITIAL_GROWTH: 3, // 300% cap on initial growth rates to prevent over-optimistic scenarios.
   };
 
   // Thresholds for categorizing growth rates
