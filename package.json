@@ -12,6 +12,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.3.1",
+    "@netlify/functions": "^3.0.0",
     "@reduxjs/toolkit": "^1.9.7",
     "chart.js": "^4.4.7",
     "flowbite-react": "^0.10.2",
