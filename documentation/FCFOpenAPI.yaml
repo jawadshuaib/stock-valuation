@@ -1,0 +1,90 @@
+openapi: 3.1.0
+info:
+  title: API to Calculate Intrinsic Value of a Stock using Free Cash Flow
+  description: API to calculate the Discounted Cash Flow intrinsic value of a stock using Free Cash Flow (FCF).
+  version: 1.0.0
+servers:
+  - url: https://stock-valuation.netlify.app/.netlify/functions/calculateUsingFCF
+paths:
+  /:
+    get:
+      operationId: calculateFCFIntrinsicValue
+      summary: Calculate Intrinsic Value based on FCF
+      description: Returns the intrinsic value and margin of safety price based on Free Cash Flow (FCF).
+      parameters:
+        - in: query
+          name: sharePrice
+          required: true
+          schema:
+            type: string
+          description: The current share price of the stock.
+        - in: query
+          name: fcf
+          required: true
+          schema:
+            type: string
+          description: The free cash flow of the stock.
+        - in: query
+          name: growthRate
+          required: true
+          schema:
+            type: string
+          description: The expected growth rate of the stock.
+        - in: query
+          name: terminalGrowthRate
+          required: true
+          schema:
+            type: string
+          description: The terminal growth rate of the stock.
+        - in: query
+          name: discountRate
+          required: true
+          schema:
+            type: string
+          description: The discount rate to be used in the calculation.
+        - in: query
+          name: marginOfSafety
+          required: true
+          schema:
+            type: string
+          description: The margin of safety to be used in the calculation.
+        - in: query
+          name: outstandingShares
+          required: true
+          schema:
+            type: string
+          description: The number of outstanding shares of the stock.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  intrinsic_value:
+                    type: number
+                    description: The intrinsic value of the stock.
+                  margin_of_safety_price:
+                    type: number
+                    description: The margin of safety price of the stock.
+        '400':
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+        '500':
+          description: Calculation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
