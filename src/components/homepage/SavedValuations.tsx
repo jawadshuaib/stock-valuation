@@ -23,9 +23,13 @@ const SavedValuations: React.FC = () => {
   }, []);
 
   // Construct URL with parameters from EPSFormData or FCFFormData
-  const constructUrlWithParams = (data: EPSFormData | FCFFormData) => {
+  const constructUrlWithParams = (
+    name: string,
+    data: EPSFormData | FCFFormData,
+  ) => {
     if ('eps' in data) {
       const params = new URLSearchParams({
+        name,
         sharePrice: data.sharePrice.toString(),
         eps: data.eps.toString(),
         growthRate: data.growthRate.toString(),
@@ -36,6 +40,7 @@ const SavedValuations: React.FC = () => {
       return `/eps?${params}`;
     } else {
       const params = new URLSearchParams({
+        name,
         sharePrice: data.sharePrice.toString(),
         fcf: data.fcf.toString(),
         growthRate: data.growthRate.toString(),
@@ -88,7 +93,10 @@ const SavedValuations: React.FC = () => {
               <div className="flex justify-between items-center">
                 <h4 className="font-medium text-slate-600">
                   <a
-                    href={constructUrlWithParams(valuation.data)}
+                    href={constructUrlWithParams(
+                      valuation.name,
+                      valuation.data,
+                    )}
                     className="text-blue-500 hover:underline"
                   >
                     {valuation.name}
