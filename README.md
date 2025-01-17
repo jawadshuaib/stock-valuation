@@ -45,6 +45,44 @@ Payback time is the period it takes for an investment to generate an amount of c
 
 ---
 
+## API Endpoints
+
+This project provides two API endpoints for calculating the intrinsic value of a stock using either Earnings Per Share (EPS) or Free Cash Flow (FCF).
+
+These API's can be integrated into 3rd party app, or used in Google Sheets to directly calculate the intrinsic value through available data.
+
+Example: https://stock-valuation.netlify.app/.netlify/functions/calculateEPS?sharePrice=468&eps=10&growthRate=9&terminalGrowthRate=3&discountRate=15&marginOfSafety=50
+
+### Calculate Intrinsic Value using EPS
+
+- **Endpoint**: `/calculateUsingEPS`
+- **Method**: `GET`
+- **Description**: Returns the intrinsic value and margin of safety price based on Earnings Per Share (EPS).
+- **Query Parameters**:
+  - `sharePrice` (required): The current share price of the stock.
+  - `eps` (required): The earnings per share of the stock.
+  - `growthRate` (required): The expected growth rate of the stock.
+  - `terminalGrowthRate` (required): The terminal growth rate of the stock.
+  - `discountRate` (required): The discount rate to be used in the calculation.
+  - `marginOfSafety` (required): The margin of safety to be used in the calculation.
+
+### Calculate Intrinsic Value using FCF
+
+- **Endpoint**: `/calculateUsingFCF`
+- **Method**: `GET`
+- **Description**: Returns the intrinsic value and margin of safety price based on Free Cash Flow (FCF).
+- **Query Parameters**:
+
+  - `sharePrice` (required): The current share price of the stock.
+  - `fcf` (required): The free cash flow of the stock.
+  - `growthRate` (required): The expected growth rate of the stock.
+  - `terminalGrowthRate` (required): The terminal growth rate of the stock.
+  - `discountRate` (required): The discount rate to be used in the calculation.
+  - `marginOfSafety` (required): The margin of safety to be used in the calculation.
+  - `outstandingShares` (required): The number of outstanding shares of the stock.
+
+  ***
+
 ## Technical Stack
 
 - **React**: Frontend framework for building user interfaces.
