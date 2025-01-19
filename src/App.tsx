@@ -12,8 +12,11 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
+    // Extract the 'name' parameter from the URL
     const params = new URLSearchParams(location.search);
     const name = params.get('name');
+
+    // Update the document title based on the 'name' parameter
     if (name) {
       document.title = `${name} | ${APP_NAME}`;
     } else {
