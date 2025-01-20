@@ -1,28 +1,37 @@
 import React, { useState } from 'react';
 import { ProjectionData } from '../types';
 
-// Define the props for the InvestmentGrowth component
-interface InvestmentGrowthProps {
-  data: ProjectionData;
-}
-
-// InvestmentGrowth component calculates and displays the growth of an investment over time
-export default function InvestmentGrowth({ data }: InvestmentGrowthProps) {
-  // State to hold the initial investment amount
+const InvestmentGrowth = ({ data }: { data: ProjectionData }) => {
   const [initialInvestment, setInitialInvestment] = useState(10000);
-
-  // Variable to hold the final investment value after projections
+  const initialGrowthRate =
+    Number(data.inputs.initialGrowthRate) > 10
+      ? Number(data.inputs.initialGrowthRate)
+      : 10;
+  const [growthRate, setGrowthRate] = useState(initialGrowthRate);
   let finalInvestment = initialInvestment;
 
-  // Iterate over each year's projection and calculate the investment growth
-  data.yearByYearProjections.forEach((projection) => {
-    finalInvestment *= 1 + projection.growthRate / 100;
+  data.yearByYearProjections.forEach(() => {
+    finalInvestment *= 1 + growthRate / 100;
   });
 
   // Handle input change for the initial investment amount
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInitialInvestmentChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setInitialInvestment(Number(event.target.value));
   };
+
+  // Handle input change for the growth rate
+  const handleGrowthRateChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setGrowthRate(Number(event.target.value));
+  };
+
+  // If finalInvestment is not a number or is less than 0, set it to 0
+  if (isNaN(finalInvestment) || finalInvestment < 0) {
+    finalInvestment = 0;
+  }
 
   // Render the investment growth information
   return (
@@ -33,10 +42,17 @@ export default function InvestmentGrowth({ data }: InvestmentGrowthProps) {
         <input
           type="number"
           value={initialInvestment}
-          onChange={handleInputChange}
-          className="h-8 w-24 rounded border border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700"
+          onChange={handleInitialInvestmentChange}
+          className="h-8 w-24 text-center rounded border border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700"
         />{' '}
-        at this growth projection will have compounded to{' '}
+        with a growth rate of{' '}
+        <input
+          type="number"
+          value={growthRate}
+          onChange={handleGrowthRateChange}
+          className="h-8 w-16 text-center rounded border border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700"
+        />{' '}
+        % will have compounded to{' '}
         <span className="font-bold">
           ${Number(finalInvestment.toFixed(2)).toLocaleString()}
         </span>{' '}
@@ -44,4 +60,6 @@ export default function InvestmentGrowth({ data }: InvestmentGrowthProps) {
       </p>
     </section>
   );
-}
+};
+
+export default InvestmentGrowth;
