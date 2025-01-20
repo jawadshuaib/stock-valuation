@@ -23,25 +23,33 @@ EPS is a key metric in valuing a company's profitability. It represents the port
 
 FCF is a measure of a company's financial performance, calculated as operating cash flow minus capital expenditures. It represents the cash a company generates after accounting for cash outflows to support operations and maintain its capital assets. This tool uses FCF as an alternative baseline for intrinsic value calculation.
 
-### 3. **Growth Rate Decay**
+### 3. **Free Cash Flow for Free (FCF for Free)**
 
-High-growth companies typically experience a decline in growth over time due to market saturation, competitive pressures, and scalability limits. This tool models this decay using exponential functions to transition from an initial growth rate to a terminal growth rate.
+The Free Cash Flow for Free metric measures how quickly the net present value of a company's projected free cash flows can potentially cover the difference between its market cap and net current assets. This metric provides insight into the time it takes for an investment to generate enough free cash flow to cover the premium paid over the company's net current assets, indicating the safety and comparative value of the investment. See detailed documentation [`FreeCashFlowForFreeExplanation.md`](documentation/FreeCashFlowForFreeExplanation.md)
 
-### 4. **Discount Rate**
+### 4. **Growth Rate Decay**
+
+High-growth companies typically experience a decline in growth over time due to market saturation, competitive pressures, and scalability limits. This tool models this decay using exponential functions to transition from an initial growth rate to a terminal growth rate. See detailed documentation [`GrowthRateDecayExplanation.md`](documentation/GrowthRateDecayExplanation.md)
+
+### 5. **Discount Rate**
 
 The discount rate reflects the required rate of return for an investor, accounting for risk and the time value of money. It is used to calculate the present value of future cash flows.
 
-### 5. **Terminal Growth Rate**
+### 6. **Terminal Growth Rate**
 
 This rate represents the sustainable long-term growth a company can achieve. It is usually aligned with GDP growth or inflation, ensuring the valuation remains grounded in economic reality.
 
-### 6. **Margin of Safety**
+### 7. **Margin of Safety**
 
 A margin of safety reduces the intrinsic value estimate to account for uncertainties in assumptions, ensuring a conservative investment decision.
 
-### 7. **Payback Time**
+### 8. **Payback Time**
 
 Payback time is the period it takes for an investment to generate an amount of cash flow or profits equivalent to the initial investment amount.
+
+### 9. **Half Life**
+
+The Half Life metric measures the time it takes for an investment to become twice as cheap based on its growth trajectory. This metric provides insight into the growth potential of an investment relative to its current price. Companies with a shorter half life are considered to have higher growth potential. See detailed documentation [`HalfLifeExplanation.md`](documentation/HalfLifeExplanation.md)
 
 ---
 
