@@ -35,7 +35,6 @@ export class HalfLifeCalculator {
     // Calculate the half-life
     for (let year = 0; year < data.yearByYearProjections.length; year++) {
       const projectedValue = accessor(data.yearByYearProjections[year]);
-      console.log(projectedValue && sharePrice / projectedValue);
       if (
         projectedValue !== undefined &&
         sharePrice / projectedValue <= initialRatio / 2

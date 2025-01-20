@@ -1,6 +1,6 @@
 import React from 'react';
 import { ProjectionData } from '../types';
-import { HalfLifeCalculator } from '../../../utils/valuations/halflife/halflife';
+import { HalfLifeCalculator } from '../../../utils/valuations/half-life/half-life';
 
 interface HalfLifeProps {
   data: ProjectionData;

@@ -6,7 +6,7 @@ import { ProjectionData } from '../types';
 import ProjectionChartAndTable from '../ProjectionChartAndTable';
 import FinancialRatios from '../financial-ratios/FinancialRatios';
 import InvestmentGrowth from '../investment-growth/InvestmentGrowth';
-import HalfLife from '../halflife/HalfLife';
+import HalfLife from '../half-life/HalfLife';
 
 export default function EPSCalculator() {
   const [result, setResult] = useState<ProjectionData | null>(null);
