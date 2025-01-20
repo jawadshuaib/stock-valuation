@@ -10,7 +10,7 @@ interface InvestmentGrowthProps {
 export default function InvestmentGrowth({ data }: InvestmentGrowthProps) {
   // State to hold the initial investment amount
   const [initialInvestment, setInitialInvestment] = useState(10000);
-  const initialGrowthRate = data.inputs.initialGrowthRate;
+
   // Variable to hold the final investment value after projections
   let finalInvestment = initialInvestment;
 
@@ -36,7 +36,7 @@ export default function InvestmentGrowth({ data }: InvestmentGrowthProps) {
           onChange={handleInputChange}
           className="h-8 w-24 rounded border border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700"
         />{' '}
-        at a growth rate of {initialGrowthRate} will have compounded to{' '}
+        at this growth projection will have compounded to{' '}
         <span className="font-bold">
           ${Number(finalInvestment.toFixed(2)).toLocaleString()}
         </span>{' '}
