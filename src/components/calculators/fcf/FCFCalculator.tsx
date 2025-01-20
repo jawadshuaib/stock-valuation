@@ -7,6 +7,7 @@ import ProjectionChartAndTable from '../ProjectionChartAndTable';
 import PaybackTime from '../payback-time/PaybackTime';
 import FinancialRatios from '../financial-ratios/FinancialRatios';
 import GPT from './GPT';
+import InvestmentGrowth from '../investment-growth/InvestmentGrowth';
 
 export default function FCFCalculator() {
   const [result, setResult] = useState<ProjectionData | null>(null);
@@ -46,6 +47,7 @@ export default function FCFCalculator() {
           <FinancialRatios data={result} />
           <ProjectionChartAndTable data={result} />
           <PaybackTime data={result} />
+          <InvestmentGrowth data={result} />
           {/* <OwnerEarningsYieldComponent data={result} /> */}
         </>
       )}
