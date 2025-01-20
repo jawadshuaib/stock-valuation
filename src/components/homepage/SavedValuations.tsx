@@ -13,6 +13,32 @@ const SavedValuations: React.FC = () => {
   const [valuationToRemove, setValuationToRemove] = useState<string | null>(
     null,
   );
+  const examples = [
+    {
+      name: 'Example Valuation using Earnings Per Share',
+      data: {
+        eps: 25.5,
+        sharePrice: 390,
+        growthRate: 17,
+        terminalGrowthRate: 3,
+        discountRate: 12,
+        marginOfSafety: 20,
+      },
+    },
+    {
+      name: 'Example Valuation using Free Cash Flow',
+      data: {
+        fcf: 561816330,
+        sharePrice: 390,
+        growthRate: 15,
+        terminalGrowthRate: 3,
+        discountRate: 12,
+        marginOfSafety: 20,
+        projectionYears: 10,
+        outstandingShares: 20000000,
+      },
+    },
+  ];
 
   // Load saved valuations from localStorage when the component mounts
   useEffect(() => {
@@ -76,15 +102,15 @@ const SavedValuations: React.FC = () => {
     }
   };
 
-  if (savedValuations.length === 0) return null;
+  // if (savedValuations.length === 0) return null;
 
   return (
     <section className="mt-8">
       <h3 className="text-xl font-semibold text-gray-800 mb-4">
-        Saved Valuations
+        {savedValuations.length > 0 ? 'Saved Valuations' : 'Example Valuations'}
       </h3>
       <div className="space-y-4">
-        {savedValuations.length > 0 &&
+        {savedValuations.length > 0 ? (
           savedValuations.map((valuation, index) => (
             <div
               key={index}
@@ -110,7 +136,28 @@ const SavedValuations: React.FC = () => {
                 </button>
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <>
+            {examples.map((example, index) => (
+              <div
+                key={index}
+                className="p-4 bg-white rounded-lg border border-gray-100"
+              >
+                <div className="flex justify-between items-center">
+                  <h4 className="font-medium text-slate-600">
+                    <a
+                      href={constructUrlWithParams(example.name, example.data)}
+                      className="text-blue-500 hover:underline"
+                    >
+                      {example.name}
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       <Modal show={showModal} onClose={() => setShowModal(false)}>
