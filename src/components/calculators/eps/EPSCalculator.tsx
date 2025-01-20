@@ -5,7 +5,7 @@ import ErrorMessage from '../../ui/ErrorMessage';
 import { ProjectionData } from '../types';
 import ProjectionChartAndTable from '../ProjectionChartAndTable';
 import FinancialRatios from '../financial-ratios/FinancialRatios';
-import TimeToOne from '../time-to-one/TimeToOne';
+import InvestmentGrowth from '../investment-growth/InvestmentGrowth';
 
 export default function EPSCalculator() {
   const [result, setResult] = useState<ProjectionData | null>(null);
@@ -42,7 +42,7 @@ export default function EPSCalculator() {
           <ValuationResults valuation={result.valuation} />
           <FinancialRatios data={result} />
           <ProjectionChartAndTable data={result} />
-          <TimeToOne data={result} />
+          <InvestmentGrowth data={result} />
         </>
       )}
       {error && <ErrorMessage message={error} />}
