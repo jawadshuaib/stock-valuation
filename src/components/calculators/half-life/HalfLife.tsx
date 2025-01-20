@@ -27,8 +27,8 @@ export default function HalfLife({ data }: HalfLifeProps) {
         The Half Life valuation technique estimates the time it will take for
         the company&apos;s {metric} to reduce to half of its current value. This
         measure helps investors understand the rate at which a company&apos;s
-        valuation metrics are improving, providing insight into the
-        company&apos;s future performance.
+        valuation is improving, providing insight into the company&apos;s future
+        performance.
       </p>
       <p className="text-lg">
         Companies with a half life of less than 10 years are considered to have
