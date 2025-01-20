@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import AppRoutes from './AppRoutes'; // Import the Routes component
 import Footer from './components/footer/Footer';
@@ -10,6 +10,7 @@ const APP_NAME = 'Stock Valuation Calculator';
 
 function App() {
   const location = useLocation();
+  const [header, setHeader] = useState<string | null>(null);
 
   useEffect(() => {
     // Extract the 'name' parameter from the URL
@@ -19,6 +20,7 @@ function App() {
     // Update the document title based on the 'name' parameter
     if (name) {
       document.title = `${name} | ${APP_NAME}`;
+      setHeader(name);
     } else {
       document.title = APP_NAME;
     }
@@ -27,7 +29,7 @@ function App() {
   return (
     <div className="App mt-6 max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg">
       <BackButton />
-      <Header />
+      <Header title={header} />
       {/* Render the Routes component */}
       <AppRoutes />
     </div>
