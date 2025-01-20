@@ -18,14 +18,29 @@ export class HalfLifeCalculator {
   ): number {
     // Ensure there's at least one projection and sharePrice is valid
     if (!data?.yearByYearProjections?.length) return -1;
-    const { sharePrice } = data.inputs;
+    const { sharePrice, initialEPS, initialFCF } = data.inputs;
     if (sharePrice <= 0) return -1;
+
+    let initialRatio;
+    if (data.method === 'eps') {
+      if (initialEPS === undefined || initialEPS <= 0) return -1;
+      initialRatio = sharePrice / initialEPS;
+    } else if (data.method === 'fcf') {
+      if (initialFCF === undefined || initialFCF <= 0) return -1;
+      initialRatio = sharePrice / initialFCF;
+    } else {
+      return -1;
+    }
 
     // Calculate the half-life
     for (let year = 0; year < data.yearByYearProjections.length; year++) {
       const projectedValue = accessor(data.yearByYearProjections[year]);
-      if (projectedValue !== undefined && projectedValue <= sharePrice / 2) {
-        return year;
+      console.log(projectedValue && sharePrice / projectedValue);
+      if (
+        projectedValue !== undefined &&
+        sharePrice / projectedValue <= initialRatio / 2
+      ) {
+        return year + 1; // Adding 1 to convert index to year
       }
     }
     return -1;
