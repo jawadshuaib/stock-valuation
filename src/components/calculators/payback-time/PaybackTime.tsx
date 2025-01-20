@@ -69,7 +69,7 @@ const PaybackTime: React.FC<PaybackTimeProps> = ({ data }) => {
 
   return (
     <section className="mt-8 p-6 bg-white rounded-lg border border-blue-100 shadow-sm">
-      <h2 className="text-2xl font-semibold mb-4">Payback Time Calculation</h2>
+      <h2 className="text-2xl font-semibold mb-4">Payback Time</h2>
       <p className="text-lg mb-4">
         Payback time is the period it takes for an investment to generate an
         amount of cash flow sufficient to recover our initial investment.

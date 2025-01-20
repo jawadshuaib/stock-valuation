@@ -6,9 +6,10 @@ import { ProjectionData } from '../types';
 import ProjectionChartAndTable from '../ProjectionChartAndTable';
 import PaybackTime from '../payback-time/PaybackTime';
 import FinancialRatios from '../financial-ratios/FinancialRatios';
-import GPT from './GPT';
+import GPT from '../../ui/GPT';
 import InvestmentGrowth from '../investment-growth/InvestmentGrowth';
 import HalfLife from '../half-life/HalfLife';
+import FCFForFree from '../fcf-for-free/FCFForFree';
 
 export default function FCFCalculator() {
   const [result, setResult] = useState<ProjectionData | null>(null);
@@ -37,7 +38,7 @@ export default function FCFCalculator() {
         might grow over time, while accounting for the natural slowdown in
         growth that most companies experience as they mature.
       </p>
-      <GPT />
+      <GPT>Not sure how to calculate the free cash flow? Use this GPT.</GPT>
       <FCFFinancialInputsForm
         valuateFn={valuateFn}
         valuationErrorFn={valuationErrorFn}
@@ -48,6 +49,7 @@ export default function FCFCalculator() {
           <FinancialRatios data={result} />
           <ProjectionChartAndTable data={result} />
           <PaybackTime data={result} />
+          <FCFForFree data={result} />
           <HalfLife data={result} />
           <InvestmentGrowth data={result} />
           {/* <OwnerEarningsYieldComponent data={result} /> */}

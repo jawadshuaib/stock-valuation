@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function GPT() {
+export default function GPT({ children }: { children?: React.ReactNode }) {
   return (
     <section className="mb-4">
       <a
@@ -9,7 +9,7 @@ export default function GPT() {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Not sure how to calculate the free cash flow? Use this GPT.
+        {children || 'Use this custom GPT for financial analysis'}
       </a>
     </section>
   );
