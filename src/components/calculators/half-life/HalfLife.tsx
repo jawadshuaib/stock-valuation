@@ -33,11 +33,15 @@ export default function HalfLife({ data }: HalfLifeProps) {
         The Half Life valuation technique estimates the time it will take for
         the investment to become twice as cheap.
       </p>
-      <p className="text-lg">
+      <p className="text-lg mb-4">
         Companies with a half life of less than 10 years are considered to have
         high growth potential relative to price. Overtime, we expect the market
-        to realize the company&apos;s true worth. This investment has a half
-        life of {halfLife} years, which is excellent! ✅
+        to realize the company&apos;s true worth.{' '}
+      </p>
+      <p className="bg-yellow-200 p-1 rounded">
+        This investment has a half life of{' '}
+        <span className="font-bold">{halfLife} years</span>, which is excellent!
+        ✅
       </p>
     </section>
   );
