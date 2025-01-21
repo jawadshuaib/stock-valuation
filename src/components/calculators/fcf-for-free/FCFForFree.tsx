@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
-import { ProjectionData } from '../types';
+import React, { useContext, useState } from 'react';
 import { EMOJIS } from '../../ui/emojis';
 import FCFIntrinsicValueCalculator from '../../../utils/valuations/fcf/FCFIntrinsicValueCalculator';
 import { Button } from 'flowbite-react';
 import NetCurrentAssetsModal from './NetCurrentAssetsModal';
 import FCFForFreeCalculator from '../../../utils/valuations/fcf-for-free/fcf-for-free';
-
-interface FCFForFreeProps {
-  data: ProjectionData;
-}
-
+import { InvestmentContext } from '../InvestmentContext';
 /**
  * FCFForFree Component
  *
@@ -17,10 +12,13 @@ interface FCFForFreeProps {
  * to equal the Market Cap minus the Net Current Assets (NCAV) of an investment.
  * It essentially calculates the company's ability to generate future cash flow for free.
  *
- * @param {ProjectionData} data - The projection data containing financial inputs and projections.
  * @returns {JSX.Element | null} - The rendered component or null if the premium or cash flows are invalid.
  */
-export default function FCFForFree({ data }: FCFForFreeProps) {
+export default function FCFForFree() {
+  const data = useContext(InvestmentContext);
+
+  if (!data) return null;
+
   const prefilledMarketCap =
     data.inputs.sharePrice * (data.inputs.outstandingShares ?? 0);
   const [showModal, setShowModal] = useState(false);

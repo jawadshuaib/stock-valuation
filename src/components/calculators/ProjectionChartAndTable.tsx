@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -21,7 +21,7 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
-import { ProjectionData } from './types';
+import { InvestmentContext } from './InvestmentContext';
 
 // Register Chart.js components
 ChartJS.register(
@@ -47,11 +47,15 @@ export const METHODS = {
   },
 };
 
-interface ProjectionChartAndTableProps {
-  data: ProjectionData;
-}
+// interface ProjectionChartAndTableProps {
+//   // data: ProjectionData;
+// }
 
-const ProjectionChartAndTable = ({ data }: ProjectionChartAndTableProps) => {
+const ProjectionChartAndTable = () => {
+  const data = useContext(InvestmentContext);
+
+  if (!data) return null;
+
   const { yearByYearProjections, terminalValueAnalysis, valuation } = data;
   const label =
     data.method === METHODS.FCF.abv ? METHODS.FCF.label : METHODS.EPS.label;

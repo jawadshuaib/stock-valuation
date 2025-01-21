@@ -1,15 +1,19 @@
 // components/PaybackTime.tsx
 
-import React from 'react';
+import React, { useContext } from 'react';
 import PaybackTimeCalculator from '../../../utils/valuations/payback-time/payback-time';
-import { ProjectionData } from '../types';
 import { EMOJIS } from '../../ui/emojis';
+import { InvestmentContext } from '../InvestmentContext';
 
 interface PaybackTimeProps {
-  data: ProjectionData;
+  // data: ProjectionData;
 }
 
-const PaybackTime: React.FC<PaybackTimeProps> = ({ data }) => {
+const PaybackTime: React.FC<PaybackTimeProps> = () => {
+  const data = useContext(InvestmentContext);
+
+  if (!data) return null;
+
   // Extract the initial investment - which for FCF would require us to multiply with the outstanding shares
   const initialInvestment = data.inputs.outstandingShares
     ? data.inputs.sharePrice * data.inputs.outstandingShares

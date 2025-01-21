@@ -1,12 +1,12 @@
-import React from 'react';
-import { ProjectionData } from '../types';
+import React, { useContext } from 'react';
 import { HalfLifeCalculator } from '../../../utils/valuations/half-life/half-life';
+import { InvestmentContext } from '../InvestmentContext';
 
-interface HalfLifeProps {
-  data: ProjectionData;
-}
+export default function HalfLife() {
+  const data = useContext(InvestmentContext);
 
-export default function HalfLife({ data }: HalfLifeProps) {
+  if (!data) return null;
+
   const halfLife = HalfLifeCalculator.calculateHalfLife(
     data,
     (projection) => projection[data.method],

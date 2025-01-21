@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import { ProjectionData } from '../types';
+import React, { useContext, useState } from 'react';
+import { InvestmentContext } from '../InvestmentContext';
 
-const InvestmentGrowth = ({ data }: { data: ProjectionData }) => {
+const InvestmentGrowth = () => {
+  const data = useContext(InvestmentContext);
+
+  if (!data) return null;
+
   const [initialInvestment, setInitialInvestment] = useState(10000);
   const initialGrowthRate =
     Number(data.inputs.initialGrowthRate) > 10

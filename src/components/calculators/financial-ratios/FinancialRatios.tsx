@@ -1,9 +1,9 @@
-import React from 'react';
-import { ProjectionData } from '../types';
+import React, { useContext } from 'react';
 import { FinancialRatiosCalculator } from '../../../utils/valuations/financial-ratios/financial-ratios';
+import { InvestmentContext } from '../InvestmentContext';
 
 interface FinancialRatiosProps {
-  data: ProjectionData;
+  // data: ProjectionData;
 }
 
 const Emoji: React.FC<{ value: number }> = ({ value }) => {
@@ -14,7 +14,11 @@ const Emoji: React.FC<{ value: number }> = ({ value }) => {
   return <span className="pl-2">🟡</span>;
 };
 
-const FinancialRatios: React.FC<FinancialRatiosProps> = ({ data }) => {
+const FinancialRatios: React.FC<FinancialRatiosProps> = () => {
+  const data = useContext(InvestmentContext);
+
+  if (!data) return null;
+
   const ratios = new FinancialRatiosCalculator(data);
 
   const priceToFCF = ratios.getPriceToFCFRatio();

@@ -1,8 +1,12 @@
-import React from 'react';
-import { ProjectionData } from '../types';
+import React, { useContext } from 'react';
 import OwnerEarningsYieldCalculator from '../../../utils/valuations/owner-earnings/owner-earnings';
+import { InvestmentContext } from '../InvestmentContext';
 
-const OwnerEarningsYield: React.FC<{ data: ProjectionData }> = ({ data }) => {
+const OwnerEarningsYield: React.FC = () => {
+  const data = useContext(InvestmentContext);
+
+  if (!data) return null;
+
   const ownerEarningsYield = new OwnerEarningsYieldCalculator(data);
   const yieldResult = ownerEarningsYield.calculateYield();
   const discountRate = parseFloat(data.inputs.discountRate);

@@ -3,10 +3,7 @@ import FinancialInputsForm from './EPSFinancialInputsForm';
 import ValuationResults from '../ValuationResults';
 import ErrorMessage from '../../ui/ErrorMessage';
 import { ProjectionData } from '../types';
-import ProjectionChartAndTable from '../ProjectionChartAndTable';
-import FinancialRatios from '../financial-ratios/FinancialRatios';
-import InvestmentGrowth from '../investment-growth/InvestmentGrowth';
-import HalfLife from '../half-life/HalfLife';
+import Investment from '../InvestmentContext';
 
 export default function EPSCalculator() {
   const [result, setResult] = useState<ProjectionData | null>(null);
@@ -38,14 +35,14 @@ export default function EPSCalculator() {
         valuateFn={valuateFn}
         valuationErrorFn={valuationErrorFn}
       />
+      {result && <ValuationResults valuation={result.valuation} />}
       {result && (
-        <>
-          <ValuationResults valuation={result.valuation} />
-          <FinancialRatios data={result} />
-          <ProjectionChartAndTable data={result} />
-          <HalfLife data={result} />
-          <InvestmentGrowth data={result} />
-        </>
+        <Investment data={result}>
+          <Investment.Ratios />
+          <Investment.ProjectionChartAndTable />
+          <Investment.HalfLife />
+          <Investment.Growth />
+        </Investment>
       )}
       {error && <ErrorMessage message={error} />}
     </section>

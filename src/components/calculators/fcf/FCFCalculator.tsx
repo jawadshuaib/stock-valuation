@@ -3,13 +3,8 @@ import FCFFinancialInputsForm from './FCFFinancialInputsForm';
 import ValuationResults from '../ValuationResults';
 import ErrorMessage from '../../ui/ErrorMessage';
 import { ProjectionData } from '../types';
-import ProjectionChartAndTable from '../ProjectionChartAndTable';
-import PaybackTime from '../payback-time/PaybackTime';
-import FinancialRatios from '../financial-ratios/FinancialRatios';
 import GPT from '../../ui/GPT';
-import InvestmentGrowth from '../investment-growth/InvestmentGrowth';
-import HalfLife from '../half-life/HalfLife';
-import FCFForFree from '../fcf-for-free/FCFForFree';
+import Investment from '../InvestmentContext';
 
 export default function FCFCalculator() {
   const [result, setResult] = useState<ProjectionData | null>(null);
@@ -43,17 +38,17 @@ export default function FCFCalculator() {
         valuateFn={valuateFn}
         valuationErrorFn={valuationErrorFn}
       />
+      {result && <ValuationResults valuation={result.valuation} />}
       {result && (
-        <>
-          <ValuationResults valuation={result.valuation} />
-          <FinancialRatios data={result} />
-          <ProjectionChartAndTable data={result} />
-          <PaybackTime data={result} />
-          <FCFForFree data={result} />
-          <HalfLife data={result} />
-          <InvestmentGrowth data={result} />
-          {/* <OwnerEarningsYieldComponent data={result} /> */}
-        </>
+        <Investment data={result}>
+          <Investment.Ratios />
+          <Investment.ProjectionChartAndTable />
+          <Investment.PaybackTime />
+          <Investment.FCFForFree />
+          <Investment.HalfLife />
+          <Investment.Growth />
+          {/* <OwnerEarningsYieldComponent /> */}
+        </Investment>
       )}
       {error && <ErrorMessage message={error} />}
     </section>
