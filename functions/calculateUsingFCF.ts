@@ -1,6 +1,7 @@
 import { ValidationError } from '../src/utils/valuations';
 import { FCFIntrinsicValueCalculator } from '../src/utils/valuations/fcf';
 import { Handler } from '@netlify/functions';
+import { ProjectionData } from '../src/components/calculators/types';
 
 interface QueryParams {
   sharePrice: string;
@@ -22,34 +23,7 @@ export const handler: Handler = async (event) => {
       };
     }
 
-    // Parse query parameters
-    const sharePrice = parseFloat(params.sharePrice);
-    const fcf = parseFloat(params.fcf);
-    const growthRate = parseFloat(params.growthRate) / 100;
-    const terminalGrowthRate = parseFloat(params.terminalGrowthRate) / 100;
-    const discountRate = parseFloat(params.discountRate) / 100;
-    const marginOfSafety = parseFloat(params.marginOfSafety) / 100;
-    const outstandingShares = parseFloat(params.outstandingShares);
-
-    // Validate required parameters
-    if (
-      isNaN(sharePrice) ||
-      isNaN(fcf) ||
-      isNaN(growthRate) ||
-      isNaN(terminalGrowthRate) ||
-      isNaN(discountRate) ||
-      isNaN(marginOfSafety) ||
-      isNaN(outstandingShares)
-    ) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Invalid query parameters' }),
-      };
-    }
-
-    // Perform FCF calculation
-    const calculator = new FCFIntrinsicValueCalculator({
-      method: 'fcf',
+    const {
       sharePrice,
       fcf,
       growthRate,
@@ -57,17 +31,39 @@ export const handler: Handler = async (event) => {
       discountRate,
       marginOfSafety,
       outstandingShares,
+    } = params;
+
+    if (
+      isNaN(Number(sharePrice)) ||
+      isNaN(Number(fcf)) ||
+      isNaN(Number(growthRate)) ||
+      isNaN(Number(terminalGrowthRate)) ||
+      isNaN(Number(discountRate)) ||
+      isNaN(Number(marginOfSafety)) ||
+      isNaN(Number(outstandingShares))
+    ) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Invalid query parameters' }),
+      };
+    }
+
+    const calculator = new FCFIntrinsicValueCalculator({
+      method: 'fcf',
+      sharePrice: Number(sharePrice),
+      fcf: Number(fcf),
+      growthRate: Number(growthRate),
+      terminalGrowthRate: Number(terminalGrowthRate),
+      discountRate: Number(discountRate),
+      marginOfSafety: Number(marginOfSafety),
+      outstandingShares: Number(outstandingShares),
     });
 
-    const result = calculator.calculate();
+    const result: ProjectionData = calculator.calculate();
 
-    // Return the result as JSON
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        intrinsic_value: result.valuation.intrinsicValue,
-        margin_of_safety_price: result.valuation.marginOfSafetyPrice,
-      }),
+      body: JSON.stringify(result),
     };
   } catch (error) {
     let errorMessage = 'Calculation error';
@@ -78,6 +74,7 @@ export const handler: Handler = async (event) => {
     } else if (error instanceof Error) {
       errorMessage = `Calculation error: ${error.message}`;
     }
+
     return {
       statusCode: 500,
       body: JSON.stringify({ error: errorMessage }),

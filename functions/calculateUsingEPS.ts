@@ -1,6 +1,7 @@
 import { ValidationError } from '../src/utils/valuations';
 import { EPSIntrinsicValueCalculator } from '../src/utils/valuations/eps';
 import { Handler } from '@netlify/functions';
+import { ProjectionData } from '../src/components/calculators/types';
 
 interface QueryParams {
   sharePrice: string;
@@ -21,22 +22,22 @@ export const handler: Handler = async (event) => {
       };
     }
 
-    // Parse query parameters
-    const sharePrice = parseFloat(params.sharePrice);
-    const eps = parseFloat(params.eps);
-    const growthRate = parseFloat(params.growthRate) / 100;
-    const terminalGrowthRate = parseFloat(params.terminalGrowthRate) / 100;
-    const discountRate = parseFloat(params.discountRate) / 100;
-    const marginOfSafety = parseFloat(params.marginOfSafety) / 100;
+    const {
+      sharePrice,
+      eps,
+      growthRate,
+      terminalGrowthRate,
+      discountRate,
+      marginOfSafety,
+    } = params;
 
-    // Validate required parameters
     if (
-      isNaN(sharePrice) ||
-      isNaN(eps) ||
-      isNaN(growthRate) ||
-      isNaN(terminalGrowthRate) ||
-      isNaN(discountRate) ||
-      isNaN(marginOfSafety)
+      isNaN(Number(sharePrice)) ||
+      isNaN(Number(eps)) ||
+      isNaN(Number(growthRate)) ||
+      isNaN(Number(terminalGrowthRate)) ||
+      isNaN(Number(discountRate)) ||
+      isNaN(Number(marginOfSafety))
     ) {
       return {
         statusCode: 400,
@@ -44,26 +45,21 @@ export const handler: Handler = async (event) => {
       };
     }
 
-    // Perform EPS calculation
     const calculator = new EPSIntrinsicValueCalculator({
       method: 'eps',
-      sharePrice,
-      eps,
-      growthRate,
-      terminalGrowthRate,
-      discountRate,
-      marginOfSafety,
+      sharePrice: Number(sharePrice),
+      eps: Number(eps),
+      growthRate: Number(growthRate),
+      terminalGrowthRate: Number(terminalGrowthRate),
+      discountRate: Number(discountRate),
+      marginOfSafety: Number(marginOfSafety),
     });
 
-    const result = calculator.calculate();
+    const result: ProjectionData = calculator.calculate();
 
-    // Return the result as JSON
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        intrinsic_value: result.valuation.intrinsicValue,
-        margin_of_safety_price: result.valuation.marginOfSafetyPrice,
-      }),
+      body: JSON.stringify(result),
     };
   } catch (error) {
     let errorMessage = 'Calculation error';
@@ -74,6 +70,7 @@ export const handler: Handler = async (event) => {
     } else if (error instanceof Error) {
       errorMessage = `Calculation error: ${error.message}`;
     }
+
     return {
       statusCode: 500,
       body: JSON.stringify({ error: errorMessage }),
