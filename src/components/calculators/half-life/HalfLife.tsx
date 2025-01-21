@@ -34,9 +34,9 @@ export default function HalfLife() {
         the investment to become twice as cheap.
       </p>
       <p className="text-lg mb-4">
-        Companies with a half life of less than 10 years are considered to have
-        high growth potential relative to price. Overtime, we expect the market
-        to realize the company&apos;s true worth.{' '}
+        Companies with a low half life are more likely to be discovered by the
+        market. Overtime, we expect the market to realize the company&apos;s
+        true worth.{' '}
       </p>
       <p className="bg-yellow-200 p-1 rounded">
         This investment has a half life of{' '}
