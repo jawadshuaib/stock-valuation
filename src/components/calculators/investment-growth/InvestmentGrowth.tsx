@@ -7,10 +7,11 @@ const InvestmentGrowth = () => {
   if (!data) return null;
 
   const [initialInvestment, setInitialInvestment] = useState(10000);
+  const MINUMUM_GROWTH_RATE = 10;
   const initialGrowthRate =
-    Number(data.inputs.initialGrowthRate) > 10
-      ? Number(data.inputs.initialGrowthRate)
-      : 10;
+    Number(data.inputs.discountRate) > MINUMUM_GROWTH_RATE
+      ? Number(data.inputs.discountRate)
+      : MINUMUM_GROWTH_RATE;
   const [growthRate, setGrowthRate] = useState(initialGrowthRate);
   let finalInvestment = initialInvestment;
 
