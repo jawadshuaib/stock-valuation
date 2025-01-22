@@ -46,6 +46,7 @@ export default function FCFCalculator() {
           <Investment.PaybackTime />
           <Investment.FCFForFree />
           <Investment.HalfLife />
+          <Investment.MonteCarlo />
           <Investment.Growth />
           {/* <OwnerEarningsYieldComponent /> */}
         </Investment>

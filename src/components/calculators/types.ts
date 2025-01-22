@@ -4,11 +4,12 @@ export interface ProjectionData {
     sharePrice: number;
     initialFCF?: number;
     initialEPS?: number;
-    initialGrowthRate: string;
-    terminalGrowthRate: string;
-    discountRate: string;
+    initialGrowthRate: number;
+    terminalGrowthRate: number;
+    discountRate: number;
     projectionYears: number;
     outstandingShares?: number;
+    marginOfSafety: number;
   };
   yearByYearProjections: {
     year: number;
