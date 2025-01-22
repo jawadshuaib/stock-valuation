@@ -35,14 +35,20 @@ export default function EPSCalculator() {
         valuateFn={valuateFn}
         valuationErrorFn={valuationErrorFn}
       />
-      {result && <ValuationResults valuation={result.valuation} />}
+
       {result && (
-        <Investment data={result}>
-          <Investment.Ratios />
-          <Investment.ProjectionChartAndTable />
-          <Investment.HalfLife />
-          <Investment.Growth />
-        </Investment>
+        <>
+          <ValuationResults
+            valuation={result.valuation}
+            selection="deterministic"
+          />
+          <Investment data={result}>
+            <Investment.Ratios />
+            <Investment.ProjectionChartAndTable />
+            <Investment.HalfLife />
+            <Investment.Growth />
+          </Investment>
+        </>
       )}
       {error && <ErrorMessage message={error} />}
     </section>

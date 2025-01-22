@@ -215,19 +215,6 @@ class FCFIntrinsicValueCalculator {
       outstandingShares: this.params.outstandingShares, // Include outstanding shares in the formatted inputs.
       marginOfSafety: this.params.marginOfSafety * 100,
     };
-    // formatInputs() {
-    //   return {
-    //     sharePrice: this.params.sharePrice,
-    //     initialFCF: this.params.fcf,
-    //     initialGrowthRate: `${(this.params.growthRate * 100).toFixed(1)}%`,
-    //     terminalGrowthRate: `${(this.params.terminalGrowthRate * 100).toFixed(
-    //       1,
-    //     )}%`,
-    //     discountRate: `${(this.params.discountRate * 100).toFixed(1)}%`,
-    //     projectionYears: this.params.projectionYears,
-    //     outstandingShares: this.params.outstandingShares, // Include outstanding shares in the formatted inputs.
-    //     marginOfSafety: `${(this.params.marginOfSafety * 100).toFixed(1)}%`,
-    //   };
   }
 }
 

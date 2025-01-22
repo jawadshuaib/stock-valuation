@@ -38,18 +38,23 @@ export default function FCFCalculator() {
         valuateFn={valuateFn}
         valuationErrorFn={valuationErrorFn}
       />
-      {result && <ValuationResults valuation={result.valuation} />}
       {result && (
-        <Investment data={result}>
-          <Investment.Ratios />
-          <Investment.ProjectionChartAndTable />
-          <Investment.PaybackTime />
-          <Investment.FCFForFree />
-          <Investment.HalfLife />
-          <Investment.MonteCarlo />
-          <Investment.Growth />
-          {/* <OwnerEarningsYieldComponent /> */}
-        </Investment>
+        <>
+          <ValuationResults
+            valuation={result.valuation}
+            selection="deterministic"
+          />
+          <Investment data={result}>
+            <Investment.Ratios />
+            <Investment.ProjectionChartAndTable />
+            <Investment.PaybackTime />
+            <Investment.FCFForFree />
+            <Investment.HalfLife />
+            <Investment.MonteCarlo />
+            <Investment.Growth />
+            {/* <OwnerEarningsYieldComponent /> */}
+          </Investment>
+        </>
       )}
       {error && <ErrorMessage message={error} />}
     </section>

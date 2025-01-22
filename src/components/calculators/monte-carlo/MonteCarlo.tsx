@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
-import MonteCarloFCFIntrinsicValueCalculator from '../../../utils/valuations/monte-carlo/monte-carlo';
+import MonteCarloFCFIntrinsicValueCalculator from '../../../utils/valuations/monte-carlo/MonteCarloFCFIntrinsicValueCalculator';
 import { InvestmentContext } from '../InvestmentContext';
+import { ValuationData } from '../types';
+import ValuationResults from '../ValuationResults';
 
 export default function MonteCarlo() {
   const data = useContext(InvestmentContext);
@@ -19,8 +21,7 @@ export default function MonteCarlo() {
     outstandingShares: data.inputs.outstandingShares ?? 0,
   } as const;
 
-  console.log(params);
-  const numSimulations = 1;
+  const numSimulations = 10000;
 
   const monteCarloCalculator = new MonteCarloFCFIntrinsicValueCalculator(
     params,
@@ -32,5 +33,9 @@ export default function MonteCarlo() {
 
   if (Number.isNaN(monteCarloResult.median)) return null;
 
-  return <div>{monteCarloResult.median}</div>;
+  const valuation: ValuationData = {
+    intrinsicValue: monteCarloResult.median,
+    marginOfSafetyPrice: monteCarloResult.median * (1 - params.marginOfSafety),
+  };
+  return <ValuationResults valuation={valuation} selection="montecarlo" />;
 }
