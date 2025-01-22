@@ -8,8 +8,8 @@ Live example: https://stock-valuation.netlify.app/
 
 ## Key Features
 
-- **Monte Carlo Simulations**: Incorporates Monte Carlo simulations to estimate the intrinsic value of a stock by accounting for uncertainty and variability in key financial parameters. This provides a more robust and comprehensive valuation.
-- **Growth Rate Modeling**: Simulates growth rate decay over time, transitioning from high initial growth to a sustainable terminal growth rate. This is quite sophisticated so I have provided more explanation in the [Growth Rate Decay Explanation](./documentation/GrowthRateDecayExplanation.md) section.
+- **Monte Carlo Simulations**: Incorporates Monte Carlo simulations to estimate the intrinsic value of a stock by accounting for uncertainty and variability in key financial parameters.
+- **Growth Rate Modeling**: Simulates growth rate decay over time, transitioning gracefully from high initial growth to a sustainable terminal growth rate.
 - **Discounted Cash Flow Analysis**: Computes the intrinsic value of a stock by discounting projected earnings or free cash flows to their present value.
 - **Validation Layer**: Ensures input parameters are realistic and consistent with economic principles.
 - **Configurable Parameters**: Allows users to adjust settings like projection years, margin of safety, and growth thresholds.
@@ -28,9 +28,11 @@ FCF is a measure of a company's financial performance, calculated as operating c
 
 ### 3. **Monte Carlo Simulations**
 
-Monte Carlo simulations are a powerful statistical technique used to model the probability of different outcomes in a process that cannot easily be predicted due to the intervention of random variables. This method is particularly useful in financial modeling and risk assessment.
+Most DCF calculators use deterministic equations for valuation. This leads the model to inherent bias based on the inputs.
 
-In this tool, Monte Carlo simulations are employed to estimate the intrinsic value of a stock by running thousands of simulations with varying growth rates, terminal growth rates, and discount rates. By incorporating randomness and variability into these key financial parameters, the tool provides a more comprehensive and robust valuation.
+This tool, instead, uses Monte Carlo simulations - they are a powerful statistical alternative used to model the probability of different outcomes.
+
+Monte Carlo simulations are employed to estimate the intrinsic value of a stock by running thousands of simulations with varying growth rates, terminal growth rates, and discount rates. By incorporating randomness and variability into these key financial parameters, the tool provides a more robust valuation as compared to the traditional deterministic calculators.
 
 #### How It Works
 
