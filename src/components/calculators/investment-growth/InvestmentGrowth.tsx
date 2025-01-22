@@ -52,7 +52,7 @@ const InvestmentGrowth = () => {
         with a growth rate of{' '}
         <input
           type="number"
-          value={growthRate}
+          value={growthRate.toFixed(0)}
           onChange={handleGrowthRateChange}
           className="h-8 w-16 text-center rounded border border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700"
         />{' '}
