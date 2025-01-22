@@ -23,7 +23,7 @@ const KeyValuationConcepts = () => {
       <article className="p-8 bg-gray-50 rounded-xl border border-gray-200">
         <div>
           <h3 className="text-xl font-semibold text-gray-800 mb-4">
-            Key Valuation Concepts
+            Key Valuation Concepts Used
           </h3>
           <div className="space-y-4 bg-white p-6 rounded-lg border border-gray-100">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -40,22 +40,21 @@ const KeyValuationConcepts = () => {
                 expenditures
               </Chicklet>
               <Chicklet title="Growth Rate Distribution">
-                Log-normal distribution to skew to moderate growth with
-                potential for outliers
+                Log-normal distribution skewed towards moderate growth
               </Chicklet>
               <Chicklet title="Terminal Value">
                 Company&apos;s value beyond the projection period
               </Chicklet>
               <Chicklet title="Growth Decay">
-                High{' '}
+                Natural{' '}
                 <a
                   href="https://github.com/jawadshuaib/stock-valuation/blob/main/documentation/GrowthRateDecayExplanation.md"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  growth rates naturally decline
+                  declination of growth rates
                 </a>{' '}
-                over time to a more sustainable level
+                over time to more sustainable levels
               </Chicklet>
             </div>
           </div>
