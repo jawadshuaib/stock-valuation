@@ -42,7 +42,7 @@ export default function FCFCalculator() {
         <>
           <ValuationResults
             valuation={result.valuation}
-            selection="deterministic"
+            selection="montecarlo"
           />
           <Investment data={result}>
             <Investment.Ratios />
@@ -50,7 +50,6 @@ export default function FCFCalculator() {
             <Investment.PaybackTime />
             <Investment.FCFForFree />
             <Investment.HalfLife />
-            <Investment.MonteCarlo />
             <Investment.Growth />
             {/* <OwnerEarningsYieldComponent /> */}
           </Investment>

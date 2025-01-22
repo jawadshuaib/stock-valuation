@@ -1,35 +1,24 @@
-/**
- * Monte Carlo Simulation for FCF Intrinsic Value Calculation
- *
- * This class performs a Monte Carlo simulation to estimate the intrinsic value of a stock based on Free Cash Flow (FCF).
- * Monte Carlo simulations involve running a large number of simulations with random inputs to model the uncertainty
- * and variability in the key drivers of the valuation. The results are then analyzed to provide statistical insights
- * such as mean, median, and percentiles.
- *
- * Key Steps:
- * 1. Generate random inputs for growth rate, terminal growth rate, and discount rate based on specified distributions.
- * 2. Validate the generated inputs to ensure they are within acceptable ranges.
- * 3. Run the FCF intrinsic value calculation for each set of random inputs.
- * 4. Collect and analyze the results to provide statistical insights.
- */
-
 import { randomNormal, randomLogNormal } from 'd3-random';
 import FCFIntrinsicValueCalculator from '../fcf/FCFIntrinsicValueCalculator';
+import EPSIntrinsicValueCalculator from '../eps/EPSIntrinsicValueCalculator'; // Assuming you have an EPS calculator
 import { ProjectionData } from '../../../components/calculators/types';
 import ValidationError from '../ValidationError';
 import ValuationConfig from '../ValuationConfig';
+
+export const NUMBER_OF_SIMULATIONS = 10000;
 
 // Define the parameters required for the Monte Carlo simulation
 interface MonteCarloParams {
   method: 'fcf' | 'eps';
   sharePrice: number;
-  fcf: number;
+  fcf?: number;
+  eps?: number;
   growthRate: number;
   terminalGrowthRate: number;
   discountRate: number;
-  projectionYears: number;
+  projectionYears?: number;
   marginOfSafety: number;
-  outstandingShares: number;
+  outstandingShares?: number;
 }
 
 class MonteCarloFCFIntrinsicValueCalculator {
@@ -37,7 +26,10 @@ class MonteCarloFCFIntrinsicValueCalculator {
 
   private numSimulations: number;
 
-  constructor(params: MonteCarloParams, numSimulations: number = 1000) {
+  constructor(
+    params: MonteCarloParams,
+    numSimulations = NUMBER_OF_SIMULATIONS,
+  ) {
     this.params = params;
     this.numSimulations = numSimulations;
   }
@@ -102,24 +94,83 @@ class MonteCarloFCFIntrinsicValueCalculator {
   }
 
   // Run the Monte Carlo simulations
+  /**
+   * Runs a series of Monte Carlo simulations to calculate intrinsic values based on the specified method (FCF or EPS).
+   *
+   * @returns {ProjectionData[]} An array of projection data results from the simulations.
+   *
+   * @throws {ValidationError} If required parameters for the selected method are missing.
+   *
+   * The function performs the following steps:
+   * 1. Initializes an empty array to store the results of each simulation.
+   * 2. Iterates for the number of simulations specified by `this.numSimulations`.
+   * 3. For each iteration:
+   *    - Generates random inputs for the simulation.
+   *    - Depending on the method specified in `this.params.method`, it uses either the `FCFIntrinsicValueCalculator` or `EPSIntrinsicValueCalculator` to calculate the intrinsic value.
+   *    - If the required parameters for the selected method are missing, a `ValidationError` is thrown.
+   *    - If a result is successfully calculated, it is added to the results array.
+   * 4. If a `ValidationError` occurs during a simulation, it logs a warning and continues with the next simulation.
+   * 5. After all simulations are complete, it analyzes the results and returns them.
+   */
   public runSimulations() {
     const results: ProjectionData[] = [];
 
+    // Run the specified number of simulations
     for (let i = 0; i < this.numSimulations; i++) {
       try {
         const randomInputs = this.generateRandomInputs();
-        const calculator = new FCFIntrinsicValueCalculator({
-          ...this.params,
-          growthRate: randomInputs.growthRate,
-          terminalGrowthRate: randomInputs.terminalGrowthRate,
-          discountRate: randomInputs.discountRate,
-        });
+        let result: ProjectionData | undefined;
 
-        const result = calculator.calculate();
-        results.push(result);
+        // Check the method and use the appropriate calculator
+        if (this.params.method === 'fcf') {
+          // Ensure FCF parameter is provided for FCF method
+          if (this.params.fcf === undefined) {
+            throw new ValidationError([
+              {
+                code: 'MISSING_PARAM',
+                message: 'FCF is required for FCF method',
+              },
+            ]);
+          }
+          // Create an instance of FCFIntrinsicValueCalculator with the generated inputs
+          const calculator = new FCFIntrinsicValueCalculator({
+            ...this.params,
+            fcf: this.params.fcf,
+            growthRate: randomInputs.growthRate,
+            terminalGrowthRate: randomInputs.terminalGrowthRate,
+            discountRate: randomInputs.discountRate,
+            outstandingShares: this.params.outstandingShares ?? 0,
+          });
+          result = calculator.calculate();
+        } else if (this.params.method === 'eps') {
+          // Ensure EPS parameter is provided for EPS method
+          if (this.params.eps === undefined) {
+            throw new ValidationError([
+              {
+                code: 'MISSING_PARAM',
+                message: 'EPS is required for EPS method',
+              },
+            ]);
+          }
+          // Create an instance of EPSIntrinsicValueCalculator with the generated inputs
+          const calculator = new EPSIntrinsicValueCalculator({
+            ...this.params,
+            eps: this.params.eps!,
+            growthRate: randomInputs.growthRate,
+            terminalGrowthRate: randomInputs.terminalGrowthRate,
+            discountRate: randomInputs.discountRate,
+          });
+          result = calculator.calculate();
+        }
+
+        // If a result is successfully calculated, add it to the results array
+        if (result) {
+          results.push(result);
+        }
       } catch (error) {
+        // Handle validation errors by logging a warning and continuing with the next simulation
         if (error instanceof ValidationError) {
-          console.warn('Validation error in simulation:', error.errors);
+          // console.warn('Validation error in simulation:', error.errors);
           continue;
         } else {
           throw error;
@@ -127,6 +178,7 @@ class MonteCarloFCFIntrinsicValueCalculator {
       }
     }
 
+    // Analyze and return the results of the simulations
     return this.analyzeResults(results);
   }
 
@@ -148,7 +200,7 @@ class MonteCarloFCFIntrinsicValueCalculator {
       median,
       percentile10: percentile(10),
       percentile90: percentile(90),
-      results, // Include the detailed results with year-by-year projections
+      results,
     };
   }
 }

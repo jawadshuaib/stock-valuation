@@ -11,6 +11,7 @@ import {
   areAllValuesGreaterThanZero,
   getPrefilledValues,
 } from '../../../utils/urlParams';
+import MonteCarloFCFIntrinsicValueCalculator from '../../../utils/valuations/monte-carlo/MonteCarloFCFIntrinsicValueCalculator';
 
 // Default values for the form fields
 const DEFAULT_VALUES: EPSFormData = {
@@ -80,7 +81,7 @@ function EPSFinancialInputsForm({
 
       try {
         // Convert percentage values to decimals for calculation
-        const calculator = new EPSIntrinsicValueCalculator({
+        const params = {
           method: 'eps',
           sharePrice: data.sharePrice,
           eps: data.eps,
@@ -88,9 +89,30 @@ function EPSFinancialInputsForm({
           terminalGrowthRate: data.terminalGrowthRate / 100,
           discountRate: data.discountRate / 100,
           marginOfSafety: data.marginOfSafety / 100,
-        });
+        } as const;
 
-        const result = calculator.calculate();
+        const monteCarloCalculator = new MonteCarloFCFIntrinsicValueCalculator(
+          params,
+        );
+
+        const simulations = monteCarloCalculator.runSimulations();
+        if (Number.isNaN(simulations.median)) return null;
+
+        let result = simulations.results.find(
+          (res) => res.valuation.intrinsicValue === simulations.median,
+        );
+
+        if (!result) {
+          // If Monte Carlo simulation fails for whatever reason
+          // fall back to a deterministic calculation
+          const calculator = new EPSIntrinsicValueCalculator({ ...params });
+          result = calculator.calculate();
+        }
+
+        if (!result) {
+          throw new Error('Calculation failed');
+        }
+
         valuateFn(result);
 
         // Show save button

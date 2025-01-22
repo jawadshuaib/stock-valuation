@@ -1,5 +1,6 @@
 import React from 'react';
 import { ValuationData } from './types';
+import { NUMBER_OF_SIMULATIONS } from '../../utils/valuations/monte-carlo/MonteCarloFCFIntrinsicValueCalculator';
 
 interface ValuationResultsProps {
   selection: 'deterministic' | 'montecarlo';
@@ -14,15 +15,20 @@ export default function ValuationResults({
     deterministic: {
       title: 'Valuation Results',
       style: 'from-blue-50 to-indigo-50 border-blue-100',
+      description: '',
     },
     montecarlo: {
-      title: 'Valuation Results based on Monte Carlo Simulation',
+      title: 'Valuation Results',
       style: 'from-green-50 to-lime-50 border-green-100',
+      description: `Valuation created using ${NUMBER_OF_SIMULATIONS.toLocaleString(
+        'en-US',
+      )} Monte Carlo simulations adjusted for growth, terminal and discount rate.`,
     },
   };
 
   const title = theme[selection].title;
   const style = theme[selection].style;
+  const description = theme[selection].description;
 
   return (
     <section
@@ -48,6 +54,9 @@ export default function ValuationResults({
             ${valuation.marginOfSafetyPrice.toFixed(2)}
           </div>
         </div>
+        {description !== '' && (
+          <p className="text-sm text-gray-600">{description}</p>
+        )}
       </div>
     </section>
   );

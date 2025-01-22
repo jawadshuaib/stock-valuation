@@ -11,6 +11,7 @@ import {
   areAllValuesGreaterThanZero,
   getPrefilledValues,
 } from '../../../utils/urlParams';
+import MonteCarloFCFIntrinsicValueCalculator from '../../../utils/valuations/monte-carlo/MonteCarloFCFIntrinsicValueCalculator';
 
 // Default values for the form fields
 const DEFAULT_VALUES: FCFFormData = {
@@ -86,7 +87,7 @@ function FCFFinancialInputsForm({
 
       try {
         // Convert percentage values to decimals for calculation
-        const calculator = new FCFIntrinsicValueCalculator({
+        const params = {
           method: 'fcf',
           sharePrice: data.sharePrice,
           fcf: data.fcf,
@@ -96,9 +97,25 @@ function FCFFinancialInputsForm({
           projectionYears: data.projectionYears,
           marginOfSafety: data.marginOfSafety / 100,
           outstandingShares: data.outstandingShares,
-        });
+        } as const;
 
-        const result = calculator.calculate();
+        const monteCarloCalculator = new MonteCarloFCFIntrinsicValueCalculator(
+          params,
+        );
+
+        const simulations = monteCarloCalculator.runSimulations();
+        if (Number.isNaN(simulations.median)) return null;
+
+        let result = simulations.results.find(
+          (res) => res.valuation.intrinsicValue === simulations.median,
+        );
+
+        if (!result) {
+          // If Monte Carlo simulation fails for whatever reason
+          // fall back to a deterministic calculation
+          const calculator = new FCFIntrinsicValueCalculator({ ...params });
+          result = calculator.calculate();
+        }
         valuateFn(result);
 
         // Show save button

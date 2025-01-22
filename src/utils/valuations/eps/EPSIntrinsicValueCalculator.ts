@@ -197,12 +197,11 @@ class EPSIntrinsicValueCalculator {
     return {
       sharePrice: this.params.sharePrice,
       initialEPS: this.params.eps,
-      initialGrowthRate: `${(this.params.growthRate * 100).toFixed(1)}%`,
-      terminalGrowthRate: `${(this.params.terminalGrowthRate * 100).toFixed(
-        1,
-      )}%`,
-      discountRate: `${(this.params.discountRate * 100).toFixed(1)}%`,
+      initialGrowthRate: this.params.growthRate * 100,
+      terminalGrowthRate: this.params.terminalGrowthRate * 100,
+      discountRate: this.params.discountRate * 100,
       projectionYears: this.params.projectionYears,
+      marginOfSafety: this.params.marginOfSafety * 100,
     };
   }
 }
