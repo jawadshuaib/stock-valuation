@@ -33,8 +33,8 @@ $$ \text{Growth Rate} \sim \text{LogNormal}(\mu, \sigma) $$
 
 Where:
 
-- $$ \mu = \log(\text{initial growth rate}) $$
-- $$ \sigma = 0.2 $$
+$$ \mu = \log(\text{initial growth rate}) $$
+$$ \sigma = 0.2 $$
 
 ### 3.2 Normal Distribution for Terminal Growth Rate and Discount Rate
 
@@ -45,8 +45,8 @@ $$ \text{Discount Rate} \sim \text{Normal}(\mu, \sigma) $$
 
 Where:
 
-- $$ \mu = \text{initial terminal growth rate or discount rate} $$
-- $$ \sigma = 0.01 $$
+$$ \mu = \text{initial terminal growth rate or discount rate} $$
+$$ \sigma = 0.01 $$
 
 ---
 
