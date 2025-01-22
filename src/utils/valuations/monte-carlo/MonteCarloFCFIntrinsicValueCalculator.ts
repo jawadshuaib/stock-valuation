@@ -78,12 +78,10 @@ class MonteCarloFCFIntrinsicValueCalculator {
     // generated discount rates will be symmetrically distributed around the mean.
     const discountRateDist = randomNormal(this.params.discountRate, 0.01);
 
-    // Generate random values
     const growthRate = growthRateDist();
     const terminalGrowthRate = terminalGrowthRateDist();
     const discountRate = discountRateDist();
 
-    // Validate the generated inputs
     if (
       growthRate > ValuationConfig.LIMITS.MAX_INITIAL_GROWTH ||
       growthRate < terminalGrowthRate ||
@@ -109,9 +107,7 @@ class MonteCarloFCFIntrinsicValueCalculator {
 
     for (let i = 0; i < this.numSimulations; i++) {
       try {
-        // Generate random inputs for this simulation
         const randomInputs = this.generateRandomInputs();
-        // Create a new FCFIntrinsicValueCalculator with the random inputs
         const calculator = new FCFIntrinsicValueCalculator({
           ...this.params,
           growthRate: randomInputs.growthRate,
@@ -119,50 +115,40 @@ class MonteCarloFCFIntrinsicValueCalculator {
           discountRate: randomInputs.discountRate,
         });
 
-        // Calculate the intrinsic value
         const result = calculator.calculate();
-        // Store the result
         results.push(result);
       } catch (error) {
         if (error instanceof ValidationError) {
-          // Log validation errors and continue with the next simulation
           console.warn('Validation error in simulation:', error.errors);
           continue;
         } else {
-          // Re-throw unexpected errors
           throw error;
         }
       }
     }
 
-    // Analyze the results to provide statistical insights
     return this.analyzeResults(results);
   }
 
   // Analyze the results of the simulations
   private analyzeResults(results: ProjectionData[]) {
-    // Extract intrinsic values from the results
     const intrinsicValues = results.map(
       (result) => result.valuation.intrinsicValue,
     );
-    // Calculate the mean intrinsic value
     const mean =
       intrinsicValues.reduce((sum, value) => sum + value, 0) /
       intrinsicValues.length;
-    // Sort the intrinsic values to calculate percentiles
     const sortedValues = intrinsicValues.sort((a, b) => a - b);
-    // Calculate the median intrinsic value
     const median = sortedValues[Math.floor(sortedValues.length / 2)];
-    // Function to calculate a specific percentile
     const percentile = (p: number) =>
       sortedValues[Math.floor((p / 100) * sortedValues.length)];
 
-    // Return the statistical insights
     return {
       mean,
       median,
       percentile10: percentile(10),
       percentile90: percentile(90),
+      results, // Include the detailed results with year-by-year projections
     };
   }
 }

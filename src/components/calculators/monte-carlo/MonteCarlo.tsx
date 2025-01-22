@@ -33,6 +33,12 @@ export default function MonteCarlo() {
 
   if (Number.isNaN(monteCarloResult.median)) return null;
 
+  const medianResult = monteCarloResult.results.find(
+    (result) => result.valuation.intrinsicValue === monteCarloResult.median,
+  );
+
+  console.log(medianResult?.yearByYearProjections);
+
   const valuation: ValuationData = {
     intrinsicValue: monteCarloResult.median,
     marginOfSafetyPrice: monteCarloResult.median * (1 - params.marginOfSafety),
