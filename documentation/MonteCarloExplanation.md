@@ -1,7 +1,3 @@
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
 # Monte Carlo Intrinsic Value Calculator Explanation
 
 This document explains the rationale, methodology, and statistical models used in the `MonteCarloIntrinsicValueCalculator` class for calculating the intrinsic value of a stock using Monte Carlo simulations.
@@ -24,7 +20,6 @@ Monte Carlo simulation is a statistical technique that uses random sampling to a
 - **Terminal Growth Rate**: The long-term sustainable growth rate.
 - **Discount Rate**: The required rate of return, reflecting the time value of money and risk.
 - **Projection Years**: The number of years to project future cash flows.
-- **Margin of Safety**: A buffer to account for uncertainties in assumptions.
 
 ---
 
@@ -34,24 +29,24 @@ Monte Carlo simulation is a statistical technique that uses random sampling to a
 
 The growth rate is modeled using a log-normal distribution to account for positive skewness. This reflects the reality that while most companies will have moderate growth rates, a few might experience exceptionally high growth rates.
 
-\[ \text{Growth Rate} \sim \text{LogNormal}(\mu, \sigma) \]
+$$ \text{Growth Rate} \sim \text{LogNormal}(\mu, \sigma) $$
 
 Where:
 
-- \(\mu = \log(\text{initial growth rate})\)
-- \(\sigma = 0.2\)
+- $$ \mu = \log(\text{initial growth rate}) $$
+- $$ \sigma = 0.2 $$
 
 ### 3.2 Normal Distribution for Terminal Growth Rate and Discount Rate
 
 Both the terminal growth rate and discount rate are modeled using normal distributions to reflect symmetric variability around their means.
 
-\[ \text{Terminal Growth Rate} \sim \text{Normal}(\mu, \sigma) \]
-\[ \text{Discount Rate} \sim \text{Normal}(\mu, \sigma) \]
+$$ \text{Terminal Growth Rate} \sim \text{Normal}(\mu, \sigma) $$
+$$ \text{Discount Rate} \sim \text{Normal}(\mu, \sigma) $$
 
 Where:
 
-- \(\mu = \text{initial terminal growth rate or discount rate}\)
-- \(\sigma = 0.01\)
+- $$ \mu = \text{initial terminal growth rate or discount rate} $$
+- $$ \sigma = 0.01 $$
 
 ---
 
@@ -79,14 +74,14 @@ After running all simulations, the results are analyzed to provide key statistic
 
 The mean and median intrinsic values are calculated to provide central tendency measures.
 
-\[ \text{Mean} = \frac{1}{n} \sum\_{i=1}^{n} \text{intrinsic value}\_i \]
-\[ \text{Median} = \text{sorted intrinsic values}[\frac{n}{2}] \]
+$$ \text{Mean} = \frac{1}{n} \sum\_{i=1}^{n} \text{intrinsic value}\_i $$
+$$ \text{Median} = \text{sorted intrinsic values}[\frac{n}{2}] $$
 
 ### 5.2 Percentiles
 
 The 10th and 90th percentiles are calculated to provide a range of likely intrinsic values.
 
-\[ \text{Percentile}(p) = \text{sorted intrinsic values}[\frac{p}{100} \times n] \]
+$$ \text{Percentile}(p) = \text{sorted intrinsic values}[\frac{p}{100} \times n] $$
 
 ---
 
