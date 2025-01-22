@@ -1,11 +1,14 @@
-# Stock Valuation Calculator
+# Stock Valuation using Monte Carlo Simulations
 
-This repository provides a comprehensive stock valuation tool built using React, TypeScript, and Tailwind CSS, with ESLint and Prettier for code quality and formatting. The tool implements core financial concepts to calculate the intrinsic value of a stock using both Earnings Per Share (EPS) and Free Cash Flow (FCF) methodologies.
+This tool offers a robust and comprehensive approach to stock valuation, utilizing both Earnings Per Share (EPS) and Free Cash Flow (FCF) methodologies to calculate the intrinsic value of a stock. By incorporating advanced financial models and simulations, it provides a detailed analysis of a company's potential value.
+
+The app is built with React, TypeScript and Tailwind CSS. Code quality and consistency are ensured through the use of ESLint and Prettier.
 
 Live example: https://stock-valuation.netlify.app/
 
 ## Key Features
 
+- **Monte Carlo Simulations**: Incorporates Monte Carlo simulations to estimate the intrinsic value of a stock by accounting for uncertainty and variability in key financial parameters. This provides a more robust and comprehensive valuation.
 - **Growth Rate Modeling**: Simulates growth rate decay over time, transitioning from high initial growth to a sustainable terminal growth rate. This is quite sophisticated so I have provided more explanation in the [Growth Rate Decay Explanation](./documentation/GrowthRateDecayExplanation.md) section.
 - **Discounted Cash Flow Analysis**: Computes the intrinsic value of a stock by discounting projected earnings or free cash flows to their present value.
 - **Validation Layer**: Ensures input parameters are realistic and consistent with economic principles.
@@ -23,33 +26,69 @@ EPS is a key metric in valuing a company's profitability. It represents the port
 
 FCF is a measure of a company's financial performance, calculated as operating cash flow minus capital expenditures. It represents the cash a company generates after accounting for cash outflows to support operations and maintain its capital assets. This tool uses FCF as an alternative baseline for intrinsic value calculation.
 
-### 3. **Free Cash Flow for Free (FCF for Free)**
+### 3. **Monte Carlo Simulations**
 
-The Free Cash Flow for Free metric measures how quickly the net present value of a company's projected free cash flows can potentially cover the difference between its market cap and net current assets. This metric provides insight into the time it takes for an investment to generate enough free cash flow to cover the premium paid over the company's net current assets, indicating the safety and comparative value of the investment. See detailed documentation [`FreeCashFlowForFreeExplanation.md`](documentation/FreeCashFlowForFreeExplanation.md)
+Monte Carlo simulations are a powerful statistical technique used to model the probability of different outcomes in a process that cannot easily be predicted due to the intervention of random variables. This method is particularly useful in financial modeling and risk assessment.
 
-### 4. **Growth Rate Decay**
+In this tool, Monte Carlo simulations are employed to estimate the intrinsic value of a stock by running thousands of simulations with varying growth rates, terminal growth rates, and discount rates. By incorporating randomness and variability into these key financial parameters, the tool provides a more comprehensive and robust valuation.
 
-High-growth companies typically experience a decline in growth over time due to market saturation, competitive pressures, and scalability limits. This tool models this decay using exponential functions to transition from an initial growth rate to a terminal growth rate. See detailed documentation [`GrowthRateDecayExplanation.md`](documentation/GrowthRateDecayExplanation.md)
+#### How It Works
 
-### 5. **Discount Rate**
+1. **Random Input Generation**: For each simulation, random values for growth rate, terminal growth rate, and discount rate are generated based on their respective statistical distributions:
+
+   - **Growth Rate**: Modeled using a log-normal distribution to account for positive skewness, reflecting the reality that while most companies will have moderate growth rates, a few might experience exceptionally high growth rates.
+   - **Terminal Growth Rate**: Modeled using a normal distribution to reflect symmetric variability around the mean.
+   - **Discount Rate**: Modeled using a normal distribution to reflect symmetric variability around the mean.
+
+2. **Simulation Execution**: The tool runs a specified number of simulations (default: 10,000). For each simulation, it calculates the intrinsic value using either the Free Cash Flow (FCF) or Earnings Per Share (EPS) method, depending on the selected approach.
+
+3. **Result Analysis**: After running all simulations, the results are analyzed to provide key statistical metrics such as mean, median, and percentiles, offering a range of likely intrinsic values. By default, we use the median as representative of the intrinsic value.
+
+For more detailed information on the Monte Carlo simulations used in this tool, please refer to the [Monte Carlo Intrinsic Value Calculator Explanation](./documentation/MonteCarloExplanation.md).
+
+### 4. **Free Cash Flow for Free (FCF for Free)**
+
+The Free Cash Flow for Free metric measures how quickly the net present value of a company's projected free cash flows can potentially cover the difference between its market cap and net current assets.
+
+This metric provides insight into the time it takes for an investment to generate enough free cash flow to cover the premium paid over the company's net current assets, indicating the safety and comparative value of the investment.
+
+See detailed documentation [`FreeCashFlowForFreeExplanation.md`](documentation/FreeCashFlowForFreeExplanation.md)
+
+### 5. **Growth Rate Decay**
+
+High-growth companies typically experience a decline in growth over time due to market saturation, competitive pressures, and scalability limits. This tool models this decay using exponential functions to transition from an initial growth rate to a terminal growth rate.
+
+See detailed documentation [`GrowthRateDecayExplanation.md`](documentation/GrowthRateDecayExplanation.md)
+
+### 6. **Discount Rate**
 
 The discount rate reflects the required rate of return for an investor, accounting for risk and the time value of money. It is used to calculate the present value of future cash flows.
 
-### 6. **Terminal Growth Rate**
+### 7. **Terminal Growth Rate**
 
 This rate represents the sustainable long-term growth a company can achieve. It is usually aligned with GDP growth or inflation, ensuring the valuation remains grounded in economic reality.
 
-### 7. **Margin of Safety**
+### 8. **Margin of Safety**
 
-A margin of safety reduces the intrinsic value estimate to account for uncertainties in assumptions, ensuring a conservative investment decision.
+A margin of safety reduces the intrinsic value estimate to account for uncertainties in assumptions, ensuring a conservative investment decision. This concept, popularized by Benjamin Graham, is a fundamental principle in value investing.
 
-### 8. **Payback Time**
+The margin of safety is the difference between the intrinsic value of a stock and its market price. By purchasing securities at a significant discount to their intrinsic value, investors create a buffer that protects them against errors in analysis, market volatility, and unforeseen events. This conservative approach helps to minimize potential losses and increase the likelihood of achieving satisfactory returns.
 
-Payback time is the period it takes for an investment to generate an amount of cash flow or profits equivalent to the initial investment amount.
+In this tool, the margin of safety is applied to the intrinsic value calculation to provide a more conservative estimate, ensuring that investment decisions are made with a higher degree of confidence and reduced risk.
 
-### 9. **Half Life**
+### 9. **Payback Time**
 
-The Half Life metric measures the time it takes for an investment to become twice as cheap based on its growth trajectory. This metric provides insight into the growth potential of an investment relative to its current price. Companies with a shorter half life are considered to have higher growth potential. See detailed documentation [`HalfLifeExplanation.md`](documentation/HalfLifeExplanation.md)
+Payback time is a concept popularized by Charlie Munger and Phil Town, which measures the period it takes for an investment to generate enough cash flow or profits to recover the initial investment amount. It is a straightforward method to assess the risk and return of an investment.
+
+The payback time is calculated by determining how many years it will take for the cumulative earnings or free cash flow of a company to equal the initial investment. This method helps investors understand how quickly they can expect to get their money back, which is crucial for evaluating the attractiveness of an investment.
+
+In this tool, the payback time calculator computes the number of years required for the projected cash flows to cover the initial investment, providing a clear and intuitive measure of investment recovery time.
+
+### 10. **Half Life**
+
+The Half Life metric measures the time it takes for an investment to become twice as cheap based on its growth trajectory. This metric provides insight into the growth potential of an investment relative to its current price. Companies with a shorter half life are considered to have higher growth potential.
+
+See detailed documentation [`HalfLifeExplanation.md`](documentation/HalfLifeExplanation.md)
 
 ---
 
