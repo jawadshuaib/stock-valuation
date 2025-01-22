@@ -28,8 +28,8 @@ const KeyValuationConcepts = () => {
           <div className="space-y-4 bg-white p-6 rounded-lg border border-gray-100">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <Chicklet title="Monte Carlo Simulation">
-                Statistical method that runs thousands of iterations with
-                varying inputs to model uncertainty in valuation parameters
+                Thousands of iterations with varying inputs to model uncertainty
+                in valuation parameters
               </Chicklet>
               <Chicklet title="Earnings Per Share">
                 Portion of a company&apos;s profit allocated to each outstanding
@@ -51,6 +51,7 @@ const KeyValuationConcepts = () => {
                   href="https://github.com/jawadshuaib/stock-valuation/blob/main/documentation/GrowthRateDecayExplanation.md"
                   target="_blank"
                   rel="noreferrer"
+                  className="underline hover:no-underline"
                 >
                   declination of growth rates
                 </a>{' '}
