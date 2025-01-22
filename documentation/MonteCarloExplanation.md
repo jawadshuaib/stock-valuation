@@ -1,3 +1,7 @@
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
 # Monte Carlo Intrinsic Value Calculator Explanation
 
 This document explains the rationale, methodology, and statistical models used in the `MonteCarloIntrinsicValueCalculator` class for calculating the intrinsic value of a stock using Monte Carlo simulations.
