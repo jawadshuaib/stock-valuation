@@ -45,16 +45,37 @@ class MonteCarloFCFIntrinsicValueCalculator {
   // Generate random inputs for the simulation
   private generateRandomInputs() {
     // Log-normal distribution for growth rate to account for positive skewness
+    // The randomLogNormal function generates a growth rate with a mean of
+    // Math.log(this.params.growthRate) and a standard deviation of 0.2.
+    // This means the generated growth rates will be positively skewed, allowing
+    // for higher values while keeping lower values closer to the mean.
+    //
+    // Here is an image of the log normal distribution:
+    // https://www.investopedia.com/thmb/dmWOsjhPLEXqOnOFh7_0v3E4wUs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/dotdash_Final_Log_Normal_Distribution_Nov_2020-01-fa015519559f4b128fef786c51841fb9.jpg
+    //
+    // When the generated growth rates are positively skewed, it means that most
+    // of the growth rates will be clustered around a lower value, but there will
+    // be a few instances where the growth rates are significantly higher. This is
+    // particularly useful in financial modeling because it reflects the reality
+    // that while most companies will have moderate growth rates, a few might
+    // experience exceptionally high growth rates.
     const growthRateDist = randomLogNormal(
       Math.log(this.params.growthRate),
       0.2,
     );
     // Normal distribution for terminal growth rate
+    // Terminal Growth Rate: The randomNormal function generates a terminal growth
+    // rate with a mean of this.params.terminalGrowthRate and a standard deviation
+    // of 0.01. This means the generated terminal growth rates will be symmetrically
+    // distributed around the mean.
     const terminalGrowthRateDist = randomNormal(
       this.params.terminalGrowthRate,
       0.01,
     );
     // Normal distribution for discount rate
+    // The randomNormal function generates a discount rate with a mean of
+    // this.params.discountRate and a standard deviation of 0.01. This means the
+    // generated discount rates will be symmetrically distributed around the mean.
     const discountRateDist = randomNormal(this.params.discountRate, 0.01);
 
     // Generate random values
