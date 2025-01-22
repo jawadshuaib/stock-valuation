@@ -40,14 +40,22 @@ const KeyValuationConcepts = () => {
                 expenditures
               </Chicklet>
               <Chicklet title="Growth Rate Distribution">
-                Log-normal distribution to skew towards moderate growth with
+                Log-normal distribution to skew to moderate growth with
                 potential for outliers
               </Chicklet>
               <Chicklet title="Terminal Value">
-                Company&apos;s estimated value into perpetuity
+                Company&apos;s value beyond the projection period
               </Chicklet>
-              <Chicklet title="Margin of Safety">
-                Buffer against estimation errors and market volatility
+              <Chicklet title="Growth Decay">
+                High{' '}
+                <a
+                  href="https://github.com/jawadshuaib/stock-valuation/blob/main/documentation/GrowthRateDecayExplanation.md"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  growth rates naturally decline
+                </a>{' '}
+                over time to a more sustainable level
               </Chicklet>
             </div>
           </div>

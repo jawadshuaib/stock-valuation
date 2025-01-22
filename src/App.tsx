@@ -6,7 +6,7 @@ import Footer from './components/footer/Footer';
 import Header from './components/ui/Header';
 import BackButton from './components/ui/BackButton';
 
-const APP_NAME = 'Stock Valuation Calculator';
+const APP_NAME = 'Stock Valuation using Discounted Cash Flows';
 
 function App() {
   const location = useLocation();
@@ -29,7 +29,11 @@ function App() {
   return (
     <div className="App mt-6 max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg">
       <BackButton />
-      <Header title={header} />
+      {location && location.pathname === '/' && (
+        // Render the Header component
+        <Header title={header} />
+      )}
+
       {/* Render the Routes component */}
       <AppRoutes />
     </div>

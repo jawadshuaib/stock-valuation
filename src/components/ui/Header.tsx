@@ -4,7 +4,7 @@ interface HeaderProps {
   title: string | null;
 }
 export default function Header({ title }: HeaderProps) {
-  const header = title ? title : 'Comprehensive Stock Valuation Tool';
+  const header = title ? title : 'Stock Valuation using Discounted Cash Flows';
   return (
     <header className="mb-4">
       <h2 className="text-3xl font-bold text-gray-900 mb-2">{header}</h2>
