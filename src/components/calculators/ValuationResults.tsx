@@ -1,6 +1,6 @@
 import React from 'react';
 import { ValuationData } from './types';
-import { NUMBER_OF_SIMULATIONS } from '../../utils/valuations/monte-carlo/MonteCarloFCFIntrinsicValueCalculator';
+import { NUMBER_OF_SIMULATIONS } from '../../utils/valuations/monte-carlo/MonteCarloIntrinsicValueCalculator';
 
 interface ValuationResultsProps {
   selection: 'deterministic' | 'montecarlo';
@@ -20,9 +20,21 @@ export default function ValuationResults({
     montecarlo: {
       title: 'Valuation Results',
       style: 'from-green-50 to-lime-50 border-green-100',
-      description: `Valuation created using ${NUMBER_OF_SIMULATIONS.toLocaleString(
-        'en-US',
-      )} Monte Carlo simulations adjusted for growth, terminal and discount rate.`,
+      description: (
+        <>
+          Valuation created using{' '}
+          {NUMBER_OF_SIMULATIONS.toLocaleString('en-US')}{' '}
+          <a
+            href="https://github.com/jawadshuaib/stock-valuation/blob/main/documentation/MonteCarloExplanation.md"
+            className="underline hover:no-underline hover:text-blue-600"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Monte Carlo simulations
+          </a>{' '}
+          adjusted for growth, terminal and discount rate.
+        </>
+      ),
     },
   };
 

@@ -40,7 +40,7 @@ export default function EPSCalculator() {
         <>
           <ValuationResults
             valuation={result.valuation}
-            selection="deterministic"
+            selection="montecarlo"
           />
           <Investment data={result}>
             <Investment.Ratios />

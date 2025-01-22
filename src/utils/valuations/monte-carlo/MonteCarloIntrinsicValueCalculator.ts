@@ -21,7 +21,7 @@ interface MonteCarloParams {
   outstandingShares?: number;
 }
 
-class MonteCarloFCFIntrinsicValueCalculator {
+class MonteCarloIntrinsicValueCalculator {
   private params: MonteCarloParams;
 
   private numSimulations: number;
@@ -205,4 +205,4 @@ class MonteCarloFCFIntrinsicValueCalculator {
   }
 }
 
-export default MonteCarloFCFIntrinsicValueCalculator;
+export default MonteCarloIntrinsicValueCalculator;

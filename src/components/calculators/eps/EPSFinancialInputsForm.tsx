@@ -11,7 +11,7 @@ import {
   areAllValuesGreaterThanZero,
   getPrefilledValues,
 } from '../../../utils/urlParams';
-import MonteCarloFCFIntrinsicValueCalculator from '../../../utils/valuations/monte-carlo/MonteCarloFCFIntrinsicValueCalculator';
+import MonteCarloIntrinsicValueCalculator from '../../../utils/valuations/monte-carlo/MonteCarloIntrinsicValueCalculator';
 
 // Default values for the form fields
 const DEFAULT_VALUES: EPSFormData = {
@@ -91,7 +91,7 @@ function EPSFinancialInputsForm({
           marginOfSafety: data.marginOfSafety / 100,
         } as const;
 
-        const monteCarloCalculator = new MonteCarloFCFIntrinsicValueCalculator(
+        const monteCarloCalculator = new MonteCarloIntrinsicValueCalculator(
           params,
         );
 
