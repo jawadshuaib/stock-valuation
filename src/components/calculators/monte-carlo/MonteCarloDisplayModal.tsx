@@ -151,6 +151,20 @@ function MonteCarloDisplayModal({
             </p>
           </div>
         </Modal.Body>
+        <Modal.Footer>
+          <p>
+            Link to the{' '}
+            <a
+              href="https://github.com/jawadshuaib/stock-valuation/blob/main/documentation/MonteCarloExplanation.md"
+              className="underline hover:no-underline hover:text-blue-600"
+              target="_blank"
+              rel="noreferrer"
+            >
+              mathematical explanation
+            </a>{' '}
+            for the Monte Carlo simulation above.
+          </p>
+        </Modal.Footer>
       </Modal>
     </div>
   );
