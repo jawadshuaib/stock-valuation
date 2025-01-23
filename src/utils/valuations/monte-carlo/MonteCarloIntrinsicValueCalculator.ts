@@ -192,6 +192,16 @@ class MonteCarloIntrinsicValueCalculator {
       intrinsicValues.length;
     const sortedValues = intrinsicValues.sort((a, b) => a - b);
     const median = sortedValues[Math.floor(sortedValues.length / 2)];
+    // Percentiles divide the data into 100 equal parts after sorting
+
+    // 10th Percentile (P10):
+    // 10% of simulated intrinsic values fall below this value
+    // Represents a more conservative/pessimistic valuation scenario
+
+    // 90th Percentile (P90):
+    // 90% of simulated values fall below this value
+    // Only 10% of values are higher than this
+    // Represents a more optimistic valuation scenario
     const percentile = (p: number) =>
       sortedValues[Math.floor((p / 100) * sortedValues.length)];
 

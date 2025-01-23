@@ -5,11 +5,19 @@ interface InputFieldProps {
   id: string;
   name: string;
   value: number | string;
+  placeholder?: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 // Reusable Input Component
-function InputField({ label, id, name, value, onChange }: InputFieldProps) {
+function InputField({
+  label,
+  id,
+  name,
+  value,
+  placeholder,
+  onChange,
+}: InputFieldProps) {
   return (
     <div>
       <label
@@ -25,6 +33,7 @@ function InputField({ label, id, name, value, onChange }: InputFieldProps) {
           name={name}
           value={value}
           onChange={onChange}
+          placeholder={placeholder && placeholder}
           className="block w-full rounded-lg border-gray-300 bg-gray-50 p-3 text-gray-900 focus:border-blue-500 focus:ring-blue-500 shadow-sm"
         />
       </div>

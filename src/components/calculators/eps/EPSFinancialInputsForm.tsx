@@ -28,12 +28,20 @@ const prefilledValues = getPrefilledValues(DEFAULT_VALUES);
 
 // Form field configuration
 const FORM_FIELDS = [
-  { label: 'Share Price', id: 'sharePrice' },
-  { label: 'Earnings Per Share (EPS)', id: 'eps' },
-  { label: 'Growth Rate (%)', id: 'growthRate' },
-  { label: 'Terminal Growth Rate (%)', id: 'terminalGrowthRate' },
-  { label: 'Discount Rate (%)', id: 'discountRate' },
-  { label: 'Margin of Safety (%)', id: 'marginOfSafety' },
+  { label: 'Share Price', id: 'sharePrice', placeholder: 'Price per share' },
+  { label: 'Earnings Per Share (EPS)', id: 'eps', placeholder: '' },
+  {
+    label: 'Growth Rate (%)',
+    id: 'growthRate',
+    placeholder: 'Expected growth rate',
+  },
+  {
+    label: 'Terminal Growth Rate (%)',
+    id: 'terminalGrowthRate',
+    placeholder: '3%',
+  },
+  { label: 'Discount Rate (%)', id: 'discountRate', placeholder: '10%' },
+  { label: 'Margin of Safety (%)', id: 'marginOfSafety', placeholder: '50%' },
 ] as const;
 
 // Component props
@@ -209,7 +217,7 @@ function EPSFinancialInputsForm({
       <form className="space-y-4">
         <div className="grid gap-6">
           {/* Dynamically render form fields based on FORM_FIELDS configuration */}
-          {FORM_FIELDS.map(({ label, id }) => (
+          {FORM_FIELDS.map(({ label, id, placeholder }) => (
             <InputField
               key={id}
               label={label}
@@ -217,6 +225,7 @@ function EPSFinancialInputsForm({
               name={id}
               value={formData[id as keyof EPSFormData]}
               onChange={handleChange}
+              placeholder={placeholder}
             />
           ))}
           {/* Show save button or saved message */}
