@@ -38,12 +38,11 @@ export default function EPSCalculator() {
         valuationErrorFn={valuationErrorFn}
       />
 
+      {/* Intrinsic Value and Margin of Safety Price  */}
+      <ValuationResults />
+
       {result && (
         <>
-          <ValuationResults
-            valuation={result.valuation}
-            selection="montecarlo"
-          />
           <Investment data={result}>
             <Investment.Ratios />
             <Investment.ProjectionChartAndTable />

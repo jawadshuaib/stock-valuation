@@ -1,60 +1,51 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ValuationData } from './types';
 import { NUMBER_OF_SIMULATIONS } from '../../utils/valuations/monte-carlo/MonteCarloIntrinsicValueCalculator';
 import MonteCarloDisplayModal from './monte-carlo/MonteCarloDisplayModal';
+import { useAppSelector } from '../../store/sliceHooks';
 
-{
-  /* <a
-            href="https://github.com/jawadshuaib/stock-valuation/blob/main/documentation/MonteCarloExplanation.md"
-            className="underline hover:no-underline hover:text-blue-600"
-            target="_blank"
-            rel="noreferrer"
-          ></a> */
-}
-interface ValuationResultsProps {
-  selection: 'deterministic' | 'montecarlo';
-  valuation: ValuationData;
-}
-
-export default function ValuationResults({
-  selection,
-  valuation,
-}: ValuationResultsProps) {
+export default function ValuationResults() {
+  const selector = useAppSelector((state) => state.simulation);
   const [openModal, setOpenModal] = React.useState(false);
+  const [valuation, setValuation] = React.useState<ValuationData | null>(null);
+
+  useEffect(() => {
+    if (selector.simulation) {
+      const { median: intrinsicValue, percentile10: marginOfSafetyPrice } =
+        selector.simulation;
+      setValuation({
+        intrinsicValue,
+        marginOfSafetyPrice,
+      });
+    }
+  }, [selector.simulation]);
 
   const theme = {
-    deterministic: {
-      title: 'Valuation Results',
-      style: 'from-blue-50 to-indigo-50 border-blue-100',
-      description: '',
-    },
-    montecarlo: {
-      title: 'Valuation Results',
-      style: 'from-green-50 to-lime-50 border-green-100',
-      description: (
-        <>
-          Valuation created after{' '}
-          <span
-            className="underline cursor-pointer hover:no-underline hover:text-blue-600"
-            onClick={() => setOpenModal(true)}
-          >
-            simulating {NUMBER_OF_SIMULATIONS.toLocaleString('en-US')} scenarios
-          </span>{' '}
-          for the discounted cash flow!
-        </>
-      ),
-    },
+    title: 'Valuation Results',
+    style: 'from-green-50 to-lime-50 border-green-100',
+    description: (
+      <>
+        Valuation created after{' '}
+        <span
+          className="underline cursor-pointer hover:no-underline hover:text-blue-600"
+          onClick={() => setOpenModal(true)}
+        >
+          simulating {NUMBER_OF_SIMULATIONS.toLocaleString('en-US')} scenarios
+        </span>{' '}
+        for the discounted cash flow!
+      </>
+    ),
   };
 
-  const title = theme[selection].title;
-  const style = theme[selection].style;
-  const description = theme[selection].description;
+  if (!valuation) return null;
 
   return (
     <section
-      className={`${style} mt-8 p-6 bg-gradient-to-br rounded-xl border shadow-sm`}
+      className={`${theme.style} mt-8 p-6 bg-gradient-to-br rounded-xl border shadow-sm`}
     >
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">{title}</h2>
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+        {theme.title}
+      </h2>
       <div className="space-y-4">
         <div className="p-4 bg-white rounded-lg shadow-sm border border-blue-100">
           <div className="text-sm font-medium text-gray-500 mb-1">
@@ -73,9 +64,7 @@ export default function ValuationResults({
             ${valuation.marginOfSafetyPrice.toFixed(2)}
           </div>
         </div>
-        {description !== '' && (
-          <p className="text-sm text-gray-600">{description}</p>
-        )}
+        <p className="text-sm text-gray-600">{theme.description}</p>
       </div>
       {openModal && (
         <MonteCarloDisplayModal
