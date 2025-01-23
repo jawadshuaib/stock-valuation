@@ -1,12 +1,10 @@
 import React from 'react';
 import { Modal } from 'flowbite-react';
-import { Bar, Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  LineElement,
-  PointElement,
   BarElement,
   Title,
   Tooltip,
@@ -15,13 +13,12 @@ import {
 } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { useAppSelector } from '../../../store/sliceHooks';
+import { NUMBER_OF_SIMULATIONS } from '../../../utils/valuations/monte-carlo/MonteCarloIntrinsicValueCalculator';
 
 // Register Chart.js components and plugins
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  LineElement,
-  PointElement,
   BarElement,
   Title,
   Tooltip,
@@ -44,7 +41,7 @@ function MonteCarloDisplayModal({
 
   if (!simulation) return null;
 
-  const { median, results } = simulation;
+  const { median, percentile10, percentile90, results } = simulation;
 
   // Prepare data for histogram
   const intrinsicValues = results.map(
@@ -96,7 +93,7 @@ function MonteCarloDisplayModal({
       annotation: {
         annotations: {
           medianLine: {
-            type: 'line',
+            type: 'line' as const,
             scaleID: 'x',
             value: median,
             borderColor: 'red',
@@ -104,7 +101,7 @@ function MonteCarloDisplayModal({
             label: {
               content: 'Median',
               enabled: true,
-              position: 'top',
+              position: 'end' as const,
             },
           },
         },
@@ -112,58 +109,46 @@ function MonteCarloDisplayModal({
     },
   };
 
-  // Prepare data for line chart
-  const lineChartData = {
-    labels: results[0].yearByYearProjections.map(
-      (projection) => `Year ${projection.year}`,
-    ),
-    datasets: [
-      {
-        label: 'Mean',
-        data: results.map((result) => result.valuation.intrinsicValue),
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        fill: true,
-      },
-      {
-        label: 'Median',
-        data: results.map((result) => result.valuation.intrinsicValue),
-        borderColor: 'rgba(192, 75, 75, 1)',
-        backgroundColor: 'rgba(192, 75, 75, 0.2)',
-        fill: true,
-      },
-      {
-        label: '10th Percentile',
-        data: results.map((result) => result.valuation.intrinsicValue),
-        borderColor: 'rgba(75, 75, 192, 1)',
-        backgroundColor: 'rgba(75, 75, 192, 0.2)',
-        fill: true,
-      },
-      {
-        label: '90th Percentile',
-        data: results.map((result) => result.valuation.intrinsicValue),
-        borderColor: 'rgba(75, 192, 75, 1)',
-        backgroundColor: 'rgba(75, 192, 75, 0.2)',
-        fill: true,
-      },
-    ],
-  };
-
   return (
     <div>
       <Modal show={show} onClose={onClose}>
         <Modal.Header>Monte Carlo Simulation</Modal.Header>
         <Modal.Body>
-          <p>Monte Carlo simulation results:</p>
-          <div className="mt-3">
-            <h3 className="text-lg font-semibold">
+          <p className="mb-4">
+            The discounted cash flow was simulated a total of{' '}
+            {NUMBER_OF_SIMULATIONS.toLocaleString('en-US')} times with varying
+            values for growth, terminal, and discount rates to arrive at the
+            most reasonable valuation.
+          </p>
+          <p className="mb-4">
+            From the resultant distribution, we picked the median intrinsic
+            value of{' '}
+            <span className="p-1 bg-yellow-200 font-bold rounded-md">
+              {median.toFixed(2)}
+            </span>{' '}
+            as the best representative of the dataset.
+          </p>
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-4">
               Intrinsic Value Distribution
             </h3>
             <Bar data={histogramChartData} options={options} />
           </div>
-          <div className="mt-3">
-            <h3 className="text-lg font-semibold">Yearly Projections</h3>
-            <Line data={lineChartData} options={options} />
+          <div className="mt-6">
+            <p className="mb-2">
+              The most conservative valuation (10th percentile) is{' '}
+              <span className="font-bold">{percentile10.toFixed(2)}</span>,
+              meaning that only 10% of the simulations resulted in an intrinsic
+              value below this amount. This pessimistic scenario can be used as
+              the margin of safety.
+            </p>
+            <p>
+              The vast majority of the simulations resulted in an intrinsic
+              value below{' '}
+              <span className="font-bold">{percentile90.toFixed(2)}</span>. This
+              helps to understand the potential upside in the most optimistic
+              scenarios.
+            </p>
           </div>
         </Modal.Body>
       </Modal>
