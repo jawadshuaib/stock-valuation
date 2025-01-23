@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Provider as ReduxProvider } from 'react-redux';
+import store from './store/store';
 import './App.css';
 import AppRoutes from './AppRoutes'; // Import the Routes component
 import Footer from './components/footer/Footer';
@@ -43,9 +45,11 @@ function App() {
 function AppWrapper() {
   return (
     <Router>
-      <App />
-      {/* Render the Footer component */}
-      <Footer />
+      <ReduxProvider store={store}>
+        <App />
+        {/* Render the Footer component */}
+        <Footer />
+      </ReduxProvider>
     </Router>
   );
 }

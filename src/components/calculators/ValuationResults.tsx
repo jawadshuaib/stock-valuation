@@ -1,7 +1,16 @@
 import React from 'react';
 import { ValuationData } from './types';
 import { NUMBER_OF_SIMULATIONS } from '../../utils/valuations/monte-carlo/MonteCarloIntrinsicValueCalculator';
+import MonteCarloDisplayModal from './monte-carlo/MonteCarloDisplayModal';
 
+{
+  /* <a
+            href="https://github.com/jawadshuaib/stock-valuation/blob/main/documentation/MonteCarloExplanation.md"
+            className="underline hover:no-underline hover:text-blue-600"
+            target="_blank"
+            rel="noreferrer"
+          ></a> */
+}
 interface ValuationResultsProps {
   selection: 'deterministic' | 'montecarlo';
   valuation: ValuationData;
@@ -11,6 +20,8 @@ export default function ValuationResults({
   selection,
   valuation,
 }: ValuationResultsProps) {
+  const [openModal, setOpenModal] = React.useState(false);
+
   const theme = {
     deterministic: {
       title: 'Valuation Results',
@@ -22,17 +33,14 @@ export default function ValuationResults({
       style: 'from-green-50 to-lime-50 border-green-100',
       description: (
         <>
-          Valuation created using{' '}
-          {NUMBER_OF_SIMULATIONS.toLocaleString('en-US')}{' '}
-          <a
-            href="https://github.com/jawadshuaib/stock-valuation/blob/main/documentation/MonteCarloExplanation.md"
-            className="underline hover:no-underline hover:text-blue-600"
-            target="_blank"
-            rel="noreferrer"
+          Valuation created after{' '}
+          <span
+            className="underline cursor-pointer hover:no-underline hover:text-blue-600"
+            onClick={() => setOpenModal(true)}
           >
-            Monte Carlo simulations
-          </a>{' '}
-          adjusted for growth, terminal and discount rate.
+            simulating {NUMBER_OF_SIMULATIONS.toLocaleString('en-US')} scenarios
+          </span>{' '}
+          for the discounted cash flow!
         </>
       ),
     },
@@ -47,7 +55,6 @@ export default function ValuationResults({
       className={`${style} mt-8 p-6 bg-gradient-to-br rounded-xl border shadow-sm`}
     >
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">{title}</h2>
-
       <div className="space-y-4">
         <div className="p-4 bg-white rounded-lg shadow-sm border border-blue-100">
           <div className="text-sm font-medium text-gray-500 mb-1">
@@ -70,6 +77,12 @@ export default function ValuationResults({
           <p className="text-sm text-gray-600">{description}</p>
         )}
       </div>
+      {openModal && (
+        <MonteCarloDisplayModal
+          show={openModal}
+          onClose={() => setOpenModal(false)}
+        />
+      )}
     </section>
   );
 }

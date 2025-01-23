@@ -11,7 +11,11 @@ import {
   areAllValuesGreaterThanZero,
   getPrefilledValues,
 } from '../../../utils/urlParams';
-import MonteCarloIntrinsicValueCalculator from '../../../utils/valuations/monte-carlo/MonteCarloIntrinsicValueCalculator';
+import MonteCarloIntrinsicValueCalculator, {
+  SIMULATION,
+} from '../../../utils/valuations/monte-carlo/MonteCarloIntrinsicValueCalculator';
+import { useAppDispatch } from '../../../store/sliceHooks';
+import { addSimulation } from '../../../store/slices/simulation';
 
 // Default values for the form fields
 const DEFAULT_VALUES: EPSFormData = {
@@ -61,6 +65,7 @@ function EPSFinancialInputsForm({
   valuateFn,
   valuationErrorFn,
 }: FinancialInputsFormProps) {
+  const dispatch = useAppDispatch();
   // State to track form input values
   const [formData, setFormData] = useState<EPSFormData>(prefilledValues);
   // Show save button
@@ -103,11 +108,14 @@ function EPSFinancialInputsForm({
           params,
         );
 
-        const simulations = monteCarloCalculator.runSimulations();
-        if (Number.isNaN(simulations.median)) return null;
+        const simulation: SIMULATION = monteCarloCalculator.runSimulations();
+        if (Number.isNaN(simulation.median)) return null;
 
-        let result = simulations.results.find(
-          (res) => res.valuation.intrinsicValue === simulations.median,
+        // Save simulation data to Redux store
+        dispatch(addSimulation(simulation));
+
+        let result = simulation.results.find(
+          (res) => res.valuation.intrinsicValue === simulation.median,
         );
 
         if (!result) {
