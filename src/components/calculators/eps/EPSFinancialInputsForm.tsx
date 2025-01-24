@@ -24,7 +24,7 @@ const DEFAULT_VALUES: EPSFormData = {
   growthRate: 0,
   terminalGrowthRate: 0,
   discountRate: 0,
-  marginOfSafety: 50,
+  // marginOfSafety: 50,
 };
 
 // Get prefilled values from URL parameters if available
@@ -45,7 +45,7 @@ const FORM_FIELDS = [
     placeholder: '3%',
   },
   { label: 'Discount Rate (%)', id: 'discountRate', placeholder: '10%' },
-  { label: 'Margin of Safety (%)', id: 'marginOfSafety', placeholder: '50%' },
+  // { label: 'Margin of Safety (%)', id: 'marginOfSafety', placeholder: '50%' },
 ] as const;
 
 // Component props
@@ -101,7 +101,7 @@ function EPSFinancialInputsForm({
           growthRate: data.growthRate / 100,
           terminalGrowthRate: data.terminalGrowthRate / 100,
           discountRate: data.discountRate / 100,
-          marginOfSafety: data.marginOfSafety / 100,
+          // marginOfSafety: data.marginOfSafety / 100,
         } as const;
 
         const monteCarloCalculator = new MonteCarloIntrinsicValueCalculator(

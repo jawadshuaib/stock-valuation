@@ -59,7 +59,7 @@ export interface EPSFormData {
   growthRate: number; // Initial growth rate as a percentage
   terminalGrowthRate: number; // Terminal growth rate as a percentage
   discountRate: number; // Discount rate as a percentage
-  marginOfSafety: number; // Margin of safety as a percentage
+  // marginOfSafety: number; // Margin of safety as a percentage
 }
 
 // Define the fcf form data structure
@@ -70,6 +70,6 @@ export interface FCFFormData {
   terminalGrowthRate: number; // Terminal growth rate as a percentage
   discountRate: number; // Discount rate as a percentage
   projectionYears: number; // Projection period in years
-  marginOfSafety: number; // Margin of safety as a percentage
+  // marginOfSafety: number; // Margin of safety as a percentage
   outstandingShares: number; // Number of shares outstanding
 }

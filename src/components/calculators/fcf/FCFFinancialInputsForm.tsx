@@ -25,7 +25,7 @@ const DEFAULT_VALUES: FCFFormData = {
   terminalGrowthRate: 0, // Terminal growth rate
   discountRate: 0, // Discount rate
   projectionYears: 10, // Projection period
-  marginOfSafety: 50, // Margin of safety
+  // marginOfSafety: 50, // Margin of safety
   outstandingShares: 0, // Number of shares outstanding
 };
 
@@ -52,7 +52,7 @@ const FORM_FIELDS = [
     placeholder: '3%',
   },
   { label: 'Discount Rate (%)', id: 'discountRate', placeholder: '10%' },
-  { label: 'Margin of Safety (%)', id: 'marginOfSafety', placeholder: '50%' },
+  // { label: 'Margin of Safety (%)', id: 'marginOfSafety', placeholder: '50%' },
 ] as const;
 
 // Component props
@@ -84,7 +84,6 @@ function FCFFinancialInputsForm({
   const [openModal, setOpenModal] = useState(false);
   // State to track if the valuation has been saved
   const [isSaved, setIsSaved] = useState(false);
-
   /**
    * Calculates the intrinsic value based on current form data.
    * Converts percentage values to decimals before calculation.
@@ -101,7 +100,6 @@ function FCFFinancialInputsForm({
           return; // Early return if any field is zero or less
         }
       }
-
       try {
         // Convert percentage values to decimals for calculation
         const params = {
@@ -112,7 +110,7 @@ function FCFFinancialInputsForm({
           terminalGrowthRate: data.terminalGrowthRate / 100,
           discountRate: data.discountRate / 100,
           projectionYears: data.projectionYears,
-          marginOfSafety: data.marginOfSafety / 100,
+          // marginOfSafety: data.marginOfSafety / 100,
           outstandingShares: data.outstandingShares,
         } as const;
 
@@ -176,7 +174,7 @@ function FCFFinancialInputsForm({
    * Debounced version of calculateValuation to prevent excessive calculations
    * during rapid user input. Waits 300ms after the last input before calculating.
    */
-  const debouncedValuation = useCallback(debounce(calculateValuation, 500), [
+  const debouncedValuation = useCallback(debounce(calculateValuation, 300), [
     calculateValuation,
   ]);
 

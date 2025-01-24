@@ -5,7 +5,7 @@ import { ProjectionData } from '../../../components/calculators/types';
 import ValidationError from '../ValidationError';
 import ValuationConfig from '../ValuationConfig';
 
-export const NUMBER_OF_SIMULATIONS = 10000;
+export const NUMBER_OF_SIMULATIONS = 100;
 
 // Define the parameters required for the Monte Carlo simulation
 interface MonteCarloParams {
@@ -17,7 +17,7 @@ interface MonteCarloParams {
   terminalGrowthRate: number;
   discountRate: number;
   projectionYears?: number;
-  marginOfSafety: number;
+  // marginOfSafety: number;
   outstandingShares?: number;
 }
 
