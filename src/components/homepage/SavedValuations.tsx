@@ -44,7 +44,7 @@ const SavedValuations: React.FC = () => {
   useEffect(() => {
     const savedItems = JSON.parse(
       localStorage.getItem('savedValuations') || '[]',
-    );
+    ).reverse();
     setSavedValuations(savedItems);
   }, []);
 

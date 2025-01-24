@@ -33,7 +33,6 @@ export class FinancialRatiosCalculator {
   }
 
   getPriceToIntrinsicValueRatio(): number {
-    console.log('financial-ratios', this.data.valuation.intrinsicValue);
     return this.data.inputs.sharePrice / this.data.valuation.intrinsicValue;
   }
 
