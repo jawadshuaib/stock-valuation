@@ -173,8 +173,8 @@ class FCFIntrinsicValueCalculator {
       presentValueOfCashFlows + terminalValueAnalysis.presentValueOfTerminal; // Total intrinsic value.
 
     const intrinsicSharePrice = intrinsicValue / this.params.outstandingShares; // Intrinsic share price.
-    const marginOfSafetySharePrice =
-      intrinsicSharePrice * (1 - this.params.marginOfSafety); // Margin of safety share price.
+    // const marginOfSafetySharePrice =
+    //   intrinsicSharePrice * (1 - this.params.marginOfSafety); // Margin of safety share price.
 
     return {
       presentValueOfCashFlows: Number(presentValueOfCashFlows.toFixed(2)),
@@ -183,7 +183,7 @@ class FCFIntrinsicValueCalculator {
       // intrinsicSharePrice: Number(intrinsicSharePrice.toFixed(2)),
       // marginOfSafetySharePrice: Number(marginOfSafetySharePrice.toFixed(2)),
       intrinsicValue: Number(intrinsicSharePrice.toFixed(2)),
-      marginOfSafetyPrice: Number(marginOfSafetySharePrice.toFixed(2)),
+      marginOfSafetyPrice: 0, //Number(marginOfSafetySharePrice.toFixed(2)),
     };
   }
 

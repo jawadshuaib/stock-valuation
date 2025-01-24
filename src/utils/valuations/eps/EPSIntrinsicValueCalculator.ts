@@ -170,9 +170,8 @@ class EPSIntrinsicValueCalculator {
       presentValueOfCashFlows: Number(presentValueOfCashFlows.toFixed(2)),
       presentValueOfTerminal: terminalValueAnalysis.presentValueOfTerminal,
       intrinsicValue: Number(intrinsicValue.toFixed(2)),
-      marginOfSafetyPrice: Number(
-        (intrinsicValue * (1 - this.params.marginOfSafety)).toFixed(2), // Adjusts intrinsic value for margin of safety.
-      ),
+      marginOfSafetyPrice: 0,
+      //Number((intrinsicValue * (1 - this.params.marginOfSafety)).toFixed(2), // Adjusts intrinsic value for margin of safety.),
     };
   }
 
