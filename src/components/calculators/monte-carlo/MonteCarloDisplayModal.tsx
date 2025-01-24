@@ -111,11 +111,11 @@ function MonteCarloDisplayModal({
 
   return (
     <div>
-      <Modal show={show} onClose={onClose}>
+      <Modal show={show} onClose={onClose} dismissible>
         <Modal.Header>Monte Carlo Simulation</Modal.Header>
         <Modal.Body>
           <p className="mb-4">
-            The discounted cash flow was simulated a total of{' '}
+            This discounted cash flow was simulated a total of{' '}
             {NUMBER_OF_SIMULATIONS.toLocaleString('en-US')} times with varying
             values for growth, terminal, and discount rates to arrive at the
             most reasonable valuation.
@@ -138,16 +138,15 @@ function MonteCarloDisplayModal({
             <p className="mb-2">
               The most conservative valuation (10th percentile) is{' '}
               <span className="font-bold">{percentile10.toFixed(2)}</span>,
-              meaning that only 10% of the simulations resulted in an intrinsic
-              value below this amount. This pessimistic scenario can be used as
-              the margin of safety.
+              meaning only 10% of simulations resulted in an intrinsic value
+              below this amount. This pessimistic scenario is used as the margin
+              of safety.
             </p>
             <p>
-              The vast majority of the simulations resulted in an intrinsic
-              value below{' '}
-              <span className="font-bold">{percentile90.toFixed(2)}</span>. This
-              helps to understand the potential upside in the most optimistic
-              scenarios.
+              The vast majority of simulations resulted in an intrinsic value
+              below <span className="font-bold">{percentile90.toFixed(2)}</span>
+              . This helps to understand the potential upside in the most
+              optimistic scenarios.
             </p>
           </div>
         </Modal.Body>

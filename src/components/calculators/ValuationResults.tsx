@@ -3,6 +3,8 @@ import { ValuationData } from './types';
 import { NUMBER_OF_SIMULATIONS } from '../../utils/valuations/monte-carlo/MonteCarloIntrinsicValueCalculator';
 import MonteCarloDisplayModal from './monte-carlo/MonteCarloDisplayModal';
 import { useAppSelector } from '../../store/sliceHooks';
+import { Tooltip } from 'flowbite-react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default function ValuationResults() {
   const selector = useAppSelector((state) => state.simulation);
@@ -61,8 +63,14 @@ export default function ValuationResults() {
         </div>
 
         <div className="p-4 bg-white rounded-lg shadow-sm border border-blue-100">
-          <div className="text-sm font-medium text-gray-500 mb-1">
-            Margin of Safety Price
+          <div className="flex items-center text-sm font-medium text-gray-500 mb-1">
+            <span>Margin of Safety Price</span>
+            <Tooltip
+              content="The margin of safety is determined statistically using the 10th percentile of the Monte Carlo simulations."
+              style="light"
+            >
+              <i className="fas fa-info-circle ml-1 cursor-pointer"></i>
+            </Tooltip>
           </div>
           <div className="text-3xl font-bold text-green-600">
             ${valuation.marginOfSafetyPrice.toFixed(2)}

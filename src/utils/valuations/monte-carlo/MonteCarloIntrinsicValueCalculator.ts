@@ -5,7 +5,7 @@ import { ProjectionData } from '../../../components/calculators/types';
 import ValidationError from '../ValidationError';
 import ValuationConfig from '../ValuationConfig';
 
-export const NUMBER_OF_SIMULATIONS = 100;
+export const NUMBER_OF_SIMULATIONS = 1000;
 
 // Define the parameters required for the Monte Carlo simulation
 interface MonteCarloParams {
