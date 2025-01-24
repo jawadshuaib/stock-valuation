@@ -136,9 +136,9 @@ function MonteCarloDisplayModal({
           </div>
           <div className="mt-6">
             <p className="mb-2">
-              The most conservative valuation (10th percentile) is{' '}
+              The most conservative valuation (1st percentile) is{' '}
               <span className="font-bold">{percentile10.toFixed(2)}</span>,
-              meaning only 10% of simulations resulted in an intrinsic value
+              meaning only 1% of simulations resulted in an intrinsic value
               below this amount. This pessimistic scenario is used as the margin
               of safety.
             </p>
