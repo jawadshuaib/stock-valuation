@@ -32,7 +32,6 @@ export const handler: Handler = async (event) => {
     } = params;
 
     const missingParams = [];
-    if (!sharePrice) missingParams.push('sharePrice');
     if (!eps) missingParams.push('eps');
     if (!growthRate) missingParams.push('growthRate');
 
