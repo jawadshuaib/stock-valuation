@@ -26,9 +26,9 @@ export const handler: Handler = async (event) => {
       sharePrice,
       eps,
       growthRate,
-      terminalGrowthRate = '3',
-      discountRate = '10',
-      marginOfSafety = '50',
+      terminalGrowthRate = '0.03',
+      discountRate = '0.1',
+      marginOfSafety = '0.5',
     } = params;
 
     const missingParams = [];
