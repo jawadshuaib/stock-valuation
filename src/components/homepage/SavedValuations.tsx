@@ -61,7 +61,6 @@ const SavedValuations: React.FC = () => {
         growthRate: data.growthRate.toString(),
         terminalGrowthRate: data.terminalGrowthRate.toString(),
         discountRate: data.discountRate.toString(),
-        marginOfSafety: data.marginOfSafety.toString(),
       }).toString();
       return `/eps?${params}`;
     } else {
@@ -73,7 +72,6 @@ const SavedValuations: React.FC = () => {
         terminalGrowthRate: data.terminalGrowthRate.toString(),
         discountRate: data.discountRate.toString(),
         projectionYears: data.projectionYears.toString(),
-        marginOfSafety: data.marginOfSafety.toString(),
         outstandingShares: data.outstandingShares.toString(),
       }).toString();
       return `/fcf?${params}`;
