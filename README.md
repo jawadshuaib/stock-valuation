@@ -76,7 +76,7 @@ A margin of safety reduces the intrinsic value estimate to account for uncertain
 
 The margin of safety is the difference between the intrinsic value of a stock and its market price. By purchasing securities at a significant discount to their intrinsic value, investors create a buffer that protects them against errors in analysis, market volatility, and unforeseen events. This conservative approach helps to minimize potential losses and increase the likelihood of achieving satisfactory returns.
 
-In this tool, the margin of safety is applied to the intrinsic value calculation to provide a more conservative estimate, ensuring that investment decisions are made with a higher degree of confidence and reduced risk.
+In this tool, the margin of safety is measured using the 1st percentile of the Monte Carlo simulation results. This approach provides a more conservative estimate by considering the lower end of the distribution of intrinsic values, ensuring that investment decisions are made with a higher degree of confidence and reduced risk.
 
 ### 9. **Payback Time**
 
