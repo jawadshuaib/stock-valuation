@@ -6,7 +6,7 @@ import { ProjectionData } from '../src/components/calculators/types';
 interface QueryParams {
   sharePrice?: string;
   eps: string;
-  growthRate: string;
+  growthRate?: string;
   terminalGrowthRate?: string;
   discountRate?: string;
   marginOfSafety?: string;
@@ -25,15 +25,15 @@ export const handler: Handler = async (event) => {
     const {
       sharePrice = '1',
       eps,
-      growthRate,
+      growthRate = '0.1',
       terminalGrowthRate = '0.03',
-      discountRate = '0.1',
+      discountRate = '0.08',
       marginOfSafety = '0.5',
     } = params;
 
     const missingParams = [];
     if (!eps) missingParams.push('eps');
-    if (!growthRate) missingParams.push('growthRate');
+    // if (!growthRate) missingParams.push('growthRate');
 
     if (missingParams.length > 0) {
       return {

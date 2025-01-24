@@ -6,11 +6,11 @@ import { ProjectionData } from '../src/components/calculators/types';
 interface QueryParams {
   sharePrice?: string;
   fcf: string;
-  growthRate: string;
+  growthRate?: string;
   terminalGrowthRate?: string;
   discountRate?: string;
   marginOfSafety?: string;
-  outstandingShares: string;
+  outstandingShares?: string;
 }
 
 export const handler: Handler = async (event) => {
@@ -26,17 +26,17 @@ export const handler: Handler = async (event) => {
     const {
       sharePrice = '1',
       fcf,
-      growthRate,
+      growthRate = '0.1',
       terminalGrowthRate = '0.03',
-      discountRate = '0.1',
+      discountRate = '0.08',
       marginOfSafety = '0.50',
-      outstandingShares,
+      outstandingShares = '1',
     } = params;
 
     const missingParams = [];
     if (!fcf) missingParams.push('fcf');
-    if (!growthRate) missingParams.push('growthRate');
-    if (!outstandingShares) missingParams.push('outstandingShares');
+    // if (!growthRate) missingParams.push('growthRate');
+    // if (!outstandingShares) missingParams.push('outstandingShares');
 
     if (missingParams.length > 0) {
       return {
