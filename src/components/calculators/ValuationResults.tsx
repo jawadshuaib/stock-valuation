@@ -66,7 +66,7 @@ export default function ValuationResults() {
           <div className="flex items-center text-sm font-medium text-gray-500 mb-1">
             <span>Margin of Safety Price</span>
             <Tooltip
-              content="The margin of safety is determined statistically using the 10th percentile of the Monte Carlo simulations."
+              content="The margin of safety is determined statistically using the 10th percentile of the simulated valuations."
               style="light"
             >
               <i className="fas fa-info-circle ml-1 cursor-pointer"></i>
