@@ -7,9 +7,9 @@ interface QueryParams {
   sharePrice: string;
   fcf: string;
   growthRate: string;
-  terminalGrowthRate: string;
-  discountRate: string;
-  marginOfSafety: string;
+  terminalGrowthRate?: string;
+  discountRate?: string;
+  marginOfSafety?: string;
   outstandingShares: string;
 }
 
@@ -27,11 +27,26 @@ export const handler: Handler = async (event) => {
       sharePrice,
       fcf,
       growthRate,
-      terminalGrowthRate,
-      discountRate,
-      marginOfSafety,
+      terminalGrowthRate = '3',
+      discountRate = '10',
+      marginOfSafety = '50',
       outstandingShares,
     } = params;
+
+    const missingParams = [];
+    if (!sharePrice) missingParams.push('sharePrice');
+    if (!fcf) missingParams.push('fcf');
+    if (!growthRate) missingParams.push('growthRate');
+    if (!outstandingShares) missingParams.push('outstandingShares');
+
+    if (missingParams.length > 0) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: `Missing query parameters: ${missingParams.join(', ')}`,
+        }),
+      };
+    }
 
     if (
       isNaN(Number(sharePrice)) ||
