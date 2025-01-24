@@ -4,7 +4,7 @@ import { Handler } from '@netlify/functions';
 import { ProjectionData } from '../src/components/calculators/types';
 
 interface QueryParams {
-  sharePrice: string;
+  sharePrice?: string;
   fcf: string;
   growthRate: string;
   terminalGrowthRate?: string;
@@ -24,7 +24,7 @@ export const handler: Handler = async (event) => {
     }
 
     const {
-      sharePrice,
+      sharePrice = '1',
       fcf,
       growthRate,
       terminalGrowthRate = '0.03',
