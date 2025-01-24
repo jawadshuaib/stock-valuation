@@ -126,6 +126,8 @@ function FCFFinancialInputsForm({
         // Save simulation data to Redux store
         dispatch(addSimulation(simulation));
 
+        // Grab ProjectionData from the simulation results
+        // that matches the median intrinsic value
         let result = simulation.results.find(
           (res) => res.valuation.intrinsicValue === simulation.median,
         );

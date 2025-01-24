@@ -26,12 +26,14 @@ export class FinancialRatiosCalculator {
     const eps = this.data.inputs.initialEPS || 0;
     if (eps === 0) return null; // Ensure EPS is not zero
     const peRatio = this.data.inputs.sharePrice / eps; // Calculate PE ratio
-    const growth = parseFloat(this.data.inputs.initialGrowthRate) || 0;
+    const growth =
+      parseFloat(this.data.inputs.initialGrowthRate.toString()) || 0;
     if (growth === 0) return null; // Ensure Growth rate is not zero
     return peRatio / growth; // Calculate PEG ratio
   }
 
   getPriceToIntrinsicValueRatio(): number {
+    console.log('financial-ratios', this.data.valuation.intrinsicValue);
     return this.data.inputs.sharePrice / this.data.valuation.intrinsicValue;
   }
 

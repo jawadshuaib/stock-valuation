@@ -11,6 +11,10 @@ export default function ValuationResults() {
 
   useEffect(() => {
     if (selector.simulation) {
+      // The 10th percentile can be used as the margin of safety price since
+      // it represents a conservative estimate where only 10% of the simulations
+      // resulted in an intrinsic value below this amount. This provides a buffer
+      // against potential downside risks.
       const { median: intrinsicValue, percentile10: marginOfSafetyPrice } =
         selector.simulation;
       setValuation({

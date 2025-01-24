@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { FinancialRatiosCalculator } from '../../../utils/valuations/financial-ratios/financial-ratios';
 import { InvestmentContext } from '../InvestmentContext';
+// import { useAppSelector } from '../../../store/sliceHooks';
 
 interface FinancialRatiosProps {
   // data: ProjectionData;
@@ -15,8 +16,10 @@ const Emoji: React.FC<{ value: number }> = ({ value }) => {
 };
 
 const FinancialRatios: React.FC<FinancialRatiosProps> = () => {
+  // const selector = useAppSelector((state) => state.simulation);
   const data = useContext(InvestmentContext);
 
+  // const [mos, setMos] = useState<number | null>(null);
   if (!data) return null;
 
   const ratios = new FinancialRatiosCalculator(data);
@@ -26,6 +29,21 @@ const FinancialRatios: React.FC<FinancialRatiosProps> = () => {
   const priceToEarningsGrowth = ratios.getPriceToEarningsGrowth();
   const priceToIntrinsicValue = ratios.getPriceToIntrinsicValueRatio();
   const priceToMarginOfSafety = ratios.getPriceToMarginOfSafetyRatio();
+
+  // useEffect(() => {
+  //   if (selector.simulation) {
+  //     // The 10th percentile can be used as the margin of safety price since
+  //     // it represents a conservative estimate where only 10% of the simulations
+  //     // resulted in an intrinsic value below this amount. This provides a buffer
+  //     // against potential downside risks.
+  //     const { median: intrinsicValue, percentile10: marginOfSafetyPrice } =
+  //       selector.simulation;
+  //     setValuation({
+  //       intrinsicValue,
+  //       marginOfSafetyPrice,
+  //     });
+  //   }
+  // }, [selector.simulation]);
 
   return (
     <section className="mt-8 p-6 bg-white rounded-lg border border-blue-100 shadow-sm">
