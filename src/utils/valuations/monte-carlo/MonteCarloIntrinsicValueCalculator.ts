@@ -22,8 +22,10 @@ interface MonteCarloParams {
 }
 
 export interface SIMULATION {
-  percentile10: number;
+  percentile1: number;
   percentile90: number;
+  minGrowthRate: number;
+  maxGrowthRate: number;
   mean: number;
   median: number;
   results: ProjectionData[];
@@ -212,6 +214,13 @@ class MonteCarloIntrinsicValueCalculator {
     // Only 10% of values are higher than this
     // Represents a more optimistic valuation scenario
 
+    // Calculate the range of growth rates
+    const growthRates = results.map(
+      (result) => result.inputs.initialGrowthRate,
+    );
+    const minGrowthRate = Math.min(...growthRates);
+    const maxGrowthRate = Math.max(...growthRates);
+
     // Update results to include margin of safety
     const updatedResults = results.map((result) => ({
       ...result,
@@ -224,8 +233,10 @@ class MonteCarloIntrinsicValueCalculator {
     return {
       mean,
       median,
-      percentile10: percentile(10),
+      percentile1: percentile(1),
       percentile90: percentile(90),
+      minGrowthRate,
+      maxGrowthRate,
       results: updatedResults,
     };
   }

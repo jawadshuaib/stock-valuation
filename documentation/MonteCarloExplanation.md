@@ -89,34 +89,4 @@ $$ \text{Percentile}(p) = \text{sorted intrinsic values}[\frac{p}{100} \times n]
 
 The `MonteCarloIntrinsicValueCalculator` class provides a robust method for estimating the intrinsic value of a stock by incorporating uncertainty and variability in key financial parameters. By using Monte Carlo simulations, it offers a comprehensive view of potential valuation outcomes, helping investors make more informed decisions.
 
----
-
-## Related Code Snippets
-
-Below is a snippet illustrating the analysis of simulation results:
-
-```typescript
-// Analyze the results of the simulations
-private analyzeResults(results: ProjectionData[]) {
-  const intrinsicValues = results.map(
-    (result) => result.valuation.intrinsicValue,
-  );
-  const mean =
-    intrinsicValues.reduce((sum, value) => sum + value, 0) /
-    intrinsicValues.length;
-  const sortedValues = intrinsicValues.sort((a, b) => a - b);
-  const median = sortedValues[Math.floor(sortedValues.length / 2)];
-  const percentile = (p: number) =>
-    sortedValues[Math.floor((p / 100) * sortedValues.length)];
-
-  return {
-    mean,
-    median,
-    percentile10: percentile(10),
-    percentile90: percentile(90),
-    results,
-  };
-}
-```
-
 For a full reference, see [`MonteCarloIntrinsicValueCalculator.ts`](../src/utils/valuations/monte-carlo/MonteCarloIntrinsicValueCalculator.ts).

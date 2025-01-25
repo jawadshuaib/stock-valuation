@@ -41,7 +41,14 @@ function MonteCarloDisplayModal({
 
   if (!simulation) return null;
 
-  const { median, percentile10, percentile90, results } = simulation;
+  const {
+    median,
+    percentile1,
+    percentile90,
+    minGrowthRate,
+    maxGrowthRate,
+    results,
+  } = simulation;
 
   // Prepare data for histogram
   const intrinsicValues = results.map(
@@ -137,16 +144,20 @@ function MonteCarloDisplayModal({
           <div className="mt-6">
             <p className="mb-2">
               The most conservative valuation (1st percentile) is{' '}
-              <span className="font-bold">{percentile10.toFixed(2)}</span>,
+              <span className="font-bold">{percentile1.toFixed(2)}</span>,
               meaning only 1% of simulations resulted in an intrinsic value
               below this amount. This pessimistic scenario is used as the margin
               of safety.
             </p>
-            <p>
+            <p className="mb-2">
               The vast majority of simulations resulted in an intrinsic value
               below <span className="font-bold">{percentile90.toFixed(2)}</span>
               . This helps to understand the potential upside in the most
               optimistic scenarios.
+            </p>
+            <p>
+              Growth rates were sampled from a range of{' '}
+              {minGrowthRate.toFixed(2)}% to {maxGrowthRate.toFixed(2)}%.
             </p>
           </div>
         </Modal.Body>
