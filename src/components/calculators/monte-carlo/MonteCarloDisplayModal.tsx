@@ -1,31 +1,9 @@
 import React from 'react';
 import { Modal } from 'flowbite-react';
-import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from 'chart.js';
-import annotationPlugin from 'chartjs-plugin-annotation';
 import { useAppSelector } from '../../../store/sliceHooks';
 import { NUMBER_OF_SIMULATIONS } from '../../../utils/valuations/monte-carlo/MonteCarloIntrinsicValueCalculator';
-
-// Register Chart.js components and plugins
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-  annotationPlugin,
-);
+import GrowthRateGraph from './GrowthRateGraph';
+import IntrinsicValueGraph from './IntrinsicValueGraph';
 
 interface MonteCarloDisplayModalProps {
   show: boolean;
@@ -50,76 +28,11 @@ function MonteCarloDisplayModal({
     results,
   } = simulation;
 
-  // Prepare data for histogram
-  const intrinsicValues = results.map(
-    (result) => result.valuation.intrinsicValue,
-  );
-  const bins = 20; // Number of bins for the histogram
-  const minValue = Math.min(...intrinsicValues);
-  const maxValue = Math.max(...intrinsicValues);
-  const binWidth = (maxValue - minValue) / bins;
-  const histogramData = Array(bins).fill(0);
-
-  intrinsicValues.forEach((value) => {
-    const binIndex = Math.floor((value - minValue) / binWidth);
-    histogramData[Math.min(binIndex, bins - 1)] += 1;
-  });
-
-  const histogramChartData = {
-    labels: histogramData.map((_, index) =>
-      (minValue + index * binWidth).toFixed(2),
-    ),
-    datasets: [
-      {
-        label: 'Intrinsic Value Distribution',
-        data: histogramData,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-      },
-    ],
-  };
-
-  // Chart options with annotation for median
-  const options = {
-    responsive: true,
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Intrinsic Value',
-        },
-      },
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Frequency',
-        },
-      },
-    },
-    plugins: {
-      annotation: {
-        annotations: {
-          medianLine: {
-            type: 'line' as const,
-            scaleID: 'x',
-            value: median,
-            borderColor: 'red',
-            borderWidth: 2,
-            label: {
-              content: 'Median',
-              enabled: true,
-              position: 'end' as const,
-            },
-          },
-        },
-      },
-    },
-  };
-
   return (
     <div>
       <Modal show={show} onClose={onClose} dismissible>
         <Modal.Header>Monte Carlo Simulation</Modal.Header>
+
         <Modal.Body>
           <p className="mb-4">
             This discounted cash flow was simulated a total of{' '}
@@ -136,10 +49,7 @@ function MonteCarloDisplayModal({
             as the best representative of the dataset.
           </p>
           <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-4">
-              Intrinsic Value Distribution
-            </h3>
-            <Bar data={histogramChartData} options={options} />
+            <IntrinsicValueGraph results={results} />
           </div>
           <div className="mt-6">
             <p className="mb-2">
@@ -155,12 +65,17 @@ function MonteCarloDisplayModal({
               . This helps to understand the potential upside in the most
               optimistic scenarios.
             </p>
+            <GrowthRateGraph results={results} />
             <p>
               Growth rates were sampled from a range of{' '}
-              {minGrowthRate.toFixed(2)}% to {maxGrowthRate.toFixed(2)}%.
+              {minGrowthRate.toFixed(2)}% to {maxGrowthRate.toFixed(2)}%. Notice
+              the above distribution is clustered towards the lower range of
+              growth rates - this is on purpose to simulate conservative
+              valuations.
             </p>
           </div>
         </Modal.Body>
+
         <Modal.Footer>
           <p>
             Link to the{' '}
