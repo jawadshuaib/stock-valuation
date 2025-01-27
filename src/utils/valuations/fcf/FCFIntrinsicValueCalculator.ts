@@ -117,15 +117,13 @@ class FCFIntrinsicValueCalculator {
       const growthRate = this.growthCalculator.calculateGrowthRate(year); // Growth rate for the year.
       currentFCF *= 1 + growthRate; // Apply growth rate to calculate FCF.
 
+      const pv = this.pvCalculator.calculatePresentValue(currentFCF, year + 1); // Discount projected FCF to present value.
+
       projections.push({
         year: year + 1, // Current year in projection timeline.
-        fcf: Number(currentFCF.toFixed(2)), // Projected FCF for the year.
-        growthRate: Number((growthRate * 100).toFixed(2)), // Growth rate as a percentage.
-        presentValue: Number(
-          this.pvCalculator
-            .calculatePresentValue(currentFCF, year + 1) // Discount projected FCF to present value.
-            .toFixed(2),
-        ),
+        fcf: Number(currentFCF ? currentFCF.toFixed(2) : 0), // Projected FCF for the year.
+        growthRate: Number(growthRate ? (growthRate * 100).toFixed(2) : 0), // Growth rate as a percentage.
+        presentValue: Number(pv ? pv.toFixed(2) : 0),
       });
     }
 
@@ -146,14 +144,15 @@ class FCFIntrinsicValueCalculator {
       this.params.terminalGrowthRate,
     ); // Terminal value calculated using a perpetuity growth model.
 
+    const pv = this.pvCalculator.calculatePresentValue(
+      terminalValue,
+      this.params.projectionYears,
+    ); // Discount terminal value to present value.
+
     return {
-      finalFCF: Number(finalFCF.toFixed(2)),
-      terminalValue: Number(terminalValue.toFixed(2)), // Raw terminal value.
-      presentValueOfTerminal: Number(
-        this.pvCalculator
-          .calculatePresentValue(terminalValue, this.params.projectionYears) // Discount terminal value to present value.
-          .toFixed(2),
-      ),
+      finalFCF: Number(finalFCF ? finalFCF.toFixed(2) : 0),
+      terminalValue: Number(terminalValue ? terminalValue.toFixed(2) : 0), // Raw terminal value.
+      presentValueOfTerminal: Number(pv ? pv.toFixed(2) : 0),
     };
   }
 
@@ -173,17 +172,16 @@ class FCFIntrinsicValueCalculator {
       presentValueOfCashFlows + terminalValueAnalysis.presentValueOfTerminal; // Total intrinsic value.
 
     const intrinsicSharePrice = intrinsicValue / this.params.outstandingShares; // Intrinsic share price.
-    // const marginOfSafetySharePrice =
-    //   intrinsicSharePrice * (1 - this.params.marginOfSafety); // Margin of safety share price.
 
     return {
-      presentValueOfCashFlows: Number(presentValueOfCashFlows.toFixed(2)),
+      presentValueOfCashFlows: Number(
+        presentValueOfCashFlows ? presentValueOfCashFlows.toFixed(2) : 0,
+      ),
       presentValueOfTerminal: terminalValueAnalysis.presentValueOfTerminal,
-      // intrinsicValue: Number(intrinsicValue.toFixed(2)),
-      // intrinsicSharePrice: Number(intrinsicSharePrice.toFixed(2)),
-      // marginOfSafetySharePrice: Number(marginOfSafetySharePrice.toFixed(2)),
-      intrinsicValue: Number(intrinsicSharePrice.toFixed(2)),
-      marginOfSafetyPrice: 0, //Number(marginOfSafetySharePrice.toFixed(2)),
+      intrinsicValue: Number(
+        intrinsicSharePrice ? intrinsicSharePrice.toFixed(2) : 0,
+      ),
+      marginOfSafetyPrice: 0,
     };
   }
 
@@ -191,13 +189,19 @@ class FCFIntrinsicValueCalculator {
    * Provides growth rate analysis
    */
   calculateGrowthAnalysis(projections: { growthRate: number }[]) {
+    const startingGrowthRate = this.params.growthRate * 100;
+    const averageGrowthRate =
+      projections.reduce((sum, p) => sum + p.growthRate, 0) /
+      this.params.projectionYears;
+
     return {
-      startingGrowthRate: `${(this.params.growthRate * 100).toFixed(1)}%`, // Initial growth rate.
+      startingGrowthRate: `${
+        startingGrowthRate ? (this.params.growthRate * 100).toFixed(1) : 0
+      }%`, // Initial growth rate.
       endingGrowthRate: `${projections[projections.length - 1].growthRate}%`, // Final growth rate.
-      averageGrowthRate: `${(
-        projections.reduce((sum, p) => sum + p.growthRate, 0) /
-        this.params.projectionYears
-      ).toFixed(1)}%`, // Average growth rate over the projection period.
+      averageGrowthRate: `${
+        averageGrowthRate ? averageGrowthRate.toFixed(1) : 0
+      }%`, // Average growth rate over the projection period.
     };
   }
 

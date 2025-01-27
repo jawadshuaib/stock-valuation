@@ -111,15 +111,13 @@ class EPSIntrinsicValueCalculator {
       const growthRate = this.growthCalculator.calculateGrowthRate(year); // Growth rate for the year.
       currentEPS *= 1 + growthRate; // Apply growth rate to calculate EPS.
 
+      const pv = this.pvCalculator.calculatePresentValue(currentEPS, year + 1); // Discount projected EPS to present value.
+
       projections.push({
         year: year + 1, // Current year in projection timeline.
-        eps: Number(currentEPS.toFixed(2)), // Projected EPS for the year.
-        growthRate: Number((growthRate * 100).toFixed(2)), // Growth rate as a percentage.
-        presentValue: Number(
-          this.pvCalculator
-            .calculatePresentValue(currentEPS, year + 1) // Discount projected EPS to present value.
-            .toFixed(2),
-        ),
+        eps: Number(currentEPS ? currentEPS.toFixed(2) : 0), // Projected EPS for the year.
+        growthRate: Number(growthRate ? (growthRate * 100).toFixed(2) : 0), // Growth rate as a percentage.
+        presentValue: Number(pv ? pv.toFixed(2) : 0), // Discounted present value of EPS.
       });
     }
 
@@ -134,19 +132,22 @@ class EPSIntrinsicValueCalculator {
    * It's a significant portion of the total valuation for long-lived assets like stocks.
    */
   calculateTerminalValue(projections: { eps: number }[]) {
-    const finalEPS = projections[projections.length - 1].eps; // EPS at the end of the projection period.
+    const finalEPS = projections[projections.length - 1]?.eps ?? 0; // EPS at the end of the projection period.
     const terminalValue = this.pvCalculator.calculateTerminalValue(
       finalEPS,
       this.params.terminalGrowthRate,
     ); // Terminal value calculated using a perpetuity growth model.
 
+    const presentValueOfTerminal = this.pvCalculator.calculatePresentValue(
+      terminalValue,
+      this.params.projectionYears,
+    ); // Discount terminal value to present value.
+
     return {
-      finalEPS: Number(finalEPS.toFixed(2)),
-      terminalValue: Number(terminalValue.toFixed(2)), // Raw terminal value.
+      finalEPS: Number(finalEPS ? finalEPS.toFixed(2) : 0),
+      terminalValue: Number(terminalValue ? terminalValue.toFixed(2) : 0), // Raw terminal value.
       presentValueOfTerminal: Number(
-        this.pvCalculator
-          .calculatePresentValue(terminalValue, this.params.projectionYears) // Discount terminal value to present value.
-          .toFixed(2),
+        presentValueOfTerminal ? presentValueOfTerminal.toFixed(2) : 0,
       ),
     };
   }
@@ -167,11 +168,13 @@ class EPSIntrinsicValueCalculator {
       presentValueOfCashFlows + terminalValueAnalysis.presentValueOfTerminal; // Total intrinsic value.
 
     return {
-      presentValueOfCashFlows: Number(presentValueOfCashFlows.toFixed(2)),
+      presentValueOfCashFlows: Number(
+        presentValueOfCashFlows ? presentValueOfCashFlows.toFixed(2) : 0,
+      ),
       presentValueOfTerminal: terminalValueAnalysis.presentValueOfTerminal,
-      intrinsicValue: Number(intrinsicValue.toFixed(2)),
+      intrinsicValue: Number(intrinsicValue ? intrinsicValue.toFixed(2) : 0),
       marginOfSafetyPrice: 0,
-      //Number((intrinsicValue * (1 - this.params.marginOfSafety)).toFixed(2), // Adjusts intrinsic value for margin of safety.),
+      // Number((intrinsicValue * (1 - this.params.marginOfSafety)).toFixed(2)), // Adjusts intrinsic value for margin of safety.
     };
   }
 
@@ -179,13 +182,17 @@ class EPSIntrinsicValueCalculator {
    * Provides growth rate analysis
    */
   calculateGrowthAnalysis(projections: { growthRate: number }[]) {
+    const startingGrowthRate = this.params.growthRate * 100;
+    const endingGrowthRate =
+      projections[projections.length - 1]?.growthRate ?? 0;
+    const averageGrowthRate =
+      projections.reduce((sum, p) => sum + p.growthRate, 0) /
+      this.params.projectionYears;
+
     return {
-      startingGrowthRate: `${(this.params.growthRate * 100).toFixed(1)}%`, // Initial growth rate.
-      endingGrowthRate: `${projections[projections.length - 1].growthRate}%`, // Final growth rate.
-      averageGrowthRate: `${(
-        projections.reduce((sum, p) => sum + p.growthRate, 0) /
-        this.params.projectionYears
-      ).toFixed(1)}%`, // Average growth rate over the projection period.
+      startingGrowthRate: `${startingGrowthRate.toFixed(1)}%`, // Initial growth rate.
+      endingGrowthRate: `${endingGrowthRate.toFixed(1)}%`, // Final growth rate.
+      averageGrowthRate: `${averageGrowthRate.toFixed(1)}%`, // Average growth rate over the projection period.
     };
   }
 
