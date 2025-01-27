@@ -9,7 +9,7 @@ const OwnerEarningsYield: React.FC = () => {
 
   const ownerEarningsYield = new OwnerEarningsYieldCalculator(data);
   const yieldResult = ownerEarningsYield.calculateYield();
-  const discountRate = parseFloat(data.inputs.discountRate);
+  const discountRate = parseFloat(data.inputs.discountRate.toString());
 
   if (!yieldResult) {
     return null;

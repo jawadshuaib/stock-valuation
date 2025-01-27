@@ -42,14 +42,15 @@ export default function FCFForFree() {
 
   const premium = marketCap - ncav;
 
-  const discountRate = parseFloat(data.inputs.discountRate) / 100; // Convert percentage to decimal
+  const discountRate = parseFloat(data.inputs.discountRate.toString()) / 100; // Convert percentage to decimal
 
   const fcfCalculator = new FCFIntrinsicValueCalculator({
     method: 'fcf',
     sharePrice: data.inputs.sharePrice,
     fcf: data.inputs.initialFCF ? data.inputs.initialFCF : 0,
-    growthRate: parseFloat(data.inputs.initialGrowthRate) / 100, // Convert percentage to decimal
-    terminalGrowthRate: parseFloat(data.inputs.terminalGrowthRate) / 100, // Convert percentage to decimal
+    growthRate: parseFloat(data.inputs.initialGrowthRate.toString()) / 100, // Convert percentage to decimal
+    terminalGrowthRate:
+      parseFloat(data.inputs.terminalGrowthRate.toString()) / 100, // Convert percentage to decimal
     discountRate: discountRate,
     projectionYears: data.inputs.projectionYears,
     outstandingShares: data.inputs.outstandingShares ?? 0,

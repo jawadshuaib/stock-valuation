@@ -19,14 +19,7 @@ function MonteCarloDisplayModal({
 
   if (!simulation) return null;
 
-  const {
-    median,
-    percentile1,
-    percentile90,
-    minGrowthRate,
-    maxGrowthRate,
-    results,
-  } = simulation;
+  const { median, percentile1, percentile90, results } = simulation;
 
   return (
     <div>
@@ -44,7 +37,7 @@ function MonteCarloDisplayModal({
             From the resultant distribution, we picked the median intrinsic
             value of{' '}
             <span className="p-1 bg-yellow-200 font-bold rounded-md">
-              {median.toFixed(2)}
+              {median?.toFixed(2)}
             </span>{' '}
             as the best representative of the dataset.
           </p>
@@ -54,25 +47,19 @@ function MonteCarloDisplayModal({
           <div className="mt-6">
             <p className="mb-2">
               The most conservative valuation (1st percentile) is{' '}
-              <span className="font-bold">{percentile1.toFixed(2)}</span>,
+              <span className="font-bold">{percentile1?.toFixed(2)}</span>,
               meaning only 1% of simulations resulted in an intrinsic value
               below this amount. This pessimistic scenario is used as the margin
               of safety.
             </p>
             <p className="mb-2">
               The vast majority of simulations resulted in an intrinsic value
-              below <span className="font-bold">{percentile90.toFixed(2)}</span>
-              . This helps to understand the potential upside in the most
+              below{' '}
+              <span className="font-bold">{percentile90?.toFixed(2)}</span>.
+              This helps to understand the potential upside in the most
               optimistic scenarios.
             </p>
             <GrowthRateGraph results={results} />
-            <p>
-              Growth rates were sampled from a range of{' '}
-              {minGrowthRate.toFixed(2)}% to {maxGrowthRate.toFixed(2)}%. Notice
-              the above distribution is clustered towards the lower range of
-              growth rates - this is on purpose to simulate conservative
-              valuations.
-            </p>
           </div>
         </Modal.Body>
 
