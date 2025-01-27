@@ -7,6 +7,7 @@ import AppRoutes from './AppRoutes'; // Import the Routes component
 import Footer from './components/footer/Footer';
 import Header from './components/ui/Header';
 import BackButton from './components/ui/BackButton';
+import ErrorBoundary from './components/ui/ErrorBoundary';
 
 const APP_NAME = 'Stock Valuation using Discounted Cash Flows';
 
@@ -46,7 +47,9 @@ function AppWrapper() {
   return (
     <Router>
       <ReduxProvider store={store}>
-        <App />
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
         {/* Render the Footer component */}
         <Footer />
       </ReduxProvider>

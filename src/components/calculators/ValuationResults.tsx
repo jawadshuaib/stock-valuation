@@ -17,12 +17,17 @@ export default function ValuationResults() {
       // it represents a conservative estimate where only 10% of the simulations
       // resulted in an intrinsic value below this amount. This provides a buffer
       // against potential downside risks.
-      const { median: intrinsicValue, percentile1: marginOfSafetyPrice } =
-        selector.simulation;
-      setValuation({
-        intrinsicValue,
-        marginOfSafetyPrice,
-      });
+      if (
+        selector.simulation.median !== undefined &&
+        selector.simulation.percentile1 !== undefined
+      ) {
+        const { median: intrinsicValue, percentile1: marginOfSafetyPrice } =
+          selector.simulation;
+        setValuation({
+          intrinsicValue,
+          marginOfSafetyPrice,
+        });
+      }
     }
   }, [selector.simulation]);
 
