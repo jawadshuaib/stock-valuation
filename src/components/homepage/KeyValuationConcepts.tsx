@@ -20,13 +20,13 @@ const Chicklet = function ({
 const KeyValuationConcepts = () => {
   return (
     <section className="mt-8">
-      <article className="p-8 bg-gray-50 rounded-xl border border-gray-200">
+      <article className="p-2 md:p-8 md:bg-gray-50 md:rounded-xl md:border md:border-gray-200">
         <div>
           <h3 className="text-xl font-semibold text-gray-800 mb-4">
             Key Valuation Concepts Used
           </h3>
-          <div className="space-y-4 bg-white p-6 rounded-lg border border-gray-100">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="space-y-4 bg-gray-50 md:bg-white p-2 md:p-6 rounded-lg border border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <Chicklet title="Monte Carlo Simulation">
                 Thousands of iterations with varying inputs to model uncertainty
                 in valuation parameters
@@ -68,7 +68,7 @@ const KeyValuationConcepts = () => {
           <div className="space-y-4 bg-white p-6 rounded-lg border border-gray-100">
             <div className="space-y-2">
               <div className="font-medium text-gray-700">Core Formulas:</div>
-              <div className="pl-4 space-y-2 font-mono text-sm">
+              <div className="md:pl-4 space-y-2 font-mono text-xs md:text-sm">
                 <BlockMath math="Present\ Value = \dfrac{Future\ Value}{(1 + r)^n}" />
                 <BlockMath math="Growth\ Rate \sim LogNormal(\mu, \sigma)" />
                 <BlockMath math="Terminal\ Value = Future\ Value \cdot \dfrac{1 + g}{r - g}" />
