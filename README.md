@@ -169,7 +169,23 @@ npm install
 npm run dev
 ```
 
+### 5. Run tests
+
+This project includes unit tests for key components using React Testing Library and Jest. The tests ensure that the components behave correctly when valid and invalid inputs are provided.
+
+```bash
+npm test
+```
+
 ---
+
+## Continuous Integration:
+
+The project is set up with GitHub Actions for continuous integration. The tests are automatically run on every push and pull request to the main branch. If the tests pass, the project is built and deployed to Netlify.
+
+Test Files
+Free Cash Flow Calculator: Located in `FCFCalculator.test.tsx`
+Earnings per Share Calculator: Located in `EPSCalculator.test.tsx`
 
 ## How the Code Works
 
