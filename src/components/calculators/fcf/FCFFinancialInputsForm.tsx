@@ -4,7 +4,10 @@ import InputField from '../../ui/InputField';
 import { debounce } from 'lodash';
 import { FCFIntrinsicValueCalculator } from '../../../utils/valuations/fcf';
 import { FCFFormData, ProjectionData } from '../types';
-import { ValidationError } from '../../../utils/valuations';
+import {
+  StockInputValidator,
+  ValidationError,
+} from '../../../utils/valuations';
 import { Link } from 'react-router-dom';
 import SaveModal from '../../ui/SaveModal';
 import {
@@ -104,19 +107,22 @@ function FCFFinancialInputsForm({
           return; // Early return if any field is zero or less
         }
       }
+      // Convert percentage values to decimals for calculation
+      const params = {
+        method: 'fcf',
+        sharePrice: data.sharePrice,
+        fcf: data.fcf,
+        growthRate: data.growthRate / 100,
+        terminalGrowthRate: data.terminalGrowthRate / 100,
+        discountRate: data.discountRate / 100,
+        projectionYears: data.projectionYears,
+        // marginOfSafety: data.marginOfSafety / 100,
+        outstandingShares: data.outstandingShares,
+      } as const;
       try {
-        // Convert percentage values to decimals for calculation
-        const params = {
-          method: 'fcf',
-          sharePrice: data.sharePrice,
-          fcf: data.fcf,
-          growthRate: data.growthRate / 100,
-          terminalGrowthRate: data.terminalGrowthRate / 100,
-          discountRate: data.discountRate / 100,
-          projectionYears: data.projectionYears,
-          // marginOfSafety: data.marginOfSafety / 100,
-          outstandingShares: data.outstandingShares,
-        } as const;
+        // Validate the input parameters
+        const validator = new StockInputValidator(params);
+        validator.validate();
 
         const monteCarloCalculator = new MonteCarloIntrinsicValueCalculator(
           params,
