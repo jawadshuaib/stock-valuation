@@ -15,5 +15,11 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "functions"]
+  "include": [
+    "src",
+    "functions",
+    "babel.config.cjs",
+    "jest.config.cjs",
+    "jest.setup.js"
+  ]
 }

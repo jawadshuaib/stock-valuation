@@ -34,12 +34,12 @@ const prefilledValues = getPrefilledValues(DEFAULT_VALUES);
 
 // Form field configuration
 const FORM_FIELDS = [
-  { label: 'Share Price', id: 'sharePrice', placeholder: 'Price per share' },
-  { label: 'Free Cash Flow (FCF)', id: 'fcf', placeholder: '' },
+  { label: 'Share Price', id: 'sharePrice', placeholder: 'Price per Share' },
+  { label: 'Free Cash Flow (FCF)', id: 'fcf', placeholder: 'Free Cash Flow' },
   {
     label: 'Issued Shares',
     id: 'outstandingShares',
-    placeholder: 'Total outstanding shares',
+    placeholder: 'Total Outstanding Shares',
   },
   {
     label: 'Growth Rate (%)',
@@ -49,9 +49,13 @@ const FORM_FIELDS = [
   {
     label: 'Terminal Growth Rate (%)',
     id: 'terminalGrowthRate',
-    placeholder: '3%',
+    placeholder: 'Growth rate after projection period',
   },
-  { label: 'Discount Rate (%)', id: 'discountRate', placeholder: '10%' },
+  {
+    label: 'Discount Rate (%)',
+    id: 'discountRate',
+    placeholder: 'Required Rate of Return',
+  },
   // { label: 'Margin of Safety (%)', id: 'marginOfSafety', placeholder: '50%' },
 ] as const;
 
