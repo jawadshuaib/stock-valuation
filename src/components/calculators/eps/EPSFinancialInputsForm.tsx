@@ -32,8 +32,12 @@ const prefilledValues = getPrefilledValues(DEFAULT_VALUES);
 
 // Form field configuration
 const FORM_FIELDS = [
-  { label: 'Share Price', id: 'sharePrice', placeholder: 'Price per share' },
-  { label: 'Earnings Per Share (EPS)', id: 'eps', placeholder: '' },
+  { label: 'Share Price', id: 'sharePrice', placeholder: 'Price per Share' },
+  {
+    label: 'Earnings Per Share (EPS)',
+    id: 'eps',
+    placeholder: 'Earnings per Share',
+  },
   {
     label: 'Growth Rate (%)',
     id: 'growthRate',
@@ -42,9 +46,13 @@ const FORM_FIELDS = [
   {
     label: 'Terminal Growth Rate (%)',
     id: 'terminalGrowthRate',
-    placeholder: '3%',
+    placeholder: 'Growth rate after projection period',
   },
-  { label: 'Discount Rate (%)', id: 'discountRate', placeholder: '10%' },
+  {
+    label: 'Discount Rate (%)',
+    id: 'discountRate',
+    placeholder: 'Required Rate of Return',
+  },
   // { label: 'Margin of Safety (%)', id: 'marginOfSafety', placeholder: '50%' },
 ] as const;
 
