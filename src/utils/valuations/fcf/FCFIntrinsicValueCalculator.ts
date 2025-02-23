@@ -79,14 +79,14 @@ class FCFIntrinsicValueCalculator {
     const valuation = this.calculateValuation(
       projections,
       terminalValueAnalysis,
-    ); // Combines projections and terminal value into an intrinsic value.
+    ); // Combines projections and terminal value.
 
     const growthProfile = this.growthCalculator.getGrowthProfile(); // Provides detailed growth analysis.
 
     return {
-      method: this.params.method, // Valuation method used.
-      inputs: this.formatInputs(), // Summarizes user inputs.
-      yearByYearProjections: projections, // Detailed FCF and present value projections.
+      method: this.params.method,
+      inputs: this.formatInputs(),
+      yearByYearProjections: projections,
       growthAnalysis: {
         ...this.calculateGrowthAnalysis(projections),
         growthCategory: growthProfile.category,
@@ -95,10 +95,8 @@ class FCFIntrinsicValueCalculator {
       },
       terminalValueAnalysis,
       valuation,
-      // intrinsicSharePrice: valuation.intrinsicSharePrice, // Intrinsic share price.
-      // marginOfSafetySharePrice: valuation.marginOfSafetySharePrice, // Margin of safety share price.
       metadata: {
-        calculatedAt: new Date().toISOString(), // Timestamp of the calculation.
+        calculatedAt: new Date().toISOString(),
       },
     };
   }
@@ -111,18 +109,17 @@ class FCFIntrinsicValueCalculator {
    */
   calculateProjections() {
     const projections = [];
-    let currentFCF = this.params.fcf; // Start with the current FCF.
+    let currentFCF = this.params.fcf;
 
     for (let year = 0; year < this.params.projectionYears; year++) {
-      const growthRate = this.growthCalculator.calculateGrowthRate(year); // Growth rate for the year.
-      currentFCF *= 1 + growthRate; // Apply growth rate to calculate FCF.
+      const growthRate = this.growthCalculator.calculateGrowthRate(year);
+      currentFCF *= 1 + growthRate;
 
-      const pv = this.pvCalculator.calculatePresentValue(currentFCF, year + 1); // Discount projected FCF to present value.
-
+      const pv = this.pvCalculator.calculatePresentValue(currentFCF, year + 1);
       projections.push({
-        year: year + 1, // Current year in projection timeline.
-        fcf: Number(currentFCF ? currentFCF.toFixed(2) : 0), // Projected FCF for the year.
-        growthRate: Number(growthRate ? (growthRate * 100).toFixed(2) : 0), // Growth rate as a percentage.
+        year: year + 1,
+        fcf: Number(currentFCF ? currentFCF.toFixed(2) : 0),
+        growthRate: Number(growthRate ? (growthRate * 100).toFixed(2) : 0),
         presentValue: Number(pv ? pv.toFixed(2) : 0),
       });
     }
@@ -138,20 +135,20 @@ class FCFIntrinsicValueCalculator {
    * It's a significant portion of the total valuation for long-lived assets like stocks.
    */
   calculateTerminalValue(projections: { fcf: number }[]) {
-    const finalFCF = projections[projections.length - 1].fcf; // FCF at the end of the projection period.
+    const finalFCF = projections[projections.length - 1].fcf;
     const terminalValue = this.pvCalculator.calculateTerminalValue(
       finalFCF,
       this.params.terminalGrowthRate,
-    ); // Terminal value calculated using a perpetuity growth model.
+    );
 
     const pv = this.pvCalculator.calculatePresentValue(
       terminalValue,
       this.params.projectionYears,
-    ); // Discount terminal value to present value.
+    );
 
     return {
       finalFCF: Number(finalFCF ? finalFCF.toFixed(2) : 0),
-      terminalValue: Number(terminalValue ? terminalValue.toFixed(2) : 0), // Raw terminal value.
+      terminalValue: Number(terminalValue ? terminalValue.toFixed(2) : 0),
       presentValueOfTerminal: Number(pv ? pv.toFixed(2) : 0),
     };
   }
@@ -166,15 +163,14 @@ class FCFIntrinsicValueCalculator {
     const presentValueOfCashFlows = projections.reduce(
       (sum, proj) => sum + proj.presentValue,
       0,
-    ); // Sum of discounted FCF for the projection period.
+    );
 
     const intrinsicValue =
-      presentValueOfCashFlows + terminalValueAnalysis.presentValueOfTerminal; // Total intrinsic value.
-
-    const intrinsicSharePrice = intrinsicValue / this.params.outstandingShares; // Intrinsic share price.
+      presentValueOfCashFlows + terminalValueAnalysis.presentValueOfTerminal;
+    const intrinsicSharePrice = intrinsicValue / this.params.outstandingShares;
 
     const marginOfSafetyPrice =
-      intrinsicSharePrice * (1 - this.params.marginOfSafety); // Margin of safety price.
+      intrinsicSharePrice * (1 - this.params.marginOfSafety);
 
     return {
       presentValueOfCashFlows: Number(
@@ -202,11 +198,11 @@ class FCFIntrinsicValueCalculator {
     return {
       startingGrowthRate: `${
         startingGrowthRate ? (this.params.growthRate * 100).toFixed(1) : 0
-      }%`, // Initial growth rate.
-      endingGrowthRate: `${projections[projections.length - 1].growthRate}%`, // Final growth rate.
+      }%`,
+      endingGrowthRate: `${projections[projections.length - 1].growthRate}%`,
       averageGrowthRate: `${
         averageGrowthRate ? averageGrowthRate.toFixed(1) : 0
-      }%`, // Average growth rate over the projection period.
+      }%`,
     };
   }
 
@@ -221,7 +217,7 @@ class FCFIntrinsicValueCalculator {
       terminalGrowthRate: this.params.terminalGrowthRate * 100,
       discountRate: this.params.discountRate * 100,
       projectionYears: this.params.projectionYears,
-      outstandingShares: this.params.outstandingShares, // Include outstanding shares in the formatted inputs.
+      outstandingShares: this.params.outstandingShares,
       marginOfSafety: this.params.marginOfSafety * 100,
     };
   }
