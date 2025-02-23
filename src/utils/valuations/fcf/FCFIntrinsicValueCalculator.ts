@@ -45,7 +45,6 @@ class FCFIntrinsicValueCalculator {
   private pvCalculator: PresentValueCalculator; // Handles discounting calculations.
 
   constructor(params: CalculatorParams) {
-    // Assigns defaults if optional parameters are not provided.
     this.params = {
       ...params,
       projectionYears:
@@ -54,12 +53,17 @@ class FCFIntrinsicValueCalculator {
         params.marginOfSafety || ValuationConfig.DEFAULTS.MARGIN_OF_SAFETY,
     };
 
-    this.validator = new StockInputValidator(this.params); // Validates inputs.
+    // Ensure margin of safety is in decimal form
+    if (this.params.marginOfSafety > 1) {
+      this.params.marginOfSafety = this.params.marginOfSafety / 100;
+    }
+
+    this.validator = new StockInputValidator(this.params);
     this.growthCalculator = new GrowthCalculator(
       this.params.growthRate,
       this.params.terminalGrowthRate,
-    ); // Prepares growth rate calculations.
-    this.pvCalculator = new PresentValueCalculator(this.params.discountRate); // Prepares discounting utility.
+    );
+    this.pvCalculator = new PresentValueCalculator(this.params.discountRate);
   }
 
   /**
@@ -72,16 +76,15 @@ class FCFIntrinsicValueCalculator {
    * - Discounts all cash flows to present value.
    */
   calculate() {
-    this.validator.validate(); // Ensures all inputs are valid before proceeding.
+    this.validator.validate();
 
-    const projections = this.calculateProjections(); // FCF projections for the forecast period.
-    const terminalValueAnalysis = this.calculateTerminalValue(projections); // Calculates terminal value.
+    const projections = this.calculateProjections();
+    const terminalValueAnalysis = this.calculateTerminalValue(projections);
     const valuation = this.calculateValuation(
       projections,
       terminalValueAnalysis,
-    ); // Combines projections and terminal value.
-
-    const growthProfile = this.growthCalculator.getGrowthProfile(); // Provides detailed growth analysis.
+    );
+    const growthProfile = this.growthCalculator.getGrowthProfile();
 
     return {
       method: this.params.method,
