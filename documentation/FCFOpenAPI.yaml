@@ -4,7 +4,7 @@ info:
   description: API to calculate the Discounted Cash Flow intrinsic value of a stock using Free Cash Flow (FCF).
   version: 1.0.0
 servers:
-  - url: https://stock-valuation.netlify.app/.netlify/functions/calculateUsingFCF
+  - url: https://m4th.com/.netlify/functions/calculateUsingFCF
 paths:
   /:
     get:

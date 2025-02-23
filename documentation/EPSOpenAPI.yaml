@@ -4,7 +4,7 @@ info:
   description: API to calculate the Discounted Cash Flow intrinsic value and margin of safety price of a stock using EPS.
   version: 1.0.0
 servers:
-  - url: https://stock-valuation.netlify.app/.netlify/functions/calculateUsingEPS
+  - url: https://m4th.com/.netlify/functions/calculateUsingEPS
 paths:
   /:
     get:
