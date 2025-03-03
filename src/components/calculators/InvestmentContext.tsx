@@ -28,6 +28,6 @@ Investment.PaybackTime = PaybackTime;
 Investment.FCFForFree = FCFForFree;
 Investment.HalfLife = HalfLife;
 Investment.Growth = InvestmentGrowth;
-Investment.ReverseDCf = ReverseDCF;
+Investment.ReverseDCF = ReverseDCF;
 
 export default Investment;

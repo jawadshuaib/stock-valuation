@@ -11,8 +11,10 @@ export default function ReverseDCF() {
 
   const calculateReverseDCF = () => {
     const params = {
+      method: data.method, // "fcf" or "eps"
       sharePrice: data.inputs.sharePrice,
       initialFCF: data.inputs.initialFCF || 0,
+      initialEPS: data.inputs.initialEPS || 0,
       initialGrowthRate: data.inputs.initialGrowthRate,
       terminalGrowthRate: data.inputs.terminalGrowthRate,
       discountRate: data.inputs.discountRate,

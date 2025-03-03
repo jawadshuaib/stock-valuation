@@ -45,6 +45,7 @@ export default function EPSCalculator() {
         <>
           <Investment data={result}>
             <Investment.Ratios />
+            <Investment.ReverseDCF />
             <Investment.ProjectionChartAndTable />
             <Investment.HalfLife />
             <Investment.Growth />

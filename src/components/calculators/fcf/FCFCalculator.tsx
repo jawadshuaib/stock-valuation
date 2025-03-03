@@ -47,7 +47,7 @@ export default function FCFCalculator() {
         <>
           <Investment data={result}>
             <Investment.Ratios />
-            <Investment.ReverseDCf />
+            <Investment.ReverseDCF />
             <Investment.ProjectionChartAndTable />
             <Investment.PaybackTime />
             <Investment.FCFForFree />
