@@ -42,8 +42,17 @@ const KeyValuationConcepts = () => {
               <Chicklet title="Growth Rate Distribution">
                 Log-normal distribution skewed towards moderate growth
               </Chicklet>
-              <Chicklet title="Terminal Value">
-                Company&apos;s value beyond the projection period
+              <Chicklet title="Reverse Discounted Cash Flow">
+                Calculate the{' '}
+                <a
+                  href="https://github.com/jawadshuaib/stock-valuation/blob/main/documentation/ReverseDCFExplanation.md"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline hover:no-underline"
+                >
+                  implied growth rate
+                </a>{' '}
+                based on market expectations.
               </Chicklet>
               <Chicklet title="Growth Decay">
                 Natural{' '}
@@ -72,6 +81,7 @@ const KeyValuationConcepts = () => {
                 <BlockMath math="Present\ Value = \dfrac{Future\ Value}{(1 + r)^n}" />
                 <BlockMath math="Growth\ Rate \sim LogNormal(\mu, \sigma)" />
                 <BlockMath math="Terminal\ Value = Future\ Value \cdot \dfrac{1 + g}{r - g}" />
+                <BlockMath math="Implied\ Growth\ Rate = tGR + (iGR - tGR) \cdot \exp(-dF \cdot (n - 1))" />
               </div>
             </div>
 
@@ -83,6 +93,9 @@ const KeyValuationConcepts = () => {
                 <div>n = number of years</div>
                 <div>μ = mean of log growth</div>
                 <div>σ = standard deviation</div>
+                <div>tGR = terminal Growth Rate</div>
+                <div>iGR = initial Growth Rate</div>
+                <div>dF = decay Factor</div>
               </div>
             </div>
           </div>
