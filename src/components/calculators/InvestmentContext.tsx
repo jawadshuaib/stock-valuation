@@ -6,6 +6,7 @@ import FCFForFree from './fcf-for-free/FCFForFree';
 import HalfLife from './half-life/HalfLife';
 import InvestmentGrowth from './investment-growth/InvestmentGrowth';
 import ProjectionChartAndTable from './ProjectionChartAndTable';
+import ReverseDCF from './reverse-dcf/ReverseDCF';
 
 export const InvestmentContext = createContext<ProjectionData | null>(null);
 
@@ -27,5 +28,6 @@ Investment.PaybackTime = PaybackTime;
 Investment.FCFForFree = FCFForFree;
 Investment.HalfLife = HalfLife;
 Investment.Growth = InvestmentGrowth;
+Investment.ReverseDCf = ReverseDCF;
 
 export default Investment;

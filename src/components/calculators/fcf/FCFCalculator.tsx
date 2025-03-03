@@ -43,11 +43,11 @@ export default function FCFCalculator() {
 
       {/* Intrinsic Value and Margin of Safety Price  */}
       <ValuationResults />
-
       {result && (
         <>
           <Investment data={result}>
             <Investment.Ratios />
+            <Investment.ReverseDCf />
             <Investment.ProjectionChartAndTable />
             <Investment.PaybackTime />
             <Investment.FCFForFree />
