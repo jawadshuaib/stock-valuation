@@ -6,21 +6,24 @@ export default function ReverseDCF() {
   const data = useContext(InvestmentContext);
 
   if (!data) return null;
+
   let impliedGrowthRate = 0;
+
   const calculateReverseDCF = () => {
     const params = {
-      fcf: data.inputs.initialFCF ? data.inputs.initialFCF : 0, // Free Cash Flow
-      discountRate: data.inputs.discountRate / 100,
-      terminalGrowthRate: data.inputs.terminalGrowthRate / 100,
-      projectionYears: data.inputs.projectionYears, // 10 years projection
-      marketPrice: data.inputs.sharePrice, // Current market price of the stock
-      outstandingShares: data.inputs.outstandingShares
-        ? data.inputs.outstandingShares
-        : 0, // Number of shares outstanding
+      sharePrice: data.inputs.sharePrice,
+      initialFCF: data.inputs.initialFCF || 0,
+      initialGrowthRate: data.inputs.initialGrowthRate,
+      terminalGrowthRate: data.inputs.terminalGrowthRate,
+      discountRate: data.inputs.discountRate,
+      projectionYears: data.inputs.projectionYears,
+      outstandingShares: data.inputs.outstandingShares || 0,
+      marginOfSafety: data.inputs.marginOfSafety,
+      decayFactor: data.growthAnalysis?.decayFactor || 0,
     };
 
     const calculator = new ReverseDCFCalculator(params);
-    impliedGrowthRate = calculator.calculateImpliedGrowthRate() * 100;
+    impliedGrowthRate = calculator.calculateImpliedGrowthRate();
   };
 
   calculateReverseDCF();
@@ -31,17 +34,39 @@ export default function ReverseDCF() {
     );
   }
 
-  let interpretation = '';
+  let interpretation: React.ReactNode;
   if (impliedGrowthRate > data.inputs.initialGrowthRate) {
-    interpretation = `The market is more optimistic than you are. This is bad. If the company fails to achieve the ${impliedGrowthRate.toFixed(
-      2,
-    )}% growth rate, the stock price may decline as the market adjusts to lower expectations. If your estimate is more accurate, the stock is likely overpriced based on your valuation model.`;
+    interpretation = (
+      <>
+        The market is more optimistic than you are.{' '}
+        <span className="bg-red-500 text-white rounded px-1">This is bad</span>.
+        If the company fails to achieve the {impliedGrowthRate.toFixed(2)}%
+        growth rate, the stock price may decline as the market adjusts to lower
+        expectations. If your estimate is more accurate, the stock is likely
+        overpriced based on your valuation model.
+      </>
+    );
   } else if (impliedGrowthRate === data.inputs.initialGrowthRate) {
-    interpretation = `The market is pricing the stock as if it will grow at ${impliedGrowthRate.toFixed(
-      2,
-    )}% per year, which is the same as your estimate.`;
+    interpretation = (
+      <>
+        The market is pricing the stock as if it will grow at{' '}
+        {impliedGrowthRate.toFixed(2)}% per year, which is the same as your
+        estimate.
+      </>
+    );
   } else {
-    interpretation = `The market is more pessimistic than you are. This is good. If the company achieves the growth rate you expect, the stock price may rise as the market adjusts to higher expectations. If your estimate is more accurate, the stock is likely underpriced based on your valuation model.`;
+    interpretation = (
+      <>
+        The market is more pessimistic than you are.{' '}
+        <span className="bg-green-500 text-white rounded px-1">
+          This is good
+        </span>
+        . If the company achieves the growth rate you expect, the stock price
+        may rise as the market adjusts to higher expectations. If your estimate
+        is more accurate, the stock is likely underpriced based on your
+        valuation model.
+      </>
+    );
   }
 
   return (
