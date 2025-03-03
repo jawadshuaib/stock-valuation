@@ -79,11 +79,7 @@ export default function ReverseDCF() {
         <span className="font-bold text-green-600">
           {impliedGrowthRate.toFixed(2)}%
         </span>{' '}
-        per year, while you expect it to grow at{' '}
-        <span className="font-bold text-blue-600">
-          {data.inputs.initialGrowthRate.toFixed(2)}%
-        </span>
-        .
+        per year.
       </p>
       <p className="text-lg mb-4">{interpretation}</p>
     </section>
