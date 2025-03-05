@@ -40,7 +40,7 @@ export default function ReverseDCF() {
   if (impliedGrowthRate > data.inputs.initialGrowthRate) {
     interpretation = (
       <>
-        Since you expect the stock to grow at{' '}
+        Since you expect it to grow at{' '}
         <span className="font-bold">{data.inputs.initialGrowthRate}%</span>, we
         can say that the market is more optimistic than you are.{' '}
         <span className="bg-red-500 text-white rounded px-1">This is bad</span>.
@@ -61,7 +61,7 @@ export default function ReverseDCF() {
   } else {
     interpretation = (
       <>
-        Since you expect the stock to grow at{' '}
+        Since you expect it to grow at{' '}
         <span className="font-bold">{data.inputs.initialGrowthRate}%</span>, we
         can say that the market is more pessimistic than you are.{' '}
         <span className="bg-green-500 text-white rounded px-1">
@@ -81,7 +81,7 @@ export default function ReverseDCF() {
         Reverse Discounted Cash Flow Analysis
       </h2>
       <p className="text-lg mb-4">
-        The market expects the stock to grow at{' '}
+        The market expects this stock to grow at{' '}
         <span className="font-bold text-green-600">
           {impliedGrowthRate.toFixed(2)}%
         </span>{' '}
