@@ -16,10 +16,7 @@ const Emoji: React.FC<{ value: number }> = ({ value }) => {
 };
 
 const FinancialRatios: React.FC<FinancialRatiosProps> = () => {
-  // const selector = useAppSelector((state) => state.simulation);
   const data = useContext(InvestmentContext);
-  console.log(data);
-  // const [mos, setMos] = useState<number | null>(null);
   if (!data) return null;
 
   const ratios = new FinancialRatiosCalculator(data);

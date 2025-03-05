@@ -3,65 +3,60 @@ import { InvestmentContext } from '../InvestmentContext';
 
 const InvestmentGrowth = () => {
   const data = useContext(InvestmentContext);
-
   if (!data) return null;
 
   const [initialInvestment, setInitialInvestment] = useState(10000);
-  const MINUMUM_GROWTH_RATE = 10;
-  const initialGrowthRate =
-    Number(data.inputs.discountRate) > MINUMUM_GROWTH_RATE
-      ? Number(data.inputs.discountRate)
-      : MINUMUM_GROWTH_RATE;
-  const [growthRate, setGrowthRate] = useState(initialGrowthRate);
-  let finalInvestment = initialInvestment;
 
-  data.yearByYearProjections.forEach(() => {
-    finalInvestment *= 1 + growthRate / 100;
-  });
+  // Current share price and outstanding shares
+  const sharePrice = data.inputs.sharePrice;
+  const outstandingShares = data.inputs.outstandingShares || 1;
 
-  // Handle input change for the initial investment amount
+  // Terminal value is the estimated value of the entire company in year 10
+  const terminalValue = data.terminalValueAnalysis?.terminalValue || 0;
+
+  /**
+   * Calculate the share price in year 10 by dividing the terminal value
+   * by the total number of outstanding shares.
+   */
+  const projectedSharePriceIn10Years =
+    outstandingShares > 0 ? terminalValue / outstandingShares : 0;
+
+  /**
+   * Calculate how many shares the user can buy with the current initial investment
+   * and then estimate the future investment value if the stock price reaches
+   * the projected share price in year 10.
+   */
+  const sharesOwned =
+    sharePrice > 0 ? Math.floor(initialInvestment / sharePrice) : 0;
+  const futureInvestmentValue = sharesOwned * projectedSharePriceIn10Years;
+
   const handleInitialInvestmentChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setInitialInvestment(Number(event.target.value));
   };
 
-  // Handle input change for the growth rate
-  const handleGrowthRateChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setGrowthRate(Number(event.target.value));
-  };
-
-  // If finalInvestment is not a number or is less than 0, set it to 0
-  if (isNaN(finalInvestment) || finalInvestment < 0) {
-    finalInvestment = 0;
-  }
-
-  // Render the investment growth information
   return (
     <section className="mt-8 p-6 bg-white rounded-lg border border-blue-100 shadow-sm">
       <h2 className="text-2xl font-semibold mb-4">Investment Growth</h2>
       <p className="text-lg mb-4">
-        An initial Investment of $
+        With an initial investment of $
         <input
           type="number"
           value={initialInvestment}
           onChange={handleInitialInvestmentChange}
           className="h-8 w-24 text-center rounded border border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700"
         />{' '}
-        with a growth rate of{' '}
-        <input
-          type="number"
-          value={growthRate.toFixed(0)}
-          onChange={handleGrowthRateChange}
-          className="h-8 w-16 text-center rounded border border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-600 dark:bg-gray-700"
-        />{' '}
-        % will have compounded to{' '}
-        <span className="font-bold">
-          ${Number(finalInvestment.toFixed(2)).toLocaleString()}
-        </span>{' '}
-        in {data.inputs.projectionYears} years.
+        at the current share price of ${sharePrice.toFixed(2)}, you can buy{' '}
+        <strong>{sharesOwned.toLocaleString()}</strong> shares. If this stock
+        reaches the company’s projected value in 10 years, the share price would
+        be about
+        <strong> ${projectedSharePriceIn10Years.toFixed(2)}</strong>. Your
+        investment could then be worth{' '}
+        <strong className="bg-yellow-200 p-1 rounded">
+          ${futureInvestmentValue.toLocaleString()}
+        </strong>
+        .
       </p>
     </section>
   );
