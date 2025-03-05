@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { InvestmentContext } from '../InvestmentContext';
 
 const InvestmentGrowth = () => {
@@ -10,6 +10,13 @@ const InvestmentGrowth = () => {
   // Current share price and outstanding shares
   const sharePrice = data.inputs.sharePrice;
   const outstandingShares = data.inputs.outstandingShares || 1;
+
+  // Adjust initial investment if share price is more than the investment amount
+  useEffect(() => {
+    if (sharePrice > initialInvestment) {
+      setInitialInvestment(100000);
+    }
+  }, [sharePrice, initialInvestment]);
 
   // Terminal value is the estimated value of the entire company in year 10
   const terminalValue = data.terminalValueAnalysis?.terminalValue || 0;
