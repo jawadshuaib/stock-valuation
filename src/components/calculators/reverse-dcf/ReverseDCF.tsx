@@ -73,7 +73,9 @@ export default function ReverseDCF() {
 
   return (
     <section className="mt-8 p-6 bg-white rounded-lg border border-blue-100 shadow-sm">
-      <h2 className="text-2xl font-semibold mb-4">Reverse DCF Analysis</h2>
+      <h2 className="text-2xl font-semibold mb-4">
+        Reverse Discounted Cash Flow Analysis
+      </h2>
       <p className="text-lg mb-4">
         The market is pricing the stock as if it will grow at{' '}
         <span className="font-bold text-green-600">
