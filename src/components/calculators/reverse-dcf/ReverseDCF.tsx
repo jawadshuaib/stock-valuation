@@ -41,8 +41,10 @@ export default function ReverseDCF() {
     interpretation = (
       <>
         Since you expect it to grow at{' '}
-        <span className="font-bold">{data.inputs.initialGrowthRate}%</span>, we
-        can say that the market is more optimistic than you are.{' '}
+        <span className="font-bold">
+          {data.inputs.initialGrowthRate.toFixed(2)}%
+        </span>
+        , we can say that the market is more optimistic than you are.{' '}
         <span className="bg-red-500 text-white rounded px-1">This is bad</span>.
         If the company fails to achieve the {impliedGrowthRate.toFixed(2)}%
         growth rate, the stock price may decline as the market adjusts to lower
@@ -62,8 +64,10 @@ export default function ReverseDCF() {
     interpretation = (
       <>
         Since you expect it to grow at{' '}
-        <span className="font-bold">{data.inputs.initialGrowthRate}%</span>, we
-        can say that the market is more pessimistic than you are.{' '}
+        <span className="font-bold">
+          {data.inputs.initialGrowthRate.toFixed(2)}%
+        </span>
+        , we can say that the market is more pessimistic than you are.{' '}
         <span className="bg-green-500 text-white rounded px-1">
           This is good
         </span>
