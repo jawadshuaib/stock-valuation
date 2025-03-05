@@ -52,7 +52,7 @@ const KeyValuationConcepts = () => {
                 >
                   implied growth rate
                 </a>{' '}
-                based on market expectations.
+                based on market expectations
               </Chicklet>
               <Chicklet title="Growth Decay">
                 Natural{' '}
