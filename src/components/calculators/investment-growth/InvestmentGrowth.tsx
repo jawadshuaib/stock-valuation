@@ -53,7 +53,7 @@ const InvestmentGrowth = () => {
         be about
         <strong> ${projectedSharePriceIn10Years.toFixed(2)}</strong>. Your
         investment could then be worth{' '}
-        <strong className="bg-yellow-200 p-1 rounded">
+        <strong className="bg-green-200 p-1 rounded">
           ${futureInvestmentValue.toLocaleString()}
         </strong>
         .
