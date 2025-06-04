@@ -243,7 +243,7 @@ const InvestmentReturnSensitivityAnalysis: React.FC = () => {
           className="h-8 w-28 mx-1 text-center rounded border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           aria-label="Initial investment amount"
         />
-        the table below summarizes the potential investment return.
+        you can expect the following return on your investment.
       </p>
       <p className="text-gray-600 text-lg mb-4">
         <BlockMath math="Expected\  Return = Yield + Average\ Growth" />
