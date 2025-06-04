@@ -22,6 +22,7 @@ const FinancialRatios: React.FC<FinancialRatiosProps> = () => {
   const ratios = new FinancialRatiosCalculator(data);
 
   const priceToFCF = ratios.getPriceToFCFRatio();
+  const fcfYield = ratios.getFCFYield();
   const priceToEPS = ratios.getPriceToEPSRatio();
   const priceToEarningsGrowth = ratios.getPriceToEarningsGrowth();
   const priceToIntrinsicValue = ratios.getPriceToIntrinsicValueRatio();
@@ -47,6 +48,14 @@ const FinancialRatios: React.FC<FinancialRatiosProps> = () => {
                 Price to Free Cash Flow (P/FCF)
               </td>
               <td className="py-2 px-4 border-b">{priceToFCF.toFixed(2)}</td>
+            </tr>
+          )}
+          {fcfYield !== null && (
+            <tr>
+              <td className="py-2 px-4 border-b">Free Cash Flow Yield</td>
+              <td className="py-2 px-4 border-b">
+                {(fcfYield * 100).toFixed(1)}%
+              </td>
             </tr>
           )}
           {priceToEPS !== null && (

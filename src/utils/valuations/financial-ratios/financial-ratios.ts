@@ -15,6 +15,14 @@ export class FinancialRatiosCalculator {
     return this.data.inputs.sharePrice / fcfPerShare;
   }
 
+  getFCFYield(): number | null {
+    if (this.data.method !== 'fcf') return null;
+    const fcf = this.data.inputs.initialFCF || 0;
+    if (!this.data.inputs.outstandingShares) return null;
+    const fcfPerShare = fcf / this.data.inputs.outstandingShares;
+    return fcfPerShare / this.data.inputs.sharePrice;
+  }
+
   getPriceToEPSRatio(): number | null {
     if (this.data.method !== 'eps') return null;
     const eps = this.data.inputs.initialEPS || 0;
